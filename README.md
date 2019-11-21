@@ -150,6 +150,9 @@ Installation of ctags in:
 |Insert_Message_Loop_(Switch)|(variable number of cases)||
 |Insert_Select|(variable number of cases)||
 |Insert_Switch|(variable number of cases)||
+| Update_Syntax |	Updates the function-syntax in the function description. ||	
+|Update_UDFs 	|Updates edit-mode, Xinsert, clipper and the cache-file for Include-Auto_Insert. 	||
+|Variable_Goto_Declaration.bsh| 	Searches the declaration for the variable under the cursor (only in the current buffer). || 	
 
 ### Function_Wizzard.bsh
 Creates a new function with description:
@@ -177,19 +180,20 @@ EndFunc   ;==>_FF_DM_DownloadPause
 
 	
 
-PP 	Simple preprocessor:
+### PP 	Simple preprocessor:
+(would be replaced by FreeMarker / FMPP)
 
 With the following statements and constants:
-#define	Definition of simple macros
-#undefine / #undef	removing a macro
-#ifdef / #elif / #else / #endif	Conditional statement (not nestable yet)
-__TIME__	Replaced with the current time
-__DATE__	Replaced with the current date
-__DATE_AND_TIME__	Replaced with the current date and time
-__NAME__	Replaced with full filename
-__FILE__	Replaced with filename
-__AUTOIT_VERSION__	Replaced with the version of AutoIt
-__AUTOIT_BETAVERSION__	Replaced with the beta-version of AutoIt
+- #define	Definition of simple macros
+- #undefine / #undef	removing a macro
+- #ifdef / #elif / #else / #endif	Conditional statement (not nestable yet)
+- \_\_TIME_\_	Replaced with the current time
+- \_\_DATE_\_	Replaced with the current date
+- \_\_DATE_AND_TIME_\_	Replaced with the current date and time
+- \_\_NAME_\_	Replaced with full filename
+- \_\_FILE_\_	Replaced with filename
+- \_\_AUTOIT_VERSION_\_	Replaced with the version of AutoIt
+- \_\_AUTOIT_BETAVERSION_\_	Replaced with the beta-version of AutoIt
 
 
 Replaces:
@@ -212,6 +216,7 @@ For $i : $Array	For $i = 0 To UBound($Array)-1
 
 
 Input e.g.:
+```autoit
 
 ; File ............: __NAME__
 ; AutoItVersion ...: __AUTOIT_VERSION__
@@ -252,9 +257,11 @@ Next
 #else
         MsgBox(64,"","3")
 #endif
+```
 
 Output: (after tidy)
 
+```autoit
 ; File ............: pp_test.au3
 ; AutoItVersion ...: v3.3.0.0
 ; Time ............: 20:20:35
@@ -278,40 +285,46 @@ For $i = 0 To UBound($aArray) -1
 Next
 
 MsgBox(64, "", "foo bar")
+```
 
-Update_Syntax 	Updates the function-syntax in the function description. 	
-Update_UDFs 	Updates edit-mode, Xinsert, clipper and the cache-file for Include-Auto_Insert. 	
-Variable_Goto_Declaration.bsh 	Searches the declaration for the variable under the cursor.
-(only in the current buffer) 	
-Macros for all modes:
-Macro:	Description:	Location:
-Insert_Filename.bsh 	Inserts at cursor-postion a filename from a file-dialog. 	
-Insert_Line.bsh 	Inserts a single "line" comment, depending on the buffer mode. 	
-Number_decr_1.bsh 	Int on cursor position -1 	
-Number_decr_10.bsh 	Int on cursor position -10 	
-Number_incr_1.bsh 	Int on cursor position +1 	
-Number_incr_10.bsh 	Int on cursor position +10 	
-Quoted_String_Delete.bsh 	Deletes the quoted string at cursor position. 	
-Quoted_String_Select.bsh 	Selects the quoted string at cursor position. 	
-Quoted_String_Select_Next.bsh 	Searches and selects the next quoted string. 	
-Toggle.bsh 	Toggles words at cursor position, depending on the edit-mode.
+### Macros for all modes:
 
-AutoItScript:
-True	False
-And	Or
-BitOR	BitAND
-$GUI_CHECKED	$GUI_UNCHECKED
-$GUI_ENABLE	$GUI_DISABLE
-$GUI_SHOW 	$GUI_HIDE
-$SW_SHOW	$SW_HIDE
-$SW_ENABLE	$SW_DISABLE
-$SW_LOCK	$SW_UNLOCK
-$SW_MINIMIZE	$SW_MAXIMIZE
-Global	Local
-Else	ElseIf
-Select	Switch
-EndSelect	EndSwitch
+|Macro|Description|Location|
+|--------|--------|--------|
+|Insert_Filename.bsh |	Inserts at cursor-postion a filename from a file-dialog. ||	
+|Insert_Line.bsh 	|Inserts a single "line" comment, depending on the buffer mode. ||	
+|Number_decr_1.bsh 	|Int on cursor position -1 	||
+|Number_decr_10.bsh 	|Int on cursor position -10 	||
+|Number_incr_1.bsh 	|Int on cursor position +1 	||
+|Number_incr_10.bsh 	|Int on cursor position +10 	||
+|Quoted_String_Delete.bsh| 	Deletes the quoted string at cursor position.|| 	
+|Quoted_String_Select.bsh |	Selects the quoted string at cursor position. ||	
+|Quoted_String_Select_Next.bsh |	Searches and selects the next quoted string.||
+
+
+### Toggle.bsh
+Toggles words at cursor position, depending on the edit-mode.
+
+Mode AutoItScript:
+
+| 1 | 2 |
+|--------|--------|
+|True	|False|
+|And	|Or|
+|BitOR	|BitAND|
+|$GUI_CHECKED	|$GUI_UNCHECKED|
+|$GUI_ENABLE|	$GUI_DISABLE|
+|$GUI_SHOW| 	$GUI_HIDE|
+|$SW_SHOW|	$SW_HIDE|
+|$SW_ENABLE|	$SW_DISABLE|
+|$SW_LOCK	|$SW_UNLOCK|
+|$SW_MINIMIZE|	$SW_MAXIMIZE|
+|Global|	Local|
+|Else|	ElseIf|
+|Select	|Switch|
+|EndSelect	|EndSwitch|
 
 Installation of the config-files:
-%appdata%/jEdit/toggle/EDITMODE/toggle.config 	
+`%appdata%/jEdit/toggle/EDITMODE/toggle.config`
+
 KeyWord_Search.bsh 	Online-Help.
