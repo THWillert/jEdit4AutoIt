@@ -7,7 +7,7 @@ Bis dahin bitte [jEdit4AutoIt](http://jedit4autoit.thorsten-willert.de/) benutze
 ## Übersicht
 Erweitert jEdit zu einer IDE für AutoIt.
 
-###Behinhaltet:
+### Behinhaltet:
 
 - Edit-mode
 - Commando files
@@ -16,7 +16,7 @@ Erweitert jEdit zu einer IDE für AutoIt.
 - ctags
 - Macros
 
-###Benötigte Plugins und Software:
+### Benötigte Plugins und Software:
 
 - Console-plugin
 - Clipper-plugin
@@ -26,7 +26,7 @@ Erweitert jEdit zu einer IDE für AutoIt.
 
 An installation of AutoIt3 and all the other tools you want e.g. Tidy ...
 
-###Zusätzliche empfohlene Plugins:
+### Zusätzliche empfohlene Plugins:
 
 - Context Menu
 - Column Ruler
@@ -36,15 +36,15 @@ An installation of AutoIt3 and all the other tools you want e.g. Tidy ...
 - TextTools
 - WhiteSpace
 
-##Installation
+## Installation
 Just copy all directories in the archiv to the following directories:
 
 
 
 |Source|Destination|
 |--------|--------|
-|%programfiles%|%programfiles%|
-|C:\Program Files\|%appdata%|
+|%programfiles% | %programfiles% |
+|C:\Program Files\ | %appdata% |
 |%appdata%\jedit|C:\Users\YourUserName\AppData\Roaming\jedit|
 
 
@@ -68,7 +68,7 @@ Edit-mode entry in:
 Requires:
 Console-plugin
 
-###XInsert library
+### XInsert library
 It includes all:
 
 - Keywords
@@ -92,7 +92,7 @@ Xinsert Requires:
 XInsert-plugin
 
 
-###Clipper
+### Clipper
 If XInsert is to complex you can use instead this (or booth):
 Entries for all AutoIt Keywords, Functions, Statements and UDFs:
 Installation in:
@@ -100,7 +100,7 @@ Installation in:
 Requires:
 Clipper-plugin
 
-###Ctags + Sidekick-plugin + CtagsSidekick-plugin:
+### Ctags + Sidekick-plugin + CtagsSidekick-plugin:
 Lists all Functions, Include-Files, Global and Local Variables, Enums, Regions and Options in the Sidekick-Plugin.
 
 Entry for the ctags.cnf:
@@ -126,7 +126,7 @@ ctags + Sidekick-plugin + CtagsSideKick-plugin
 Installation of ctags in:
 `%ProgramFiles%\ctags\`
 
-###Macros only for AutoIt:
+### Macros only for AutoIt:
 |Macro|Description|Location|
 |--------|--------|--------|
 |AutoItStartUp.bsh|	Some functions used in the other macros.| 	%programfiles%/jEdit/startup|
@@ -151,7 +151,7 @@ Installation of ctags in:
 |Insert_Select|(variable number of cases)||
 |Insert_Switch|(variable number of cases)||
 
-###Function_Wizzard.bsh
+### Function_Wizzard.bsh
 Creates a new function with description:
 
 ```autoit
