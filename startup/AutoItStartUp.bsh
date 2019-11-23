@@ -1,0 +1,144 @@
+/* AutoItStartUp V3.0
+(c) by Thorsten Willert (thorsten.willert@gmx.de)
+
+Fri Mar 03 13:23:38 CET 2017 @558 /Internet-Zeit/
+
+!!! Settings at the end of the file !!!
+
+
+V3.0: Anpassung an 64bit Systeme
+================================================================================
+
+jEdit/startup/AutoItStartUp.bsh
+================================================================================
+Reads the registry entries of AutoIt and sets the following variables:
+	AUTOIT_REG_HKLM = Array with the HKLM registry entries of AutoIt.
+	AUTOIT_REG_HKLM[0] = AUTOIT_VERSION	: %programmfiles%/AutoIt
+	AUTOIT_REG_HKLM[1] = AUTOIT_PATH 	: Version of AutoIt
+	AUTOIT_REG_HKLM[2] = AUTOIT_BETAVERSION	: %programmfiles%/AutoIt/Beta
+	AUTOIT_REG_HKLM[3] = AUTOIT_BETAPATH 	: BetaVersion of AutoIt
+	AUTOIT_INCLUDES = Array with the user-includes from HKCU
+
+================================================================================
+Intallation in:
+%programfiles%/jEdit/startup/AutoItStartup.bsh
+================================================================================
+*/
+
+public boolean is64bit()
+{
+    return ( System.getProperty("os.arch").equals("amd64"));
+}
+//==============================================================================
+String[] ReadAutoItRegistryHKLM()
+{
+	Process p = null;
+	String[] ret = {null,null,null,null};
+	try {
+		if( is64bit() )
+			p = Runtime.getRuntime().exec("cmd /C reg query  \"HKEY_LOCAL_MACHINE\\SOFTWARE\\Wow6432Node\\AutoIt v3\\AutoIt\"");
+		else
+			p = Runtime.getRuntime().exec("cmd /C reg query  \"HKEY_LOCAL_MACHINE\\SOFTWARE\\AutoIt v3\\AutoIt\"");
+
+		} catch (IOException exc) {
+		exc.printStackTrace();
+		return ret;
+	}
+
+	String line = null;
+	try {
+		BufferedReader lsOut = new BufferedReader(new InputStreamReader(p.getInputStream()));
+		while ((line = lsOut.readLine()) != null) {
+			if(line.indexOf("Version") != -1 && line.indexOf("beta") == -1) 	ret[0] = line.substring(line.lastIndexOf("_SZ")+3).trim();
+			if(line.indexOf("InstallDir") != -1 && line.indexOf("beta") == -1)	ret[1] = line.substring(line.lastIndexOf("_SZ")+3).trim();
+			if(line.indexOf("Version") != -1) 	ret[2] = line.substring(line.lastIndexOf("_SZ")+3).trim();
+			if(line.indexOf("InstallDir") != -1 )	ret[3] = line.substring(line.lastIndexOf("_SZ")+3).trim();
+		}
+		return ret;
+		} catch (IOException e) {
+		e.printStackTrace();
+	}
+}
+//==============================================================================
+String[] ReadAutoItRegistryHKCU()
+{
+	Process p = null;
+	String[] ret = {null};
+	try {
+		if( is64bit() )
+			p = Runtime.getRuntime().exec("cmd /C reg query  \"HKEY_CURRENT_USER\\SOFTWARE\\Wow6432Node\\AutoIt v3\\AutoIt\"");
+		else
+			p = Runtime.getRuntime().exec("cmd /C reg query  \"HKEY_CURRENT_USER\\SOFTWARE\\AutoIt v3\\AutoIt\"");
+
+		} catch (IOException exc) {
+		exc.printStackTrace();
+		return ret;
+	}
+
+	String line_tmp = null;
+	String line = "";
+	try {
+		BufferedReader lsOut = new BufferedReader(new InputStreamReader(p.getInputStream()));
+		while ((line_tmp = lsOut.readLine()) != null) {
+			if(line_tmp.indexOf("Include") != -1) line = line_tmp.substring(line.lastIndexOf("_SZ")+3).trim();
+		}
+		if (line.length() > 3)
+			return line.split(";");
+		else
+			return ret;
+		} catch (IOException e) {
+		e.printStackTrace();
+	}
+}
+//==============================================================================
+String[][] ReadIncludes(String File)
+{
+	String[][] list = { {""}, {""} };
+	try{
+		String sPath = System.getenv("appdata") + "\\jedit\\autoitscript\\" + File;
+		boolean exists = (new File(sPath)).exists();
+		if (!exists) return list;
+
+		File fIncl = new File(sPath);
+
+		FileReader fr = new FileReader(fIncl);
+		char[] temp = new char[(int) fIncl.length()];
+		fr.read(temp);
+		sInput = new String(temp);
+		fr.close();
+
+		String[] sData = sInput.split("\\n");
+		String[][] list = new String[2][sData.length];
+		String sFile = "";
+
+		for (int i=0; i< sData.length; i++)
+		{
+			if ( sData[i].indexOf("<func>") != -1 && sData[i].length() > 13 )
+			{
+				list[1][i] = sData[i].substring( sData[i].indexOf("<func>")+6,sData[i].indexOf("</func>") ).toLowerCase();
+				list[0][i] = sFile;
+			}
+			else if ( sData[i].indexOf("<file name=") != -1 )
+			{
+				sFile = sData[i].substring( sData[i].indexOf("<file name=\"")+12,sData[i].indexOf("\">") );
+			}
+		}
+
+		return list;
+		} catch (FileNotFoundException e1) {
+		e1.printStackTrace(); // Macros.error(view,"File " + sFile + " not found in:\n" + sPath.toString());
+	}
+}
+//==============================================================================
+// Include files and functions:
+final String[][] AUTOIT_INCLUDES	= ReadIncludes("includes.xml");
+//Registry entries:
+final String[] 	AUTOIT_REG_HKLM 	= ReadAutoItRegistryHKLM();
+final String 	AUTOIT_VERSION	 	= AUTOIT_REG_HKLM[0];
+final String 	AUTOIT_PATH 		= AUTOIT_REG_HKLM[1];
+final String 	AUTOIT_BETAVERSION	= AUTOIT_REG_HKLM[2];
+final String 	AUTOIT_BETAPATH 	= AUTOIT_REG_HKLM[3];
+final String[] 	AUTOIT_INCPATH 		= ReadAutoItRegistryHKCU();
+// Default settings:
+final int 	AUTOIT_DEF_CASE 	= 5; // Cases in Select / Switch
+final int 	AUTOIT_DEF_MSGL 	= 5; // Cases in Message-Loop
