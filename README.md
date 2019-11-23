@@ -9,7 +9,7 @@ Erweitert jEdit zu einer IDE für [AutoIt](http://www.autoistscript.om).
 
 ![jeDit4AutoIt](https://thorsten-willert.de/Themen/jEdit/jEdit4AutoIt/bilder/Au3_1.png)
 
-### Behinhaltet:
+### Beinhaltet:
 
 - Edit-mode
 - Commando files
@@ -38,16 +38,10 @@ An installation of AutoIt3 and all the other tools you want e.g. Tidy ...
 - TextTools
 - WhiteSpace
 
-Für weitere Informationen [hier weiterlesen ...](https://github.com/THWillert/jEdit4AutoIt/wiki)
+Für weitere Informationen [hier im Wiki weiterlesen ...](https://github.com/THWillert/jEdit4AutoIt/wiki)
 
 ## Diskussion / Vorschläge
 Bitte auch die Diskussion dazu im [HomeMatic-Forum](https://homematic-forum.de/forum/viewtopic.php?f=41&t=46033) beachten.
-
-## ToDo
-
-Die Reihenfolge entspricht keiner Priorität.
-
- - [ ] ...
 
  ## Author
  Thorsten Willert
