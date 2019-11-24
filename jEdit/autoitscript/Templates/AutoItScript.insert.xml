@@ -1,0 +1,1666 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<menu name="AutoItScript">
+<!-- :collapseFolds=1:folding=indent: -->
+
+<!-- V4.0 by Thorsten Willert
+thorsten.willert@gmx.de
+http://thorsten-willert.de
+
+Script-Template by jonk
+
+================================================================================
+V4.0 Sat Mar 04 19:03:43 CET 2017 @794 /Internet-Zeit/
+
+Using global variables:
+author
+date
+
+-->
+
+<item name="Func...EndFunc (simple)" type="xinsert_script">{%functionname "Function Name:"}Func {$=functionname}()
+
+EndFunc ;==&gt; {$=functionname}
+</item>
+
+<item name="Func...Return...EndFunc (simple)" type="xinsert_script">{%functionname "Function Name:"}Func {$=functionname}()
+
+	Return
+EndFunc ;==&gt; {$=functionname}
+</item>
+
+<item name="Function Wizzard" type="named_macro">AutoIt/Function_Wizzard</item>
+
+<!-- Script-template by Jonk -->
+<item name="Script Template" type="xinsert_script">{%scriptname "Script Name:"}
+; #SCRIPT# =====================================================================
+; Name.... ......: {$=scriptname}
+; Description ...:
+; Syntax ........:
+; Parameters ....: {$=scriptname}
+; Return values .: Success      -
+;                  Failure      -
+; Author(s) .....: {$=author}
+; Modified ......: {$=date}
+; Related .......:
+; Link ..........:
+; Example .......:
+;===============================================================================
+; GLOBAL OPTIONS, DECLARATIONS AND INCLUDES
+;===============================================================================
+
+
+;===============================================================================
+; SCRIPTBODY
+;===============================================================================
+
+
+;===============================================================================
+; FUNCTIONS
+;===============================================================================
+</item>
+
+		<menu name="Keywords">
+				<item name="ByRef">ByRef</item>
+				<item name="Const">Const</item>
+				<item name="Global Const">Global Const </item>
+				<item name="Local Const">Local Const </item>
+				<item name="Default">Default</item>
+				<item name="Dim">Dim</item>
+				<item name="Enum">Enum</item>
+				<item name="Global">Global</item>
+				<item name="Local">Local</item>
+				<item name="Static">Static</item>
+				<item name="Redim">Redim</item>
+				<item name="Exit">Exit</item>
+				<item name="With...EndWith">With\n\t\nEndWith</item>
+		</menu>
+
+		<menu name="Conditionally Statements">
+				<item name="Ternary">| ? :</item>
+				<item name="If...Then">If | Then</item>
+				<item name="If...Then...EndIf">If | Then\n\t\nEndIf</item>
+				<item name="If...Then...Else...EndIf">If | Then\n\t\nElse\n\t\nEndIf</item>
+				<item name="If">If</item>
+				<item name="Else">Else</item>
+				<item name="ElseIf">ElseIf</item>
+				<item name="EndIf">EndIf</item>
+				<item name="Select...Case n EndSelect" type="named_macro">AutoIt/Insert_Select</item>
+				<item name="Switch...Case n EndSwitch" type="named_macro">AutoIt/Insert_Switch</item>
+				<item name="Select">Select</item>
+				<item name="Switch">Switch</item>
+				<item name="Case">Case</item>
+				<item name="EndSelect">EndSelect</item>
+				<item name="EndSwitch">EndSwitch</item>
+				<item name="ContinueCase">ContinueCase</item>
+		</menu>
+
+		<menu name="Loop Statements">
+				<item name="For...To...Next">For | To \n\t\nNext</item>
+				<item name="For...To...Step...Next">For | To  Step \n\t\nNext</item>
+				<item name="For...In...Next">For | In \n\t\nNext</item>
+				<item name="Do...Until">Do\n\t\nUntil </item>
+				<item name="While...Wend">While |\n\t\nWend</item>
+				<item name="ContinueLoop">ContinueLoop</item>
+				<item name="ExitLoop">ExitLoop</item>
+		</menu>
+
+		<menu name="Logic">
+				<item name="True">True</item>
+				<item name="False">False</item>
+				<item name="And">And</item>
+				<item name="Or">Or</item>
+				<item name="Not">Not</item>
+		</menu>
+
+		<menu name="Functions">
+				<menu name="Environment Management">
+						<item name="ClipGet">ClipGet()|</item>
+						<item name="ClipPut">ClipPut(|)</item>
+						<item name="EnvGet">EnvGet(|)</item>
+						<item name="EnvSet">EnvSet(|)</item>
+						<item name="EnvUpdate">EnvUpdate()|</item>
+						<item name="MemGetStats">MemGetStats()|</item>
+				</menu>
+
+				<menu name="File, Directory and Disk Management">
+						<menu name="Console">
+								<item name="ConsoleRead">ConsoleRead(|)</item>
+								<item name="ConsoleWrite">ConsoleWrite(|)</item>
+								<item name="ConsoleWriteError">ConsoleWriteError(|)</item>
+						</menu>
+						<menu name="Directory">
+								<item name="DirCopy">DirCopy(|)</item>
+								<item name="DirCreate">DirCreate(|)</item>
+								<item name="DirGetSize">DirGetSize(|)</item>
+								<item name="DirMove">DirMove(|)</item>
+								<item name="DirRemove">DirRemove(|)</item>
+						</menu>
+						<menu name="Drive">
+								<item name="DriveGetDrive">DriveGetDrive(|)</item>
+								<item name="DriveGetFileSystem">DriveGetFileSystem(|)</item>
+								<item name="DriveGetLabel">DriveGetLabel(|)</item>
+								<item name="DriveGetSerial">DriveGetSerial(|)</item>
+								<item name="DriveGetType">DriveGetType(|)</item>
+								<item name="DriveMapAdd">DriveMapAdd(|)</item>
+								<item name="DriveMapDel">DriveMapDel(|)</item>
+								<item name="DriveMapGet">DriveMapGet(|)</item>
+								<item name="DriveSetLabel">DriveSetLabel(|)</item>
+								<item name="DriveSpaceFree">DriveSpaceFree(|)</item>
+								<item name="DriveSpaceTotal">DriveSpaceTotal(|)</item>
+								<item name="DriveStatus">DriveStatus(|)</item>
+						</menu>
+						<menu name="File">
+								<item name="FileChangeDir">FileChangeDir(|)</item>
+								<item name="FileClose">FileClose(|)</item>
+								<item name="FileCopy">FileCopy(|)</item>
+								<item name="FileCreateNTFSLink">FileCreateNTFSLink(|)</item>
+								<item name="FileCreateShortcut">FileCreateShortcut(|)</item>
+								<item name="FileDelete">FileDelete(|)</item>
+								<item name="FileExists">FileExists(|)</item>
+								<item name="FileFindFirstFile">FileFindFirstFile(|)</item>
+								<item name="FileFindNextFile">FileFindNextFile(|)</item>
+								<item name="FileFlush">FileFlush(|)</item>
+								<item name="FileGetAttrib">FileGetAttrib(|)</item>
+								<item name="FileGetEncoding">FileGetEncoding(|)</item>
+								<item name="FileGetLongName">FileGetLongName(|)</item>
+								<item name="FileGetPos">FileGetPos(|)</item>
+								<item name="FileGetShortcut">FileGetShortcut(|)</item>
+								<item name="FileGetShortName">FileGetShortName(|)</item>
+								<item name="FileGetSize">FileGetSize(|)</item>
+								<item name="FileGetTime">FileGetTime(|)</item>
+								<item name="FileGetVersion">FileGetVersion(|)</item>
+								<item name="FileInstall">FileInstall(|)</item>
+								<item name="FileMove">FileMove(|)</item>
+								<item name="FileOpen">FileOpen(|)</item>
+								<item name="FileOpenDialog">FileOpenDialog(|)</item>
+								<item name="FileRead">FileRead(|)</item>
+								<item name="FileReadLine">FileReadLine(|)</item>
+								<item name="FileReadToArray">FileReadToArray(|)</item>
+								<item name="FileRecycle">FileRecycle(|)</item>
+								<item name="FileRecycleEmpty">FileRecycleEmpty(|)</item>
+								<item name="FileSaveDialog">FileSaveDialog(|)</item>
+								<item name="FileSelectFolder">FileSelectFolder(|)</item>
+								<item name="FileSetAttrib">FileSetAttrib(|)</item>
+								<item name="FileSetEnd">FileSetEnd(|)</item>
+								<item name="FileSetPos">FileSetPos(|)</item>
+								<item name="FileSetTime">FileSetTime(|)</item>
+								<item name="FileWrite">FileWrite(|)</item>
+								<item name="FileWriteLine">FileWriteLine(|)</item>
+						</menu>
+						<menu name="Ini">
+								<item name="IniDelete">IniDelete(|)</item>
+								<item name="IniRead">IniRead(|)</item>
+								<item name="IniReadSection">IniReadSection(|)</item>
+								<item name="IniReadSectionNames">IniReadSectionNames(|)</item>
+								<item name="IniRenameSection">IniRenameSection(|)</item>
+								<item name="IniWrite">IniWrite(|)</item>
+								<item name="IniWriteSection">IniWriteSection(|)</item>
+						</menu>
+						<menu name="Std">
+								<item name="StderrRead">StderrRead(|)</item>
+								<item name="StdinWrite">StdinWrite(|)</item>
+								<item name="StdinClose">StdinClose(|)</item>
+								<item name="StdoutRead">StdoutRead(|)</item>
+						</menu>
+				</menu>
+
+				<menu name="Graphic and Sound Functions">
+						<item name="Beep">Beep(|)</item>
+						<item name="PixelChecksum">PixelChecksum(|)</item>
+						<item name="PixelCoordMode (Option)">Opt("PixelCoordMode", 1)          ;1=absolute, 0=relative, 2=client</item>
+						<item name="PixelGetColor">PixelGetColor(|)</item>
+						<item name="PixelSearch">PixelSearch(|)</item>
+						<item name="SoundPlay">SoundPlay(|)</item>
+						<item name="SoundSetWaveVolume">SoundSetWaveVolume(|)</item>
+				</menu>
+
+				<menu name="GUI">
+						<item name="Message Loop (Select)" type="named_macro">AutoIt/Insert_Message_Loop_(Select)</item>
+						<item name="Message Loop (Switch)" type="named_macro">AutoIt/Insert_Message_Loop_(Switch)</item>
+						<menu name="GUI Control Styles">
+								<item name="BitOr">BitOr(|)</item>
+								<menu name="Common Styles">
+										<item name="$WS_BORDER">\$WS_BORDER</item>
+										<item name="$WS_POPUP">\$WS_POPUP</item>
+										<item name="$WS_CAPTION">\$WS_CAPTION</item>
+										<item name="$WS_CLIPCHILDREN">\$WS_CLIPCHILDREN</item>
+										<item name="$WS_CLIPSIBLINGS">\$WS_CLIPSIBLINGS</item>
+										<item name="$WS_DISABLED">\$WS_DISABLED</item>
+										<item name="$WS_DLGFRAME">\$WS_DLGFRAME</item>
+										<item name="$WS_HSCROLL">\$WS_HSCROLL</item>
+										<item name="$WS_MAXIMIZE">\$WS_MAXIMIZE</item>
+										<item name="$WS_MAXIMIZEBOX">\$WS_MAXIMIZEBOX</item>
+										<item name="$WS_MINIMIZE">\$WS_MINIMIZE</item>
+										<item name="$WS_MINIMIZEBOX">\$WS_MINIMIZEBOX</item>
+										<item name="$WS_OVERLAPPED">\$WS_OVERLAPPED</item>
+										<item name="$WS_OVERLAPPEDWINDOW">\$WS_OVERLAPPEDWINDOW</item>
+										<item name="$WS_POPUPWINDOW">\$WS_POPUPWINDOW</item>
+										<item name="$WS_SIZEBOX">\$WS_SIZEBOX</item>
+										<item name="$WS_SYSMENU">\$WS_SYSMENU</item>
+										<item name="$WS_THICKFRAME">\$WS_THICKFRAME</item>
+										<item name="$WS_VSCROLL">\$WS_VSCROLL</item>
+										<item name="$WS_VISIBLE">\$WS_VISIBLE</item>
+										<item name="$WS_CHILD">\$WS_CHILD</item>
+										<item name="$WS_GROUP">\$WS_GROUP</item>
+										<item name="$WS_TABSTOP">\$WS_TABSTOP</item>
+										<item name="$DS_MODALFRAME">\$DS_MODALFRAME</item>
+										<item name="$DS_SETFOREGROUND">\$DS_SETFOREGROUND</item>
+								</menu>
+								<menu name="Common Extended Styles">
+										<item name="$WS_EX_ACCEPTFILES">\$WS_EX_ACCEPTFILES</item>
+										<item name="$WS_EX_APPWINDOW">\$WS_EX_APPWINDOW</item>
+										<item name="$WS_EX_CLIENTEDGE">\$WS_EX_CLIENTEDGE</item>
+										<item name="$WS_EX_CONTEXTHELP">\$WS_EX_CONTEXTHELP</item>
+										<item name="$WS_EX_DLGMODALFRAME">\$WS_EX_DLGMODALFRAME</item>
+										<item name="$WS_EX_MDICHILD">\$WS_EX_MDICHILD</item>
+										<item name="$WS_EX_OVERLAPPEDWINDOW">\$WS_EX_OVERLAPPEDWINDOW</item>
+										<item name="$WS_EX_STATICEDGE">\$WS_EX_STATICEDGE</item>
+										<item name="$WS_EX_TOPMOST">\$WS_EX_TOPMOST</item>
+										<item name="$WS_EX_TRANSPARENT">\$WS_EX_TRANSPARENT</item>
+										<item name="$WS_EX_TOOLWINDOW">\$WS_EX_TOOLWINDOW</item>
+										<item name="$WS_EX_WINDOWEDGE">\$WS_EX_WINDOWEDGE</item>
+										<item name="$WS_EX_LAYERED">\$WS_EX_LAYERED</item>
+										<item name="$GUI_WS_EX_PARENTDRAG">\$GUI_WS_EX_PARENTDRAG</item>
+								</menu>
+								<menu name="Checkbox Styles">
+										<item name="$BS_3STATE">\$BS_3STATE</item>
+										<item name="$BS_AUTO3STATE">\$BS_AUTO3STATE</item>
+										<item name="$BS_AUTOCHECKBOX">\$BS_AUTOCHECKBOX</item>
+										<item name="$BS_CHECKBOX">\$BS_CHECKBOX</item>
+										<item name="$BS_LEFT">\$BS_LEFT</item>
+										<item name="$BS_PUSHLIKE">\$BS_PUSHLIKE</item>
+										<item name="$BS_RIGHT">\$BS_RIGHT</item>
+										<item name="$BS_RIGHTBUTTON">\$BS_RIGHTBUTTON</item>
+										<item name="$BS_GROUPBOX">\$BS_GROUPBOX</item>
+										<item name="$BS_AUTORADIOBUTTON">\$BS_AUTORADIOBUTTON</item>
+								</menu>
+								<menu name="Push Button Styles">
+										<item name="$BS_BOTTOM">\$BS_BOTTOM</item>
+										<item name="$BS_CENTER">\$BS_CENTER</item>
+										<item name="$BS_DEFPUSHBUTTON">\$BS_DEFPUSHBUTTON</item>
+										<item name="$BS_MULTILINE">\$BS_MULTILINE</item>
+										<item name="$BS_TOP">\$BS_TOP</item>
+										<item name="$BS_VCENTER">\$BS_VCENTER</item>
+										<item name="$BS_ICON">\$BS_ICON</item>
+										<item name="$BS_BITMAP">\$BS_BITMAP</item>
+										<item name="$BS_FLAT">\$BS_FLAT</item>
+										<item name="$BS_NOTIFY">\$BS_NOTIFY</item>
+								</menu>
+								<menu name="Combo Styles">
+										<item name="$CBS_AUTOHSCROLL">\$CBS_AUTOHSCROLL</item>
+										<item name="$CBS_DISABLENOSCROLL">\$CBS_DISABLENOSCROLL</item>
+										<item name="$CBS_DROPDOWN">\$CBS_DROPDOWN</item>
+										<item name="$CBS_DROPDOWNLIST">\$CBS_DROPDOWNLIST</item>
+										<item name="$CBS_LOWERCASE">\$CBS_LOWERCASE</item>
+										<item name="$CBS_NOINTEGRALHEIGHT">\$CBS_NOINTEGRALHEIGHT</item>
+										<item name="$CBS_OEMCONVERT">\$CBS_OEMCONVERT</item>
+										<item name="$CBS_SIMPLE">\$CBS_SIMPLE</item>
+										<item name="$CBS_SORT">\$CBS_SORT</item>
+										<item name="$CBS_UPPERCASE">\$CBS_UPPERCASE</item>
+								</menu>
+								<menu name="List Styles">
+										<item name="$LBS_DISABLENOSCROLL">\$LBS_DISABLENOSCROLL</item>
+										<item name="$LBS_NOINTEGRALHEIGHT">\$LBS_NOINTEGRALHEIGHT</item>
+										<item name="$LBS_NOSEL">\$LBS_NOSEL</item>
+										<item name="$LBS_NOTIFY">\$LBS_NOTIFY</item>
+										<item name="$LBS_SORT">\$LBS_SORT</item>
+										<item name="$LBS_STANDARD">\$LBS_STANDARD</item>
+										<item name="$LBS_USETABSTOPS">\$LBS_USETABSTOPS</item>
+								</menu>
+								<menu name="Edit/Input Styles">
+										<item name="$ES_AUTOHSCROLL">\$ES_AUTOHSCROLL</item>
+										<item name="$ES_AUTOVSCROLL">\$ES_AUTOVSCROLL</item>
+										<item name="$ES_CENTER">\$ES_CENTER</item>
+										<item name="$ES_LOWERCASE">\$ES_LOWERCASE</item>
+										<item name="$ES_NOHIDESEL">\$ES_NOHIDESEL</item>
+										<item name="$ES_NUMBER">\$ES_NUMBER</item>
+										<item name="$ES_OEMCONVERT">\$ES_OEMCONVERT</item>
+										<item name="$ES_MULTILINE">\$ES_MULTILINE</item>
+										<item name="$ES_PASSWORD">\$ES_PASSWORD</item>
+										<item name="$ES_READONLY">\$ES_READONLY</item>
+										<item name="$ES_RIGHT">\$ES_RIGHT</item>
+										<item name="$ES_UPPERCASE">\$ES_UPPERCASE</item>
+										<item name="$ES_WANTRETURN">\$ES_WANTRETURN</item>
+								</menu>
+								<menu name="Progress Bar Styles">
+										<item name="$PBS_SMOOTH">\$PBS_SMOOTH</item>
+										<item name="$PBS_VERTICAL">\$PBS_VERTICAL</item>
+								</menu>
+								<menu name="Up-down Styles">
+										<item name="$UDS_ALIGNLEFT">\$UDS_ALIGNLEFT</item>
+										<item name="$UDS_ALIGNRIGHT">\$UDS_ALIGNRIGHT</item>
+										<item name="$UDS_ARROWKEYS">\$UDS_ARROWKEYS</item>
+										<item name="$UDS_HORZ">\$UDS_HORZ</item>
+										<item name="$UDS_NOTHOUSANDS">\$UDS_NOTHOUSANDS</item>
+										<item name="$UDS_WRAP">\$UDS_WRAP</item>
+								</menu>
+								<menu name="Label/Static Styles">
+										<item name="$SS_BLACKFRAME">\$SS_BLACKFRAME</item>
+										<item name="$SS_BLACKRECT">\$SS_BLACKRECT</item>
+										<item name="$SS_CENTER">\$SS_CENTER</item>
+										<item name="$SS_CENTERIMAGE">\$SS_CENTERIMAGE</item>
+										<item name="$SS_ETCHEDFRAME">\$SS_ETCHEDFRAME</item>
+										<item name="$SS_ETCHEDHORZ">\$SS_ETCHEDHORZ</item>
+										<item name="$SS_ETCHEDVERT">\$SS_ETCHEDVERT</item>
+										<item name="$SS_GRAYFRAME">\$SS_GRAYFRAME</item>
+										<item name="$SS_GRAYRECT">\$SS_GRAYRECT</item>
+										<item name="$SS_LEFT">\$SS_LEFT</item>
+										<item name="$SS_LEFTNOWORDWRAP">\$SS_LEFTNOWORDWRAP</item>
+										<item name="$SS_NOPREFIX">\$SS_NOPREFIX</item>
+										<item name="$SS_NOTIFY">\$SS_NOTIFY</item>
+										<item name="$SS_RIGHT">\$SS_RIGHT</item>
+										<item name="$SS_RIGHTJUST">\$SS_RIGHTJUST</item>
+										<item name="$SS_SIMPLE">\$SS_SIMPLE</item>
+										<item name="$SS_SUNKEN">\$SS_SUNKEN</item>
+										<item name="$SS_WHITEFRAME">\$SS_WHITEFRAME</item>
+										<item name="$SS_WHITERECT">\$SS_WHITERECT</item>
+								</menu>
+								<menu name="Tab Styles">
+										<item name="$TCS_SCROLLOPPOSITE">\$TCS_SCROLLOPPOSITE</item>
+										<item name="$TCS_BOTTOM">\$TCS_BOTTOM</item>
+										<item name="$TCS_RIGHT">\$TCS_RIGHT</item>
+										<item name="$TCS_MULTISELECT">\$TCS_MULTISELECT</item>
+										<item name="$TCS_FLATBUTTONS">\$TCS_FLATBUTTONS</item>
+										<item name="$TCS_FORCEICONLEFT">\$TCS_FORCEICONLEFT</item>
+										<item name="$TCS_FORCELABELLEFT">\$TCS_FORCELABELLEFT</item>
+										<item name="$TCS_HOTTRACK">\$TCS_HOTTRACK</item>
+										<item name="$TCS_VERTICAL">\$TCS_VERTICAL</item>
+										<item name="$TCS_TABS">\$TCS_TABS</item>
+										<item name="$TCS_BUTTONS">\$TCS_BUTTONS</item>
+										<item name="$TCS_SINGLELINE">\$TCS_SINGLELINE</item>
+										<item name="$TCS_MULTILINE">\$TCS_MULTILINE</item>
+										<item name="$TCS_RIGHTJUSTIFY">\$TCS_RIGHTJUSTIFY</item>
+										<item name="$TCS_FIXEDWIDTH">\$TCS_FIXEDWIDTH</item>
+										<item name="$TCS_RAGGEDRIGHT">\$TCS_RAGGEDRIGHT</item>
+										<item name="$TCS_FOCUSONBUTTONDOWN">\$TCS_FOCUSONBUTTONDOWN</item>
+										<item name="$TCS_OWNERDRAWFIXED">\$TCS_OWNERDRAWFIXED</item>
+										<item name="$TCS_TOOLTIPS">\$TCS_TOOLTIPS</item>
+										<item name="$TCS_FOCUSNEVER">\$TCS_FOCUSNEVER</item>
+								</menu>
+								<menu name="Avi Clip Styles">
+										<item name="$ACS_AUTOPLAY">\$ACS_AUTOPLAY</item>
+										<item name="$ACS_CENTER">\$ACS_CENTER</item>
+										<item name="$ACS_TRANSPARENT">\$ACS_TRANSPARENT</item>
+										<item name="$ACS_NONTRANSPARENT">\$ACS_NONTRANSPARENT</item>
+								</menu>
+								<menu name="Date Styles">
+										<item name="$DTS_UPDOWN">\$DTS_UPDOWN</item>
+										<item name="$DTS_SHOWNONE">\$DTS_SHOWNONE</item>
+										<item name="$DTS_LONGDATEFORMAT">\$DTS_LONGDATEFORMAT</item>
+										<item name="$DTS_TIMEFORMAT">\$DTS_TIMEFORMAT</item>
+										<item name="$DTS_RIGHTALIGN">\$DTS_RIGHTALIGN</item>
+										<item name="$DTS_SHORTDATEFORMAT">\$DTS_SHORTDATEFORMAT</item>
+								</menu>
+								<menu name="MonthCal Styles">
+										<item name="$MCS_NOTODAY">\$MCS_NOTODAY</item>
+										<item name="$MCS_NOTODAYCIRCLE">\$MCS_NOTODAYCIRCLE</item>
+										<item name="$MCS_WEEKNUMBERS">\$MCS_WEEKNUMBERS</item>
+								</menu>
+								<menu name="TreeView Styles">
+										<item name="$TVS_HASBUTTONS">\$TVS_HASBUTTONS</item>
+										<item name="$TVS_HASLINES">\$TVS_HASLINES</item>
+										<item name="$TVS_LINESATROOT">\$TVS_LINESATROOT</item>
+										<item name="$TVS_DISABLEDRAGDROP">\$TVS_DISABLEDRAGDROP</item>
+										<item name="$TVS_SHOWSELALWAYS">\$TVS_SHOWSELALWAYS</item>
+										<item name="$TVS_RTLREADING">\$TVS_RTLREADING</item>
+										<item name="$TVS_NOTOOLTIPS">\$TVS_NOTOOLTIPS</item>
+										<item name="$TVS_CHECKBOXES">\$TVS_CHECKBOXES</item>
+										<item name="$TVS_TRACKSELECT">\$TVS_TRACKSELECT</item>
+										<item name="$TVS_SINGLEEXPAND">\$TVS_SINGLEEXPAND</item>
+										<item name="$TVS_FULLROWSELECT">\$TVS_FULLROWSELECT</item>
+										<item name="$TVS_NOSCROLL">\$TVS_NOSCROLL</item>
+										<item name="$TVS_NONEVENHEIGHT">\$TVS_NONEVENHEIGHT</item>
+								</menu>
+								<menu name="Slider Styles">
+										<item name="$TBS_AUTOTICKS">\$TBS_AUTOTICKS</item>
+										<item name="$TBS_BOTH">\$TBS_BOTH</item>
+										<item name="$TBS_BOTTOM">\$TBS_BOTTOM</item>
+										<item name="$TBS_HORZ">\$TBS_HORZ</item>
+										<item name="$TBS_VERT">\$TBS_VERT</item>
+										<item name="$TBS_NOTHUMB">\$TBS_NOTHUMB</item>
+										<item name="$TBS_NOTICKS">\$TBS_NOTICKS</item>
+										<item name="$TBS_LEFT">\$TBS_LEFT</item>
+										<item name="$TBS_RIGHT">\$TBS_RIGHT</item>
+										<item name="$TBS_TOP">\$TBS_TOP</item>
+								</menu>
+								<menu name="ListView Styles">
+										<item name="$LVS_ICON">\$LVS_ICON</item>
+										<item name="$LVS_REPORT">\$LVS_REPORT</item>
+										<item name="$LVS_SMALLICON">\$LVS_SMALLICON</item>
+										<item name="$LVS_LIST">\$LVS_LIST</item>
+										<item name="$LVS_EDITLABELS">\$LVS_EDITLABELS</item>
+										<item name="$LVS_NOCOLUMNHEADER">\$LVS_NOCOLUMNHEADER</item>
+										<item name="$LVS_NOSORTHEADER">\$LVS_NOSORTHEADER</item>
+										<item name="$LVS_SINGLESEL">\$LVS_SINGLESEL</item>
+										<item name="$LVS_SHOWSELALWAYS">\$LVS_SHOWSELALWAYS</item>
+										<item name="$LVS_SORTASCENDING">\$LVS_SORTASCENDING</item>
+										<item name="$LVS_SORTDESCENDING">\$LVS_SORTDESCENDING</item>
+										<item name="$LVS_NOLABELWRAP">\$LVS_NOLABELWRAP</item>
+								</menu>
+								<menu name="ListView Extended Styles">
+										<item name="$LVS_EX_FULLROWSELECT">\$LVS_EX_FULLROWSELECT</item>
+										<item name="$LVS_EX_GRIDLINES">\$LVS_EX_GRIDLINES</item>
+										<item name="$LVS_EX_HEADERDRAGDROP">\$LVS_EX_HEADERDRAGDROP</item>
+										<item name="$LVS_EX_TRACKSELECT">\$LVS_EX_TRACKSELECT</item>
+										<item name="$LVS_EX_CHECKBOXES">\$LVS_EX_CHECKBOXES</item>
+										<item name="$LVS_EX_BORDERSELECT">\$LVS_EX_BORDERSELECT</item>
+										<item name="$LVS_EX_DOUBLEBUFFER">\$LVS_EX_DOUBLEBUFFER</item>
+										<item name="$LVS_EX_FLATSB">\$LVS_EX_FLATSB</item>
+										<item name="$LVS_EX_MULTIWORKAREAS">\$LVS_EX_MULTIWORKAREAS</item>
+										<item name="$LVS_EX_SNAPTOGRID">\$LVS_EX_SNAPTOGRID</item>
+										<item name="$LVS_EX_SUBITEMIMAGES">\$LVS_EX_SUBITEMIMAGES</item>
+								</menu>
+						</menu>
+						<menu name="Control creation">
+								<item name="GUICreate">GUICreate(|)</item>						
+								<item name="GUICtrlCreateAvi">GUICtrlCreateAvi(|)</item>
+								<item name="GUICtrlCreateButton">GUICtrlCreateButton(|)</item>
+								<item name="GUICtrlCreateCheckbox">GUICtrlCreateCheckbox(|)</item>
+								<item name="GUICtrlCreateCombo">GUICtrlCreateCombo(|)</item>
+								<item name="GUICtrlCreateContextMenu">GUICtrlCreateContextMenu(|)</item>
+								<item name="GUICtrlCreateDate">GUICtrlCreateDate(|)</item>
+								<item name="GUICtrlCreateDummy">GUICtrlCreateDummy(|)</item>
+								<item name="GUICtrlCreateEdit">GUICtrlCreateEdit(|)</item>
+								<item name="GUICtrlCreateGraphic">GUICtrlCreateGraphic(|)</item>
+								<item name="GUICtrlCreateGroup">GUICtrlCreateGroup(|)</item>
+								<item name="GUICtrlCreateIcon">GUICtrlCreateIcon(|)</item>
+								<item name="GUICtrlCreateInput">GUICtrlCreateInput(|)</item>
+								<item name="GUICtrlCreateLabel">GUICtrlCreateLabel(|)</item>
+								<item name="GUICtrlCreateList">GUICtrlCreateList(|)</item>
+								<item name="GUICtrlCreateListView">GUICtrlCreateListView(|)</item>
+								<item name="GUICtrlCreateListViewItem">GUICtrlCreateListViewItem(|)</item>
+								<item name="GUICtrlCreateMenu">GUICtrlCreateMenu(|)</item>
+								<item name="GUICtrlCreateMenuItem">GUICtrlCreateMenuItem(|)</item>
+								<item name="GUICtrlCreateMonthCal">GUICtrlCreateMonthCal(|)</item>
+								<item name="GUICtrlCreateObj">GUICtrlCreateObj(|)</item>
+								<item name="GUICtrlCreatePic">GUICtrlCreatePic(|)</item>
+								<item name="GUICtrlCreateProgress">GUICtrlCreateProgress(|)</item>
+								<item name="GUICtrlCreateRadio">GUICtrlCreateRadio(|)</item>
+								<item name="GUICtrlCreateSlider">GUICtrlCreateSlider(|)</item>
+								<item name="GUICtrlCreateTab">GUICtrlCreateTab(|)</item>
+								<item name="GUICtrlCreateTabItem">GUICtrlCreateTabItem(|)</item>
+								<item name="GUICtrlCreateTreeView">GUICtrlCreateTreeView(|)</item>
+								<item name="GUICtrlCreateTreeViewItem">GUICtrlCreateTreeViewItem(|)</item>
+								<item name="GUICtrlCreateUpdown">GUICtrlCreateUpdown(|)</item>
+								<item name="GUICtrlDelete">GUICtrlDelete(|)</item>
+						</menu>
+						<menu name="Control update">
+								<item name="GUICtrlRegisterListViewSort">GUICtrlRegisterListViewSort(|)</item>
+								<item name="GUICtrlSetBkColor">GUICtrlSetBkColor(|)</item>
+								<item name="GUICtrlSetColor">GUICtrlSetColor(|)</item>
+								<item name="GUICtrlSetCursor">GUICtrlSetCursor(|)</item>
+								<item name="GUICtrlSetData">GUICtrlSetData(|)</item>
+								<item name="GUICtrlSetFont">GUICtrlSetFont(|)</item>
+								<item name="GUICtrlSetGraphic">GUICtrlSetGraphic(|)</item>
+								<item name="GUICtrlSetImage">GUICtrlSetImage(|)</item>
+								<item name="GUICtrlSetLimit">GUICtrlSetLimit(|)</item>
+								<item name="GUICtrlSetOnEvent">GUICtrlSetOnEvent(|)</item>
+								<item name="GUICtrlSetPos">GUICtrlSetPos(|)</item>
+								<item name="GUICtrlSetResizing">GUICtrlSetResizing(|)</item>
+								<item name="GUICtrlSetState">GUICtrlSetState(|)</item>
+								<item name="GUICtrlSetStyle">GUICtrlSetStyle(|)</item>
+								<item name="GUICtrlSetTip">GUICtrlSetTip(|)</item>
+						</menu>
+						<menu name="Parameters">
+								<item name="GUISetAccelerators">GUISetAccelerators(|)</item>
+								<item name="GUISetBkColor">GUISetBkColor(|)</item>
+								<item name="GUISetCoord">GUISetCoord(|)</item>
+								<item name="GUISetCursor">GUISetCursor(|)</item>
+								<item name="GUISetFont">GUISetFont(|)</item>
+								<item name="GUISetHelp">GUISetHelp(|)</item>
+								<item name="GUISetIcon">GUISetIcon(|)</item>
+								<item name="GUISetOnEvent">GUISetOnEvent(|)</item>
+								<item name="GUISetState">GUISetState(|)</item>
+								<item name="GUISetStyle">GUISetStyle(|)</item>
+						</menu>
+						<item name="GUICloseOnESC (Option)">Opt("GUICloseOnESC", 1)           ;1=ESC  closes, 0=ESC won't close</item>
+						<item name="GUICoordMode (Option)">Opt("GUICoordMode", 1)            ;1=absolute, 0=relative, 2=cell</item>
+						<item name="GUICtrlGetHandle">GUICtrlGetHandle(|)</item>
+						<item name="GUICtrlGetState">GUICtrlGetState(|)</item>
+						<item name="GUICtrlRead">GUICtrlRead(|)</item>
+						<item name="GUICtrlRecvMsg">GUICtrlRecvMsg(|)</item>
+						<item name="GUICtrlSendMsg">GUICtrlSendMsg(|)</item>
+						<item name="GUICtrlSendToDummy">GUICtrlSendToDummy(|)</item>
+						<item name="GUIDataSeparatorChar (Option)">Opt("GUIDataSeparatorChar","||")  ;"||" is the default</item>
+						<item name="GUIDelete">GUIDelete(|)</item>
+						<item name="GUIEventOptions (Option)">Opt("GUIEventOptions",0)          ;0=default, 1=just notification, 2=GuiCtrlRead tab index</item>
+						<item name="GUIGetCursorInfo">GUIGetCursorInfo(|)</item>
+						<item name="GUIGetMsg">GUIGetMsg()</item>
+						<item name="GUIGetMsg(Advanced)">GUIGetMsg(1)</item>
+						<item name="GUIOnEventMode (Option)">Opt("GUIOnEventMode", 0)          ;0=disabled, 1=OnEvent mode enabled</item>
+						<item name="GUIRegisterMsg">GUIRegisterMsg(|)</item>
+						<item name="GUIGetStyle">GUIGetStyle(|)</item>
+						<item name="GUIResizeMode (Option)">Opt("GUIResizeMode", 0)           ;0=no resizing, &lt;1024 special resizing</item>
+						<item name="GUIStartGroup">GUIStartGroup(|)</item>
+						<item name="GUISwitch">GUISwitch(|)</item>
+				</menu>
+
+				<menu name="Keyboard Control">
+						<item name="HotKeySet">HotKeySet(|)</item>
+						<item name="Send">Send(|)</item>
+						<item name="SendAttachMode (Option)">Opt("SendAttachMode", 0)          ;0=don't attach, 1=do attach</item>
+						<item name="SendCapslockMode (Option)">Opt("SendCapslockMode", 1)        ;1=store and restore, 0=don't</item>
+						<item name="SendKeepActive">SendKeepActive(|)</item>
+						<item name="SendKeyDelay (Option)">Opt("SendKeyDelay", 5)            ;5 milliseconds</item>
+						<item name="SendKeyDownDelay (Option)">Opt("SendKeyDownDelay", 1)        ;1 millisecond</item>
+				</menu>
+
+				<menu name="Math Functions">
+						<item name="Abs">Abs(|)</item>
+						<item name="Ceiling">Ceiling(|)</item>
+						<item name="Exp">Exp(|)</item>
+						<item name="Floor">Floor(|)</item>
+						<item name="Log">Log(|)</item>
+						<item name="Mod">Mod(|)</item>
+						<item name="Random">Random(|)</item>
+						<item name="Round">Round(|)</item>
+						<item name="Sqrt">Sqrt(|)</item>
+						<item name="SRandom">SRandom(|)</item>
+						<menu name="Logical Functions">
+								<item name="BitAND">BitAND(|)</item>
+								<item name="BitNOT">BitNOT(|)</item>
+								<item name="BitOR">BitOR(|)</item>
+								<item name="BitRotate">BitRotate(|)</item>
+								<item name="BitShift">BitShift(|)</item>
+								<item name="BitXOR">BitXOR(|)</item>
+						</menu>
+						<menu name="Trigonometric Functions">
+								<item name="ACos">ACos(|)</item>
+								<item name="ASin">ASin(|)</item>
+								<item name="ATan">ATan(|)</item>
+								<item name="Cos">Cos(|)</item>
+								<item name="Sin">Sin(|)</item>
+								<item name="Tan">Tan(|)</item>
+						</menu>
+				</menu>
+
+				<menu name="Message Boxes and Dialogs">
+						<item name="InputBox">InputBox(|)</item>
+						<item name="InputBox(Password)">InputBox(title,prompt,default,"*")</item>
+						<item name="MsgBox">MsgBox(|)</item>
+						<item name="MsgBox(Error)">MsgBox(16,"ERROR","|")</item>
+						<item name="ProgressOff">ProgressOff()|</item>
+						<item name="ProgressOn">ProgressOn(|)</item>
+						<item name="ProgressSet">ProgressSet(|)</item>
+						<item name="SplashImageOn">SplashImageOn(|)</item>
+						<item name="SplashOff">SplashOff()|</item>
+						<item name="SplashTextOn">SplashTextOn(|)</item>
+						<item name="ToolTip">ToolTip(|)</item>
+				</menu>
+				<menu name="Misc functions">
+						<item name="AdlibDisable">AdlibDisable()</item>
+						<item name="AdlibEnable">AdlibEnable(|)</item>
+						<item name="AutoItSetOption / Opt">AutoItSetOption(|)</item>
+						<item name="AutoItSetOption / Opt (Optionlist)" type="xinsert_script">{%option "Option:" "CaretCoordMode" "ExpandEnvStrings" "ExpandVarStrings" "GUICloseOnESC" "GUICoordMode" "GUIDataSeparatorChar" "GUIOnEventMode" "GUIResizeMode" "GUIEventOptions" "MouseClickDelay" "MouseClickDownDelay" "MouseClickDragDelay" "MouseCoordMode" "MustDeclareVars" "PixelCoordMode" "SendAttachMode" "SendCapslockMode" "SendKeyDelay" "SendKeyDownDelay" "TCPTimeout" "TrayAutoPause" "TrayIconDebug" "TrayIconHide" "TrayMenuMode" "TrayOnEventMode" "WinDetectHiddenText" "WinSearchChildren" "WinTextMatchMode" "WinTitleMatchMode" "WinWaitDelay"}AutoItSetOption("{$=option}", |)</item>
+						<item name="AutoItWinGetTitle">AutoItWinGetTitle()</item>
+						<item name="AutoItWinSetTitle">AutoItWinSetTitle(|)</item>
+						<item name="BlockInput">BlockInput(|)</item>
+						<item name="BlockInput (Disable)">BlockInput(1)</item>
+						<item name="BlockInput (Enable)">BlockInput(0)</item>
+						<item name="Break (Disable)">Break(0)</item>
+						<item name="Break (Enable)">Break(1)</item>
+						<item name="CDTray">CDTray(|)</item>
+						<item name="Call">Call(|)</item>
+						<item name="Execute">Execute(|)</item>
+						<item name="ExpandEnvStrings (Option)">Opt("ExpandEnvStrings", 0)        ;0=don't expand, 1=do expand</item>
+						<item name="ExpandVarStrings (Option)">Opt("ExpandVarStrings", 0)        ;0=don't expand, 1=do expand</item>
+						<item name="OnAutoItExitRegister">OnAutoItExitRegister(|)</item>
+						<item name="OnAutoItExitUnRegister">OnAutoItExitUnRegister(|)</item>
+						<item name="SetError">SetError(|)</item>
+						<item name="SetExtended">SetExtended(|)</item>
+				</menu>
+
+				<menu name="Mouse Control">
+						<item name="MouseClick">MouseClick(|)</item>
+						<item name="MouseClickDelay (Option)">Opt("MouseClickDelay", 10)        ;10 milliseconds</item>
+						<item name="MouseClickDownDelay (Option)">Opt("MouseClickDownDelay", 10)    ;10 milliseconds</item>
+						<item name="MouseClickDrag">MouseClickDrag(|)</item>
+						<item name="MouseClickDragDelay (Option)">Opt("MouseClickDragDelay", 250)   ;250 milliseconds</item>
+						<item name="MouseCoordMode (Option)">Opt("MouseCoordMode", 1)          ;1=absolute, 0=relative, 2=client</item>
+						<item name="MouseDown">MouseDown(|)</item>
+						<item name="MouseGetCursor">MouseGetCursor()</item>
+						<item name="MouseGetCursor(X)">MouseGetCursor(0)</item>
+						<item name="MouseGetCursor(Y)">MouseGetCursor(1)</item>
+						<item name="MouseGetPos">MouseGetPos(|)</item>
+						<item name="MouseMove">MouseMove(|)</item>
+						<item name="MouseUp">MouseUp(|)</item>
+						<item name="MouseUp" type="xinsert_script">{%Button "Select" "left" "right" "middle" "main" "menu" "primary" "secondary".}MouseUp("{$=Button}")</item>
+						<item name="MouseWheel">MouseWheel(|)</item>
+						<item name="MouseWheel(Up)">MouseWheel("up")</item>
+						<item name="MouseWheel(Down)">MouseWheel("down")</item>
+				</menu>
+
+				<menu name="Network Functions">
+						<item name="FtpBinaryMode (Option)">Opt("FtpBinaryMode", 1)           ;1=binary, 0=ASCII</item>
+						<item name="FtpSetProxy">FtpSetProxy(|)</item>
+						<item name="HttpSetProxy">HttpSetProxy(|)</item>
+						<item name="InetClose">InetClose(|)</item>
+						<item name="InetGet">InetGet(|)</item>
+						<item name="InetGetInfo">InetGetInfo(|)</item>
+						<item name="InetGetSize">InetGetSize(|)</item>
+						<item name="InetRead">InetRead(|)</item>
+						<item name="Ping">Ping(|)</item>
+						<item name="HttpSetUserAgent">HttpSetUserAgent(|)</item>
+						<item name="HttpSetUserAgent (Firefox 51.0)">HttpSetUserAgent("Mozilla/5.0 (Windows NT 6.1; WOW64; rv:51.0) Gecko/20100101 Firefox/51.0")</item>
+						<item name="HttpSetUserAgent (IE 11)">HttpSetUserAgent("Mozilla/5.0 (Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko")</item>
+						<menu name="TCP">
+								<item name="TCPAccept">TCPAccept(|)</item>
+								<item name="TCPCloseSocket">TCPCloseSocket(|)</item>
+								<item name="TCPConnect">TCPConnect(|)</item>
+								<item name="TCPListen">TCPListen(|)</item>
+								<item name="TCPNameToIP">TCPNameToIP(|)</item>
+								<item name="TCPRecv">TCPRecv(|)</item>
+								<item name="TCPSend">TCPSend(|)</item>
+								<item name="TCPShutdown">TCPShutdown()</item>
+								<item name="TCPStartup">TCPStartup(|)</item>
+								<item name="TCPTimeout (Option)">Opt("TCPTimeout",100)             ;100 milliseconds</item>
+						</menu>
+						<menu name="UDP">
+								<item name="UDPBind">UDPBind(|)</item>
+								<item name="UDPCloseSocket">UDPCloseSocket(|)</item>
+								<item name="UDPOpen">UDPOpen(|)</item>
+								<item name="UDPRecv">UDPRecv(|)</item>
+								<item name="UDPSend">UDPSend(|)</item>
+								<item name="UDPShutdown">UDPShutdown()</item>
+								<item name="UDPStartup">UDPStartup()</item>
+						</menu>
+				</menu>
+
+				<menu name="Obj/COM Reference">
+						<item name="ObjCreate">ObjCreate(|)</item>
+						<menu name="ObjCreate ...">
+							<item name="Array-List">ObjCreate("System.Collections.ArrayList")</item>
+							<item name="Hashtable">ObjCreate("System.Collections.Hashtable")</item>
+							<item name="Queue">ObjCreate("System.Collections.Queue")</item>
+							<item name="Stack">ObjCreate("System.Collections.Stack")</item>
+						</menu>
+						<item name="ObjEvent">ObjEvent(|)</item>
+						<item name="ObjEvent(ErrorHandler)">ObjEvent("AutoIt.Error", |)</item>
+						<item name="ObjGet">ObjGet(|)</item>
+						<item name="ObjName">ObjName(|)</item>
+				</menu>
+
+				<menu name="Process Management">
+						<item name="Run">Run(|)</item>
+						<item name="Run(Console)">Run(@ComSpec &amp; " /c " &amp; '|',"",@SW_HIDE)</item>
+						<item name="RunAs">RunAs(|)</item>
+						<item name="RunAsWait">RunAsWait(|)</item>
+						<item name="RunWait">RunWait(|)</item>
+						<item name="RunWait(Console)">RunWait(@ComSpec &amp; " /c " &amp; '',"",@SW_HIDE)</item>
+						<item name="ShellExecute">ShellExecute(|)</item>
+						<item name="ShellExecuteWait">ShellExecuteWait(|)</item>
+						<item name="Shutdown">Shutdown(|)</item>
+
+						<menu name="DLL">
+								<item name="DllCall">DllCall(|)</item>
+								<item name="DllClose">DllClose(|)</item>
+								<item name="DllOpen">DllOpen(|)</item>
+								<item name="DllStructCreate">DllStructCreate(|)</item>
+								<item name="DllStructGetData">DllStructGetData(|)</item>
+								<item name="DllStructGetPtr">DllStructGetPtr(|)</item>
+								<item name="DllStructGetSize">DllStructGetSize(|)</item>
+								<item name="DllStructSetData">DllStructSetData(|)</item>
+						</menu>
+						<menu name="Process">
+								<item name="ProcessClose">ProcessClose(|)</item>
+								<item name="ProcessExists">ProcessExists(|)</item>
+								<item name="ProcessList">ProcessList(|)</item>
+								<item name="ProcessSetPriority">ProcessSetPriority(|)</item>
+								<item name="ProcessWait">ProcessWait(|)</item>
+								<item name="ProcessWaitClose">ProcessWaitClose(|)</item>
+						</menu>
+				</menu>
+
+				<menu name="Registry Management">
+						<item name="RegDelete">RegDelete(|)</item>
+						<item name="RegEnumKey">RegEnumKey(|)</item>
+						<item name="RegEnumVal">RegEnumVal(|)</item>
+						<item name="RegRead">RegRead(|)</item>
+						<item name="RegWrite">RegWrite(|)</item>
+						<menu name="Registry Hives">
+							<item name="HKEY_CLASSES_ROOT (HKCR)">HKEY_CLASSES_ROOT</item>
+							<item name="HKEY_CURRENT_USER (HKCU)">HKEY_CURRENT_USER</item>
+							<item name="HKEY_LOCAL_MACHINE (HKLM)">HKEY_LOCAL_MACHINE</item>
+							<item name="HKEY_USERS (HKU)">HKEY_USERS</item>
+							<item name="HKEY_CURRENT_CONFIG (HKCC)">HKEY_CURRENT_CONFIG</item>
+							<item name="HKEY_PERFORMANCE_DATA">HKEY_PERFORMANCE_DATA</item>
+							<item name="HKEY_DYN_DATA (95, 98, ME)">HKEY_DYN_DATA</item>
+						</menu>
+				</menu>
+
+				<menu name="String Management">
+						<item name="StringAddCR">StringAddCR(|)</item>
+						<item name="StringCompare">StringCompare(|)</item>
+						<item name="StringFormat">StringFormat(|)</item>
+						<item name="StringFromASCIIArray">StringFromASCIIArray(|)</item>
+						<item name="StringInStr">StringInStr(|)</item>
+						<item name="StringIsASCII">StringIsASCII(|)</item>
+						<item name="StringIsAlNum">StringIsAlNum(|)</item>
+						<item name="StringIsAlpha">StringIsAlpha(|)</item>
+						<item name="StringIsDigit">StringIsDigit(|)</item>
+						<item name="StringIsFloat">StringIsFloat(|)</item>
+						<item name="StringIsInt">StringIsInt(|)</item>
+						<item name="StringIsLower">StringIsLower(|)</item>
+						<item name="StringIsSpace">StringIsSpace(|)</item>
+						<item name="StringIsUpper">StringIsUpper(|)</item>
+						<item name="StringIsXDigit">StringIsXDigit(|)</item>
+						<item name="StringLeft">StringLeft(|)</item>
+						<item name="StringLen">StringLen(|)</item>
+						<item name="StringLower">StringLower(|)</item>
+						<item name="StringMid">StringMid(|)</item>
+						<item name="StringRegExp">StringRegExp(|)</item>
+						<menu name="StringRegEx ...">
+							<item name="Is eMail">StringRegExp("|","\A([\w\-\.]+)@((\[([0-9]{1,3}\.){3}[0-9]{1,3}\])||(([\w\-]+\.)+)([a-zA-Z]{2,4}))\z")</item>
+							<item name="Is eMail RFC 3696">StringRegExp("|","\A[a-z0-9!\$'*+\-_]+(\.[a-z0-9!\$'*+\-_]+)*@([a-z0-9]+(-+[a-z0-9]+)*\.)+([a-z]{2}||aero||arpa||biz||cat||com||coop||edu||gov||info||int||jobs||mil||mobi||museum||name||net||org||pro||travel)\z")</item>
+							<item name="Is URL" type="xinsert_script">{%Protocol "Select Protocol" "http" "https" "ftp"}StringRegExp("|","\\A(({$=Protocol}://)[a-zA-Z0-9_\\-]+(?:\\.[a-zA-Z0-9_\\-]+)*\\.[a-zA-Z]{2,4}(?:\\/[a-zA-Z0-9_]+)*(?:\\/[a-zA-Z0-9_]+\\.[a-zA-Z]{2,4}(?:\\?[a-zA-Z0-9_]+\\=[a-zA-Z0-9_]+)?)?(?:\\&amp;[a-zA-Z0-9_]+\\=[a-zA-Z0-9_]+)*)\\z")</item>
+							<item name="Is URL (http/https/ftp)">StringRegExp("|","\A(http://||https://||ftp://)([a-zA-Z0-9]+\.[a-zA-Z0-9\-]+||[a-zA-Z0-9\-]+)\.[a-zA-Z\.]{2,6}(/[a-zA-Z0-9\.\?=/#%&amp;\+-]+||/||)\z")</item>
+							<item name="Is IPV4">StringRegExp("|","\A(25[0-5]||2[0-4][0-9]||[0-1]{1}[0-9]{2}||[1-9]{1}[0-9]{1}||[1-9])\.(25[0-5]||2[0-4][0-9]||[0-1]{1}[0-9]{2}||[1-9]{1}[0-9]{1}||[1-9]||0)\.(25[0-5]||2[0-4][0-9]||[0-1]{1}[0-9]{2}||[1-9]{1}[0-9]{1}||[1-9]||0)\.(25[0-5]||2[0-4][0-9]||[0-1]{1}[0-9]{2}||[1-9]{1}[0-9]{1}||[0-9])\z")</item>
+							<item name="Is IPV6">StringRegExp("|","\A(?:[0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}\z")</item>
+							<item name="Is Quoted String">StringRegExp("|","\A(" &amp; Chr(34) &amp; "||')((?!\1).||\1{2})*\1\z")</item>
+							<item name="Is GUID">StringRegExp("|","\A[{^[{||\(]?[0-9a-fA-F]{8}[-]?([0-9a-fA-F]{4}[-]?){3}[0-9a-fA-F]{12}[\)||}]?\$||\(]?[0-9a-fA-F]{8}[-]?([0-9a-fA-F]{4}[-]?){3}[0-9a-fA-F]{12}[\)||}]?\z")</item>
+						</menu>
+						<item name="StringRegExpReplace">StringRegExpReplace(|)</item>
+						<item name="StringReplace">StringReplace(|)</item>
+						<item name="StringRight">StringRight(|)</item>
+						<item name="StringSplit">StringSplit(|)</item>
+						<item name="StringStripCR">StringStripCR(|)</item>
+						<item name="StringStripWS">StringStripWS(|)</item>
+						<item name="StringToASCIIArray">StringToASCIIArray(|)</item>
+						<item name="StringTrimLeft">StringTrimLeft(|)</item>
+						<item name="StringTrimRight">StringTrimRight(|)</item>
+						<item name="StringUpper">StringUpper(|)</item>
+				</menu>
+
+				<menu name="Timer and Delay Functions">
+						<item name="Sleep">Sleep(|)</item>
+						<item name="TimerDiff">TimerDiff(|)</item>
+						<item name="TimerInit">TimerInit()</item>
+				</menu>
+
+				<menu name="Tray Functions">
+						<item name="TrayAutoPause (Option)">Opt("TrayAutoPause",1)            ;0=no pause, 1=Pause</item>
+						<item name="TrayCreateItem">TrayCreateItem(|)</item>
+						<item name="TrayCreateMenu">TrayCreateMenu(|)</item>
+						<item name="TrayGetMsg">TrayGetMsg()</item>
+						<item name="TrayIconDebug (Option)">Opt("TrayIconDebug", 0)           ;0=no info, 1=debug line info</item>
+						<item name="TrayIconHide (Option)">Opt("TrayIconHide", 0)            ;0=show, 1=hide tray icon</item>
+						<item name="TrayItemDelete">TrayItemDelete(|)</item>
+						<item name="TrayItemGetHandle">TrayItemGetHandle(|)</item>
+						<item name="TrayItemGetState">TrayItemGetState(|)</item>
+						<item name="TrayItemGetText">TrayItemGetText(|)</item>
+						<item name="TrayItemSetOnEvent">TrayItemSetOnEvent(|)</item>
+						<item name="TrayItemSetState">TrayItemSetState(|)</item>
+						<item name="TrayItemSetText">TrayItemSetText(|)</item>
+						<item name="TrayMenuMode (Option)">Opt("TrayMenuMode",0)             ;0=append, 1=no default menu, 2=no automatic check, 4=menuitemID  not return</item>
+						<item name="TrayOnEventMode (Option)">Opt("TrayOnEventMode",0)          ;0=disable, 1=enable</item>
+						<item name="TraySetClick">TraySetClick(|)</item>
+						<item name="TraySetIcon">TraySetIcon(|)</item>
+						<item name="TraySetOnEvent">TraySetOnEvent(|)</item>
+						<item name="TraySetPauseIcon">TraySetPauseIcon(|)</item>
+						<item name="TraySetState">TraySetState(|)</item>
+						<item name="TraySetToolTip">TraySetToolTip(|)</item>
+						<item name="TrayTip">TrayTip(|)</item>
+				</menu>
+
+				<menu name="Variables and Conversions">
+						<item name="Asc">Asc(|)</item>
+						<item name="AscW">AscW(|)</item>
+						<item name="Chr">Chr(|)</item>
+						<item name="ChrW">ChrW(|)</item>
+						<item name="Assign">Assign(|)</item>
+						<item name="Binary">Binary(|)</item>
+						<item name="BinaryLen">BinaryLen(|)</item>
+						<item name="BinaryMid">BinaryMid(|)</item>
+						<item name="BinaryToString">BinaryToString(|)</item>
+						<item name="Dec">Dec(|)</item>
+						<item name="Eval">Eval(|)</item>
+						<item name="Hex">Hex(|)</item>
+						<item name="HWnd">HWnd(|)</item>
+						<item name="Int">Int(|)</item>
+						<item name="IsAdmin">IsAdmin()</item>
+						<item name="IsArray">IsArray(|)</item>
+						<item name="IsBinary">IsBinary(|)</item>
+						<item name="IsBool">IsBool(|)</item>
+						<item name="IsDeclared">IsDeclared(|)</item>
+						<item name="IsDllStruct">IsDllStruct(|)</item>
+						<item name="IsFloat">IsFloat(|)</item>
+						<item name="IsHWnd">IsHWnd(|)</item>
+						<item name="IsInt">IsInt(|)</item>
+						<item name="IsKeyword">IsKeyword(|)</item>
+						<item name="IsNumber">IsNumber(|)</item>
+						<item name="IsObj">IsObj(|)</item>
+						<item name="IsString">IsString(|)</item>
+						<item name="Number">Number(|)</item>
+						<item name="MustDeclareVars (Option)">Opt("MustDeclareVars", 0)         ;0=no, 1=require pre-declare</item>
+						<item name="String">String(|)</item>
+						<item name="StringToBinary">StringToBinary(|)</item>
+						<item name="UBound">UBound(|)</item>
+				</menu>
+
+				<menu name="Window Management">
+					<menu name="Controls">
+								<item name="ControlClick">ControlClick(|)</item>
+								<item name="ControlCommand">ControlCommand(|)</item>
+								<item name="ControlDisable">ControlDisable(|)</item>
+								<item name="ControlEnable">ControlEnable(|)</item>
+								<item name="ControlFocus">ControlFocus(|)</item>
+								<item name="ControlGetFocus">ControlGetFocus(|)</item>
+								<item name="ControlGetHandle">ControlGetHandle(|)</item>
+								<item name="ControlGetPos">ControlGetPos(|)</item>
+								<item name="ControlGetText">ControlGetText(|)</item>
+								<item name="ControlHide">ControlHide(|)</item>
+								<item name="ControlListView">ControlListView(|)</item>
+								<item name="ControlMove">ControlMove(|)</item>
+								<item name="ControlSend">ControlSend(|)</item>
+								<item name="ControlSetText">ControlSetText(|)</item>
+								<item name="ControlShow">ControlShow(|)</item>
+								<item name="StatusbarGetText">StatusbarGetText(|)</item>
+						</menu>
+						<item name="WinActivate">WinActivate(|)</item>
+						<item name="WinActive">WinActive(|)</item>
+						<item name="WinClose">WinClose(|)</item>
+						<item name="WinExists">WinExists(|)</item>
+						<item name="WinFlash">WinFlash(|)</item>
+						<item name="WinGetCaretPos">WinGetCaretPos()</item>
+						<item name="WinGetClassList">WinGetClassList(|)</item>
+						<item name="WinGetClientSize">WinGetClientSize(|)</item>
+						<item name="WinGetHandle">WinGetHandle(|)</item>
+						<item name="WinGetPos">WinGetPos(|)</item>
+						<item name="WinGetProcess">WinGetProcess(|)</item>
+						<item name="WinGetState">WinGetState(|)</item>
+						<item name="WinGetText">WinGetText(|)</item>
+						<item name="WinGetTitle">WinGetTitle(|)</item>
+						<item name="WinKill">WinKill(|)</item>
+						<item name="WinList">WinList(|)</item>
+						<item name="WinMenuSelectItem">WinMenuSelectItem(|)</item>
+						<item name="WinMinimizeAll">WinMinimizeAll()</item>
+						<item name="WinMinimizeAllUndo">WinMinimizeAllUndo()</item>
+						<item name="WinMove">WinMove(|)</item>
+						<item name="WinSearchChildren (Option)">Opt("WinSearchChildren", 1)       ;0=no, 1=search children also</item>
+						<item name="WinSetOnTop">WinSetOnTop(|)</item>
+						<item name="WinSetState">WinSetState(|)</item>
+						<item name="WinSetTitle">WinSetTitle(|)</item>
+						<item name="WinSetTrans">WinSetTrans(|)</item>
+						<item name="WinTextMatchMode (Option)">Opt("WinTextMatchMode", 1)        ;1=complete, 2=quick</item>
+						<item name="WinTitleMatchMode (Option)">Opt("WinTitleMatchMode", 1)       ;1=start, 2=subStr, 3=exact, 4=advanced, -1 to -4=Nocase</item>
+						<item name="WinWait">WinWait(|)</item>
+						<item name="WinWaitActive">WinWaitActive(|)</item>
+						<item name="WinWaitClose">WinWaitClose(|)</item>
+						<item name="WinWaitDelay (Option)">Opt("WinWaitDelay", 250)          ;250 milliseconds</item>
+						<item name="WinWaitNotActive">WinWaitNotActive(|)</item>
+						<item name="WinDetectHiddenText (Option)">Opt("WinDetectHiddenText", 0)     ;0=don't detect, 1=do detect</item>
+				</menu>
+
+				<item name="Func OnAutoItStart()">Func OnAutoItStart()\n|\n\tReturn\nEndFunc ;==&gt; OnAutoItStart</item>
+				<item name="Func OnAutoItExit()">Func OnAutoItExit()\n|\n\tReturn\nEndFunc ;==&gt; OnAutoItExit</item>
+				<item name="OnExitFunc (Option)">Opt("OnExitFunc","OnAutoItExit")  ;"OnAutoItExit" called</item>
+		</menu>
+
+<!-- UDF_INCLUDE 1uQBCpPGfQgIV-F971NY -->
+<!-- UDF_USERINCLUDE 1uQBCpPGfQgIV-F971NY -->
+
+		<menu name="Macros">
+				<item name="@CR">@CR</item>
+				<item name="@CRLF">@CRLF</item>
+				<item name="@LF">@LF</item>
+				<item name="@TAB">@TAB</item>
+				<item name="@error">@error</item>
+				<item name="@extended">@extended</item>
+
+				<menu name="AutoIt">
+					<item name="@AutoItExe">@AutoItExe</item>
+					<item name="@AutoItPID">@AutoItPID</item>
+					<item name="@AutoItUnicode">@AutoItUnicode</item>
+					<item name="@AutoItVersion">@AutoItVersion</item>
+					<item name="@COM_EventObj">@COM_EventObj</item>
+					<item name="@Compiled">@Compiled</item>
+					<item name="@GUI_CtrlHandle">@GUI_CtrlHandle</item>
+					<item name="@GUI_CtrlId">@GUI_CtrlId</item>
+					<item name="@GUI_DragFile">@GUI_DragFile</item>
+					<item name="@GUI_DragId">@GUI_DragId</item>
+					<item name="@GUI_DropId">@GUI_DropId</item>
+					<item name="@GUI_WinHandle">@GUI_WinHandle</item>
+					<item name="@HotKeyPressed">@HotKeyPressed</item>
+					<item name="@NumParams">@NumParams</item>
+					<item name="@ScriptDir">@ScriptDir</item>
+					<item name="@ScriptFullPath">@ScriptFullPath</item>
+					<item name="@ScriptLineNumber">@ScriptLineNumber</item>
+					<item name="@ScriptName">@ScriptName</item>
+					<item name="@WorkingDir">@WorkingDir</item>
+					<item name="@error">@error</item>
+					<item name="@exitCode">@exitCode</item>
+					<item name="@exitMethod">@exitMethod</item>
+					<item name="@extended">@extended</item>
+				</menu>
+
+				<menu name="Directories">
+					<item name="@AppDataCommonDir">@AppDataCommonDir</item>
+					<item name="@AppDataDir">@AppDataDir</item>
+					<item name="@CommonFilesDir">@CommonFilesDir</item>
+					<item name="@DesktopCommonDir">@DesktopCommonDir</item>
+					<item name="@DocumentsCommonDir">@DocumentsCommonDir</item>
+					<item name="@FavoritesCommonDir">@FavoritesCommonDir</item>
+					<item name="@FavoritesDir">@FavoritesDir</item>
+					<item name="@HomeDrive">@HomeDrive</item>
+					<item name="@HomePath">@HomePath</item>
+					<item name="@HomeShare">@HomeShare</item>
+					<item name="@MyDocumentsDir">@MyDocumentsDir</item>
+					<item name="@ProgramFilesDir">@ProgramFilesDir</item>
+					<item name="@ProgramsCommonDir">@ProgramsCommonDir</item>
+					<item name="@ProgramsDir">@ProgramsDir</item>
+					<item name="@StartMenuCommonDir">@StartMenuCommonDir</item>
+					<item name="@StartMenuDir">@StartMenuDir</item>
+					<item name="@StartupCommonDir">@StartupCommonDir</item>
+					<item name="@StartupDir">@StartupDir</item>
+					<item name="@SystemDir">@SystemDir</item>
+					<item name="@TempDir">@TempDir</item>
+					<item name="@UserProfileDir">@UserProfileDir</item>
+					<item name="@WindowsDir">@WindowsDir</item>
+					<item name="@WorkingDir">@WorkingDir</item>
+				</menu>
+
+				<menu name="System">
+					<item name="@CPUArch">@CPUArch</item>
+					<item name="@ComSpec">@ComSpec</item>
+					<item name="@ComputerName">@ComputerName</item>
+					<item name="@DesktopDepth">@DesktopDepth</item>
+					<item name="@DesktopDir">@DesktopDir</item>
+					<item name="@DesktopHeight">@DesktopHeight</item>
+					<item name="@DesktopRefresh">@DesktopRefresh</item>
+					<item name="@DesktopWidth">@DesktopWidth</item>
+					<item name="@IPAddress1">@IPAddress1</item>
+					<item name="@IPAddress2">@IPAddress2</item>
+					<item name="@IPAddress3">@IPAddress3</item>
+					<item name="@IPAddress4">@IPAddress4</item>
+					<item name="@KBLayout">@KBLayout</item>
+					<item name="@LogonDNSDomain">@LogonDNSDomain</item>
+					<item name="@LogonDomain">@LogonDomain</item>
+					<item name="@LogonServer">@LogonServer</item>
+					<item name="@MUILang">@MUILang</item>
+					<item name="@OSArch">@OSArch</item>
+					<item name="@OSBuild">@OSBuild</item>
+					<item name="@OSLang">@OSLang</item>
+					<item name="@OSServicePack">@OSServicePack</item>
+					<item name="@OSTYPE">@OSTYPE</item>
+					<item name="@OSVersion">@OSVersion</item>
+					<item name="@ProcessorArch">@ProcessorArch</item>
+					<item name="@UserName">@UserName</item>
+				</menu>
+
+				<menu name="Time and Date">
+					<item name="@HOUR">@HOUR</item>
+					<item name="@MDAY">@MDAY</item>
+					<item name="@MIN">@MIN</item>
+					<item name="@MON">@MON</item>
+					<item name="@SEC">@SEC</item>
+					<item name="@MSEC">@MSEC</item>
+					<item name="@WDAY">@WDAY</item>
+					<item name="@YDAY">@YDAY</item>
+					<item name="@YEAR">@YEAR</item>
+				</menu>
+
+				<menu name="Window">
+					<item name="@SW_DISABLE">@SW_DISABLE</item>
+					<item name="@SW_ENABLE">@SW_ENABLE</item>
+					<item name="@SW_HIDE">@SW_HIDE</item>
+					<item name="@SW_LOCK">@SW_LOCK</item>
+					<item name="@SW_MAXIMIZE">@SW_MAXIMIZE</item>
+					<item name="@SW_MINIMIZE">@SW_MINIMIZE</item>
+					<item name="@SW_RESTORE">@SW_RESTORE</item>
+					<item name="@SW_SHOW">@SW_SHOW</item>
+					<item name="@SW_SHOWDEFAULT">@SW_SHOWDEFAULT</item>
+					<item name="@SW_SHOWMAXIMIZED">@SW_SHOWMAXIMIZED</item>
+					<item name="@SW_SHOWMINIMIZED">@SW_SHOWMINIMIZED</item>
+					<item name="@SW_SHOWMINNOACTIVE">@SW_SHOWMINNOACTIVE</item>
+					<item name="@SW_SHOWNA">@SW_SHOWNA</item>
+					<item name="@SW_SHOWNOACTIVATE">@SW_SHOWNOACTIVATE</item>
+					<item name="@SW_SHOWNORMAL">@SW_SHOWNORMAL</item>
+					<item name="@SW_UNLOCK">@SW_UNLOCK</item>
+				</menu>
+
+				<menu name="Tray">
+					<item name="@TRAY_ID">@TRAY_ID</item>
+					<item name="@TrayIconFlashing">@TrayIconFlashing</item>
+					<item name="@TrayIconVisible">@TrayIconVisible</item>
+				</menu>
+		</menu>
+
+		<menu name="Codes">
+			<menu name="KeyCodes">
+					<item name="{#}">{#}</item>
+					<item name="{+}">{+}</item>
+					<item name="{^}">{^}</item>
+					<item name="{altdown}">{altdown}</item>
+					<item name="{altup}">{altup}</item>
+					<item name="{alt}">{alt}</item>
+					<item name="{appskey}">{appskey}</item>
+					<item name="{asc}">{asc}</item>
+					<item name="{backspace}">{backspace}</item>
+					<item name="{break}">{break}</item>
+					<item name="{browser_back}">{browser_back}</item>
+					<item name="{browser_favorites}">{browser_favorites}</item>
+					<item name="{browser_forward}">{browser_forward}</item>
+					<item name="{browser_home}">{browser_home}</item>
+					<item name="{browser_refresh}">{browser_refresh}</item>
+					<item name="{browser_search}">{browser_search}</item>
+					<item name="{browser_stop}">{browser_stop}</item>
+					<item name="{bs}">{bs}</item>
+					<item name="{capslock}">{capslock}</item>
+					<item name="{ctrldown}">{ctrldown}</item>
+					<item name="{ctrlup}">{ctrlup}</item>
+					<item name="{delete}">{delete}</item>
+					<item name="{del}">{del}</item>
+					<item name="{down}">{down}</item>
+					<item name="{end}">{end}</item>
+					<item name="{enter}">{enter}</item>
+					<item name="{escape}">{escape}</item>
+					<item name="{esc}">{esc}</item>
+					<item name="{f10}">{f10}</item>
+					<item name="{f11}">{f11}</item>
+					<item name="{f12}">{f12}</item>
+					<item name="{f1}">{f1}</item>
+					<item name="{f2}">{f2}</item>
+					<item name="{f3}">{f3}</item>
+					<item name="{f4}">{f4}</item>
+					<item name="{f5}">{f5}</item>
+					<item name="{f6}">{f6}</item>
+					<item name="{f7}">{f7}</item>
+					<item name="{f8}">{f8}</item>
+					<item name="{f9}">{f9}</item>
+					<item name="{home}">{home}</item>
+					<item name="{insert}">{insert}</item>
+					<item name="{ins}">{ins}</item>
+					<item name="{lalt}">{lalt}</item>
+					<item name="{launch_app1}">{launch_app1}</item>
+					<item name="{launch_app2}">{launch_app2}</item>
+					<item name="{launch_mail}">{launch_mail}</item>
+					<item name="{launch_media}">{launch_media}</item>
+					<item name="{lctrl}">{lctrl}</item>
+					<item name="{left}">{left}</item>
+					<item name="{lshift}">{lshift}</item>
+					<item name="{lwindown}">{lwindown}</item>
+					<item name="{lwinup}">{lwinup}</item>
+					<item name="{lwin}">{lwin}</item>
+					<item name="{media_next}">{media_next}</item>
+					<item name="{media_play_pause}">{media_play_pause}</item>
+					<item name="{media_prev}">{media_prev}</item>
+					<item name="{media_stop}">{media_stop}</item>
+					<item name="{numlock}">{numlock}</item>
+					<item name="{numpad0}">{numpad0}</item>
+					<item name="{numpad1}">{numpad1}</item>
+					<item name="{numpad2}">{numpad2}</item>
+					<item name="{numpad3}">{numpad3}</item>
+					<item name="{numpad4}">{numpad4}</item>
+					<item name="{numpad5}">{numpad5}</item>
+					<item name="{numpad6}">{numpad6}</item>
+					<item name="{numpad7}">{numpad7}</item>
+					<item name="{numpad8}">{numpad8}</item>
+					<item name="{numpad9}">{numpad9}</item>
+					<item name="{numpadadd}">{numpadadd}</item>
+					<item name="{numpaddiv}">{numpaddiv}</item>
+					<item name="{numpaddot}">{numpaddot}</item>
+					<item name="{numpadenter}">{numpadenter}</item>
+					<item name="{numpadmult}">{numpadmult}</item>
+					<item name="{numpadsub}">{numpadsub}</item>
+					<item name="{pause}">{pause}</item>
+					<item name="{pgdn}">{pgdn}</item>
+					<item name="{pgup}">{pgup}</item>
+					<item name="{printscreen}">{printscreen}</item>
+					<item name="{ralt}">{ralt}</item>
+					<item name="{rctrl}">{rctrl}</item>
+					<item name="{right}">{right}</item>
+					<item name="{rshift}">{rshift}</item>
+					<item name="{rwindown}">{rwindown}</item>
+					<item name="{rwinup}">{rwinup}</item>
+					<item name="{rwin}">{rwin}</item>
+					<item name="{scrolllock}">{scrolllock}</item>
+					<item name="{shiftdown}">{shiftdown}</item>
+					<item name="{shiftup}">{shiftup}</item>
+					<item name="{sleep}">{sleep}</item>
+					<item name="{space}">{space}</item>
+					<item name="{tab}">{tab}</item>
+					<item name="{up}">{up}</item>
+					<item name="{volume_down}">{volume_down}</item>
+					<item name="{volume_mute}">{volume_mute}</item>
+					<item name="{volume_up}">{volume_up}</item>
+					<item name="{{}">{{}</item>
+					<item name="{}}">{}}</item>
+			</menu>
+
+			<menu name="CLSID List">
+				<item name="Administrative Tools">"::{D20EA4E1-3957-11d2-A40B-0C5020524153}"</item>
+				<item name="Briefcase">"::{85BBD92O-42A0-1O69-A2E4-08002B30309D}"</item>
+				<item name="Control Panel">"::{21EC2O2O-3AEA-1O69-A2DD-08002b30309d}"</item>
+				<item name="Fonts">"::{D20EA4E1-3957-11d2-A40B-0C5020524152}"</item>
+				<item name="History">"::{FF393560-C2A7-11CF-BFF4-444553540000}"</item>
+				<item name="Inbox">"::{00020D75-0000-0000-C000-000000000046}"</item>
+				<item name="Microsoft Network">"::{00028B00-0000-0000-C000-000000000046}"</item>
+				<item name="My Computer">"::{20D04FE0-3AEA-1069-A2D8-08002B30309D}"</item>
+				<item name="My Documents">"::{450D8FBA-AD25-11D0-98A8-0800361B1103}"</item>
+				<item name="My Network Places">"::{208D2C60-3AEA-1069-A2D7-08002B30309D}"</item>
+				<item name="Network Computers">"::{1f4de370-d627-11d1-ba4f-00a0c91eedba}"</item>
+				<item name="Network Connections">"::{7007ACC7-3202-11D1-AAD2-00805FC1270E}"</item>
+				<item name="Printers and Faxes">"::{2227A280-3AEA-1069-A2DE-08002B30309D}"</item>
+				<item name="Programs Folder">"::{7be9d83c-a729-4d97-b5a7-1b7313c39e0a}"</item>
+				<item name="Recycle Bin">"::{645FF040-5081-101B-9F08-00AA002F954E}"</item>
+				<item name="Scanners and Cameras">"::{E211B736-43FD-11D1-9EFB-0000F8757FCD}"</item>
+				<item name="Scheduled Tasks">"::{D6277990-4C6A-11CF-8D87-00AA0060F5BF}"</item>
+				<item name="Start Menu Folder">"::{48e7caab-b918-4e58-a94d-505519c795dc}"</item>
+				<item name="Temporary Internet Files">"::{7BD29E00-76C1-11CF-9DD0-00A0C9034933}"</item>
+				<item name="Web Folders">"::{BDEADF00-C265-11d0-BCED-00A0C90AB50F}"</item>
+			</menu>
+
+			<menu name="ENV Variables">
+<!-- ENV 1uQBCpPGfQgIV-F971NY -->
+				<item name="AllUsersProfile">AllUsersProfile</item>
+				<item name="AppData">AppData</item>
+				<item name="CD">CD</item>
+				<item name="ClientName">ClientName</item>
+				<item name="CmdCmdLine">CmdCmdLine</item>
+				<item name="CmdExtVersion">CmdExtVersion</item>
+				<item name="ComSpec">ComSpec</item>
+				<item name="CommonProgramFiles">CommonProgramFiles</item>
+				<item name="ComputerName">ComputerName</item>
+				<item name="Date">Date</item>
+				<item name="ErrorLevel">ErrorLevel</item>
+				<item name="HomeDrive">HomeDrive</item>
+				<item name="HomePath">HomePath</item>
+				<item name="HomeShare">HomeShare</item>
+				<item name="LogonServer">LogonServer</item>
+				<item name="Number_of_Processors">Number_of_Processors</item>
+				<item name="OS">OS</item>
+				<item name="Os2LibPath">Os2LibPath</item>
+				<item name="Path">Path</item>
+				<item name="PathExt">PathExt</item>
+				<item name="Processor_Architecture">Processor_Architecture</item>
+				<item name="Processor_Identifier">Processor_Identifier</item>
+				<item name="Processor_Level">Processor_Level</item>
+				<item name="Processor_Revision">Processor_Revision</item>
+				<item name="ProgamData">ProgamData</item>
+				<item name="ProgramFiles">ProgramFiles</item>
+				<item name="Prompt">Prompt</item>
+				<item name="Public">Public</item>
+				<item name="Random">Random</item>
+				<item name="SessionName">SessionName</item>
+				<item name="SystemDrive">SystemDrive</item>
+				<item name="SystemRoot">SystemRoot</item>
+				<item name="Temp">Temp</item>
+				<item name="Time">Time</item>
+				<item name="Tmp">Tmp</item>
+				<item name="UserDnsDomain">UserDnsDomain</item>
+				<item name="UserDomain">UserDomain</item>
+				<item name="UserName">UserName</item>
+				<item name="UserProfile">UserProfile</item>
+				<item name="WinBootDir">WinBootDir</item>
+				<item name="WinDir">WinDir</item>
+				<item name="WinStationName">WinStationName</item>
+			</menu>
+
+			<menu name="Windows Message Codes">
+				<item name="WM_ACTIVATE">0x0006</item>
+				<item name="WM_ACTIVATEAPP">0x001C</item>
+				<item name="WM_AFXFIRST">0x0360</item>
+				<item name="WM_AFXLAST">0x037F</item>
+				<item name="WM_APP">0x8000</item>
+				<item name="WM_APPCOMMAND">0x0319</item>
+				<item name="WM_ASKCBFORMATNAME">0x030C</item>
+				<item name="WM_CANCELJOURNAL">0x004B</item>
+				<item name="WM_CANCELMODE">0x001F</item>
+				<item name="WM_CAPTURECHANGED">0x0215</item>
+				<item name="WM_CHANGECBCHAIN">0x030D</item>
+				<item name="WM_CHANGEUISTATE">0x0127</item>
+				<item name="WM_CHAR">0x0102</item>
+				<item name="WM_CHARTOITEM">0x002F</item>
+				<item name="WM_CHILDACTIVATE">0x0022</item>
+				<item name="WM_CLEAR">0x0303</item>
+				<item name="WM_CLOSE">0x0010</item>
+				<item name="WM_COMMAND">0x0111</item>
+				<item name="WM_COMMNOTIFY">0x0044</item>
+				<item name="WM_COMPACTING">0x0041</item>
+				<item name="WM_COMPAREITEM">0x0039</item>
+				<item name="WM_CONTEXTMENU">0x007B</item>
+				<item name="WM_COPY">0x0301</item>
+				<item name="WM_COPYDATA">0x004A</item>
+				<item name="WM_CREATE">0x0001</item>
+				<item name="WM_CTLCOLORBTN">0x0135</item>
+				<item name="WM_CTLCOLORDLG">0x0136</item>
+				<item name="WM_CTLCOLOREDIT">0x0133</item>
+				<item name="WM_CTLCOLORLISTBOX">0x0134</item>
+				<item name="WM_CTLCOLORMSGBOX">0x0132</item>
+				<item name="WM_CTLCOLORSCROLLBAR">0x0137</item>
+				<item name="WM_CTLCOLORSTATIC">0x0138</item>
+				<item name="WM_CUT">0x0300</item>
+				<item name="WM_DEADCHAR">0x0103</item>
+				<item name="WM_DELETEITEM">0x002D</item>
+				<item name="WM_DESTROY">0x0002</item>
+				<item name="WM_DESTROYCLIPBOARD">0x0307</item>
+				<item name="WM_DEVICECHANGE">0x0219</item>
+				<item name="WM_DEVMODECHANGE">0x001B</item>
+				<item name="WM_DISPLAYCHANGE">0x007E</item>
+				<item name="WM_DRAWCLIPBOARD">0x0308</item>
+				<item name="WM_DRAWITEM">0x002B</item>
+				<item name="WM_DROPFILES">0x0233</item>
+				<item name="WM_ENABLE">0x000A</item>
+				<item name="WM_ENDSESSION">0x0016</item>
+				<item name="WM_ENTERIDLE">0x0121</item>
+				<item name="WM_ENTERMENULOOP">0x0211</item>
+				<item name="WM_ENTERSIZEMOVE">0x0231</item>
+				<item name="WM_ERASEBKGND">0x0014</item>
+				<item name="WM_EXITMENULOOP">0x0212</item>
+				<item name="WM_EXITSIZEMOVE">0x0232</item>
+				<item name="WM_FONTCHANGE">0x001D</item>
+				<item name="WM_GETDLGCODE">0x0087</item>
+				<item name="WM_GETFONT">0x0031</item>
+				<item name="WM_GETHOTKEY">0x0033</item>
+				<item name="WM_GETICON">0x007F</item>
+				<item name="WM_GETMINMAXINFO">0x0024</item>
+				<item name="WM_GETOBJECT">0x003D</item>
+				<item name="WM_GETTEXT">0x000D</item>
+				<item name="WM_GETTEXTLENGTH">0x000E</item>
+				<item name="WM_HANDHELDFIRST">0x0358</item>
+				<item name="WM_HANDHELDLAST">0x035F</item>
+				<item name="WM_HELP">0x0053</item>
+				<item name="WM_HOTKEY">0x0312</item>
+				<item name="WM_HSCROLL">0x0114</item>
+				<item name="WM_HSCROLLCLIPBOARD">0x030E</item>
+				<item name="WM_ICONERASEBKGND">0x0027</item>
+				<item name="WM_IME_CHAR">0x0286</item>
+				<item name="WM_IME_COMPOSITION">0x010F</item>
+				<item name="WM_IME_COMPOSITIONFULL">0x0284</item>
+				<item name="WM_IME_CONTROL">0x0283</item>
+				<item name="WM_IME_ENDCOMPOSITION">0x010E</item>
+				<item name="WM_IME_KEYDOWN">0x0290</item>
+				<item name="WM_IME_KEYLAST">0x010F</item>
+				<item name="WM_IME_KEYUP">0x0291</item>
+				<item name="WM_IME_NOTIFY">0x0282</item>
+				<item name="WM_IME_REQUEST">0x0288</item>
+				<item name="WM_IME_SELECT">0x0285</item>
+				<item name="WM_IME_SETCONTEXT">0x0281</item>
+				<item name="WM_IME_STARTCOMPOSITION">0x010D</item>
+				<item name="WM_INITDIALOG">0x0110</item>
+				<item name="WM_INITMENU">0x0116</item>
+				<item name="WM_INITMENUPOPUP">0x0117</item>
+				<item name="WM_INPUT">0x00FF</item>
+				<item name="WM_INPUTLANGCHANGE">0x0051</item>
+				<item name="WM_INPUTLANGCHANGEREQUEST">0x0050</item>
+				<item name="WM_KEYDOWN">0x0100</item>
+				<item name="WM_KEYFIRST">0x0100</item>
+				<item name="WM_KEYLAST">0x0108</item>
+				<item name="WM_KEYLAST">0x0109</item>
+				<item name="WM_KEYUP">0x0101</item>
+				<item name="WM_KILLFOCUS">0x0008</item>
+				<item name="WM_LBUTTONDBLCLK">0x0203</item>
+				<item name="WM_LBUTTONDOWN">0x0201</item>
+				<item name="WM_LBUTTONUP">0x0202</item>
+				<item name="WM_MBUTTONDBLCLK">0x0209</item>
+				<item name="WM_MBUTTONDOWN">0x0207</item>
+				<item name="WM_MBUTTONUP">0x0208</item>
+				<item name="WM_MDIACTIVATE">0x0222</item>
+				<item name="WM_MDICASCADE">0x0227</item>
+				<item name="WM_MDICREATE">0x0220</item>
+				<item name="WM_MDIDESTROY">0x0221</item>
+				<item name="WM_MDIGETACTIVE">0x0229</item>
+				<item name="WM_MDIICONARRANGE">0x0228</item>
+				<item name="WM_MDIMAXIMIZE">0x0225</item>
+				<item name="WM_MDINEXT">0x0224</item>
+				<item name="WM_MDIREFRESHMENU">0x0234</item>
+				<item name="WM_MDIRESTORE">0x0223</item>
+				<item name="WM_MDISETMENU">0x0230</item>
+				<item name="WM_MDITILE">0x0226</item>
+				<item name="WM_MEASUREITEM">0x002C</item>
+				<item name="WM_MENUCHAR">0x0120</item>
+				<item name="WM_MENUCOMMAND">0x0126</item>
+				<item name="WM_MENUDRAG">0x0123</item>
+				<item name="WM_MENUGETOBJECT">0x0124</item>
+				<item name="WM_MENURBUTTONUP">0x0122</item>
+				<item name="WM_MENUSELECT">0x011F</item>
+				<item name="WM_MOUSEACTIVATE">0x0021</item>
+				<item name="WM_MOUSEFIRST">0x0200</item>
+				<item name="WM_MOUSEHOVER">0x02A1</item>
+				<item name="WM_MOUSELAST(2K,XP,2k3)">0x020D</item>
+				<item name="WM_MOUSELAST(95)">0x0209</item>
+				<item name="WM_MOUSELAST(NT4,98)">0x020A</item>
+				<item name="WM_MOUSELEAVE">0x02A3</item>
+				<item name="WM_MOUSEMOVE">0x0200</item>
+				<item name="WM_MOUSEWHEEL">0x020A</item>
+				<item name="WM_MOVE">0x0003</item>
+				<item name="WM_MOVING">0x0216</item>
+				<item name="WM_NCACTIVATE">0x0086</item>
+				<item name="WM_NCCALCSIZE">0x0083</item>
+				<item name="WM_NCCREATE">0x0081</item>
+				<item name="WM_NCDESTROY">0x0082</item>
+				<item name="WM_NCHITTEST">0x0084</item>
+				<item name="WM_NCLBUTTONDBLCLK">0x00A3</item>
+				<item name="WM_NCLBUTTONDOWN">0x00A1</item>
+				<item name="WM_NCLBUTTONUP">0x00A2</item>
+				<item name="WM_NCMBUTTONDBLCLK">0x00A9</item>
+				<item name="WM_NCMBUTTONDOWN">0x00A7</item>
+				<item name="WM_NCMBUTTONUP">0x00A8</item>
+				<item name="WM_NCMOUSEHOVER">0x02A0</item>
+				<item name="WM_NCMOUSELEAVE">0x02A2</item>
+				<item name="WM_NCMOUSEMOVE">0x00A0</item>
+				<item name="WM_NCPAINT">0x0085</item>
+				<item name="WM_NCRBUTTONDBLCLK">0x00A6</item>
+				<item name="WM_NCRBUTTONDOWN">0x00A4</item>
+				<item name="WM_NCRBUTTONUP">0x00A5</item>
+				<item name="WM_NCXBUTTONDBLCLK">0x00AD</item>
+				<item name="WM_NCXBUTTONDOWN">0x00AB</item>
+				<item name="WM_NCXBUTTONUP">0x00AC</item>
+				<item name="WM_NEXTDLGCTL">0x0028</item>
+				<item name="WM_NEXTMENU">0x0213</item>
+				<item name="WM_NOTIFY">0x004E</item>
+				<item name="WM_NOTIFYFORMAT">0x0055</item>
+				<item name="WM_NULL">0x0000</item>
+				<item name="WM_PAINT">0x000F</item>
+				<item name="WM_PAINTCLIPBOARD">0x0309</item>
+				<item name="WM_PAINTICON">0x0026</item>
+				<item name="WM_PALETTECHANGED">0x0311</item>
+				<item name="WM_PALETTEISCHANGING">0x0310</item>
+				<item name="WM_PARENTNOTIFY">0x0210</item>
+				<item name="WM_PASTE">0x0302</item>
+				<item name="WM_PENWINFIRST">0x0380</item>
+				<item name="WM_PENWINLAST">0x038F</item>
+				<item name="WM_POWER">0x0048</item>
+				<item name="WM_POWERBROADCAST">0x0218</item>
+				<item name="WM_PRINT">0x0317</item>
+				<item name="WM_PRINTCLIENT">0x0318</item>
+				<item name="WM_QUERYDRAGICON">0x0037</item>
+				<item name="WM_QUERYENDSESSION">0x0011</item>
+				<item name="WM_QUERYNEWPALETTE">0x030F</item>
+				<item name="WM_QUERYOPEN">0x0013</item>
+				<item name="WM_QUERYUISTATE">0x0129</item>
+				<item name="WM_QUEUESYNC">0x0023</item>
+				<item name="WM_QUIT">0x0012</item>
+				<item name="WM_RBUTTONDBLCLK">0x0206</item>
+				<item name="WM_RBUTTONDOWN">0x0204</item>
+				<item name="WM_RBUTTONUP">0x0205</item>
+				<item name="WM_RENDERALLFORMATS">0x0306</item>
+				<item name="WM_RENDERFORMAT">0x0305</item>
+				<item name="WM_SETCURSOR">0x0020</item>
+				<item name="WM_SETFOCUS">0x0007</item>
+				<item name="WM_SETFONT">0x0030</item>
+				<item name="WM_SETHOTKEY">0x0032</item>
+				<item name="WM_SETICON">0x0080</item>
+				<item name="WM_SETREDRAW">0x000B</item>
+				<item name="WM_SETTEXT">0x000C</item>
+				<item name="WM_SETTINGCHANGE">0x001A</item>
+				<item name="WM_SHOWWINDOW">0x0018</item>
+				<item name="WM_SIZE">0x0005</item>
+				<item name="WM_SIZECLIPBOARD">0x030B</item>
+				<item name="WM_SIZING">0x0214</item>
+				<item name="WM_SPOOLERSTATUS">0x002A</item>
+				<item name="WM_STYLECHANGED">0x007D</item>
+				<item name="WM_STYLECHANGING">0x007C</item>
+				<item name="WM_SYNCPAINT">0x0088</item>
+				<item name="WM_SYSCHAR">0x0106</item>
+				<item name="WM_SYSCOLORCHANGE">0x0015</item>
+				<item name="WM_SYSCOMMAND">0x0112</item>
+				<item name="WM_SYSDEADCHAR">0x0107</item>
+				<item name="WM_SYSKEYDOWN">0x0104</item>
+				<item name="WM_SYSKEYUP">0x0105</item>
+				<item name="WM_TABLET_FIRST">0x02C0</item>
+				<item name="WM_TABLET_LAST">0x02DF</item>
+				<item name="WM_TCARD">0x0052</item>
+				<item name="WM_THEMECHANGED">0x031A</item>
+				<item name="WM_TIMECHANGE">0x001E</item>
+				<item name="WM_TIMER">0x0113</item>
+				<item name="WM_UNDO">0x0304</item>
+				<item name="WM_UNICHAR">0x0109</item>
+				<item name="WM_UNINITMENUPOPUP">0x0125</item>
+				<item name="WM_UPDATEUISTATE">0x0128</item>
+				<item name="WM_USER">0x0400</item>
+				<item name="WM_USERCHANGED">0x0054</item>
+				<item name="WM_VKEYTOITEM">0x002E</item>
+				<item name="WM_VSCROLL">0x0115</item>
+				<item name="WM_VSCROLLCLIPBOARD">0x030A</item>
+				<item name="WM_WINDOWPOSCHANGED">0x0047</item>
+				<item name="WM_WINDOWPOSCHANGING">0x0046</item>
+				<item name="WM_WININICHANGE">0x001A</item>
+				<item name="WM_WTSSESSION_CHANGE">0x02B1</item>
+				<item name="WM_XBUTTONDBLCLK">0x020D</item>
+				<item name="WM_XBUTTONDOWN">0x020B</item>
+				<item name="WM_XBUTTONUP">0x020C</item>
+			</menu>
+
+			<menu name="OSLang Codes">
+				<item name="Afrikaans">436</item>
+				<item name="Albanian">041c</item>
+				<item name="Arabic Saudi Arabia">401</item>
+				<item name="Arabic Iraq">801</item>
+				<item name="Arabic Egypt">0c01</item>
+				<item name="Arabic Libya">1001</item>
+				<item name="Arabic Algeria">1401</item>
+				<item name="Arabic Morocco">1801</item>
+				<item name="Arabic Tunisia">1c01</item>
+				<item name="Arabic Oman">2001</item>
+				<item name="Arabic Yemen">2401</item>
+				<item name="Arabic Syria">2801</item>
+				<item name="Arabic Jordan">2c01</item>
+				<item name="Arabic Lebanon">3001</item>
+				<item name="Arabic Kuwait">3401</item>
+				<item name="Arabic UAE">3801</item>
+				<item name="Arabic Bahrain">3c01</item>
+				<item name="Arabic Qatar">4001</item>
+				<item name="Armenian">042b</item>
+				<item name="Azeri Latin">042c</item>
+				<item name="Azeri Cyrillic">082c</item>
+				<item name="Basque">042d</item>
+				<item name="Belarusian">423</item>
+				<item name="Bulgarian">402</item>
+				<item name="Catalan">403</item>
+				<item name="Chinese Taiwan">404</item>
+				<item name="Chinese PRC">804</item>
+				<item name="Chinese Hong Kong">0c04</item>
+				<item name="Chinese Singapore">1004</item>
+				<item name="Chinese Macau">1404</item>
+				<item name="Croatian">041a</item>
+				<item name="Czech">405</item>
+				<item name="Danish">406</item>
+				<item name="Dutch Standard">413</item>
+				<item name="Dutch Belgian">813</item>
+				<item name="English United States">409</item>
+				<item name="English United Kingdom">809</item>
+				<item name="English Australian">0c09</item>
+				<item name="English Canadian">1009</item>
+				<item name="English New Zealand">1409</item>
+				<item name="English Irish">1809</item>
+				<item name="English South Africa">1c09</item>
+				<item name="English Jamaica">2009</item>
+				<item name="English Caribbean">2409</item>
+				<item name="English Belize">2809</item>
+				<item name="English Trinidad">2c09</item>
+				<item name="English Zimbabwe">3009</item>
+				<item name="English Philippines">3409</item>
+				<item name="Estonian">425</item>
+				<item name="Faeroese">438</item>
+				<item name="Farsi">429</item>
+				<item name="Finnish">040b</item>
+				<item name="French Standard">040c</item>
+				<item name="French Belgian">080c</item>
+				<item name="French Canadian">0c0c</item>
+				<item name="French Swiss">100c</item>
+				<item name="French Luxembourg">140c</item>
+				<item name="French Monaco">180c</item>
+				<item name="Georgian">437</item>
+				<item name="German Standard">407</item>
+				<item name="German Swiss">807</item>
+				<item name="German Austrian">0c07</item>
+				<item name="German Luxembourg">1007</item>
+				<item name="German Liechtenstein">1407</item>
+				<item name="Greek">408</item>
+				<item name="Hebrew">040d</item>
+				<item name="Hindi">439</item>
+				<item name="Hungarian">040e</item>
+				<item name="Icelandic">040f</item>
+				<item name="Indonesian">421</item>
+				<item name="Italian Standard">410</item>
+				<item name="Italian Swiss">810</item>
+				<item name="Japanese">411</item>
+				<item name="Kazakh">043f</item>
+				<item name="Konkani">457</item>
+				<item name="Korean">412</item>
+				<item name="Latvian">426</item>
+				<item name="Lithuanian">427</item>
+				<item name="Macedonian">042f</item>
+				<item name="Malay Malaysia">043e</item>
+				<item name="Malay Brunei Darussalam">083e</item>
+				<item name="Marathi">044e</item>
+				<item name="Norwegian Bokmal">414</item>
+				<item name="Norwegian Nynorsk">814</item>
+				<item name="Polish">415</item>
+				<item name="Portuguese Brazilian">416</item>
+				<item name="Portuguese Standard">816</item>
+				<item name="Romanian">418</item>
+				<item name="Russian">419</item>
+				<item name="Sanskrit">044f</item>
+				<item name="Serbian Latin">081a</item>
+				<item name="Serbian Cyrillic">0c1a</item>
+				<item name="Slovak">041b</item>
+				<item name="Slovenian">424</item>
+				<item name="Spanish Traditional Sort">040a</item>
+				<item name="Spanish Mexican">080a</item>
+				<item name="Spanish Modern Sort">0c0a</item>
+				<item name="Spanish Guatemala">100a</item>
+				<item name="Spanish Costa Rica">140a</item>
+				<item name="Spanish Panama">180a</item>
+				<item name="Spanish Dominican Republic">1c0a</item>
+				<item name="Spanish Venezuela">200a</item>
+				<item name="Spanish Colombia">240a</item>
+				<item name="Spanish Peru">280a</item>
+				<item name="Spanish Argentina">2c0a</item>
+				<item name="Spanish Ecuador">300a</item>
+				<item name="Spanish Chile">340a</item>
+				<item name="Spanish Uruguay">380a</item>
+				<item name="Spanish Paraguay">3c0a</item>
+				<item name="Spanish Bolivia">400a</item>
+				<item name="Spanish El Salvador">440a</item>
+				<item name="Spanish Honduras">480a</item>
+				<item name="Spanish Nicaragua">4c0a</item>
+				<item name="Spanish Puerto Rico">500a</item>
+				<item name="Swahili">441</item>
+				<item name="Swedish">041d</item>
+				<item name="Swedish Finland">081d</item>
+				<item name="Tamil">449</item>
+				<item name="Tatar">444</item>
+				<item name="Thai">041e</item>
+				<item name="Turkish">041f</item>
+				<item name="Ukrainian">422</item>
+				<item name="Urdu">420</item>
+				<item name="Uzbek Latin">443</item>
+				<item name="Uzbek Cyrillic">843</item>
+				<item name="Vietnamese">Vietnamese</item>
+			</menu>
+		</menu>
+
+		<menu name="Include Files">
+				<item name="GUIConstants">#include &lt;GUIConstants.au3&gt;</item>
+				<item name="Include &quot;...&quot; ..." type="named_macro">AutoIt/Include</item>
+				<item name="Include &lt;...&gt; ..." type="named_macro">AutoIt/Include_lib</item>
+<!-- UDF_INCLUDE_LIST 1uQBCpPGfQgIV-F971NY -->
+		</menu>
+
+		<menu name="Directives">
+				<item name="#NoTrayIcon">#NoTrayIcon</item>
+				<item name="#OnAutoItStartRegister">#OnAutoItStartRegister(|)</item>
+				<item name="#RequireAdmin">#RequireAdmin</item>
+				<item name="#endregion">#endregion</item>
+				<item name="#include &lt;...&gt;">#include &lt;|&gt;</item>
+				<item name="#include &quot;...&quot;">#include "|"</item>
+				<item name="#include">#include</item>
+				<item name="#include-once">#include-once</item>
+				<item name="#region">#region</item>
+				<menu name="Comments">
+						<item name="#ce">#ce</item>
+						<item name="#cs">#cs</item>
+						<item name="#comments-end">#comments-end</item>
+						<item name="#comments-start">#comments-start</item>
+				</menu>
+				<menu name="AutoIt3Wrapper">
+					<item name="#AutoIt3Wrapper_Add_Constants">#AutoIt3Wrapper_Add_Constants=</item>
+					<item name="#AutoIt3Wrapper_UseAnsi">#AutoIt3Wrapper_UseAnsi=</item>
+					<item name="#AutoIt3Wrapper_UseX64">#AutoIt3Wrapper_UseX64=</item>
+					<item name="#AutoIt3Wrapper_Version">#AutoIt3Wrapper_Version=</item>
+					<item name="#AutoIt3Wrapper_Run_Debug_Mode">#AutoIt3Wrapper_Run_Debug_Mode=</item>
+					<item name="#AutoIt3Wrapper_Icon">#AutoIt3Wrapper_Icon=</item>
+					<item name="#AutoIt3Wrapper_OutFile">#AutoIt3Wrapper_OutFile=</item>
+					<item name="#AutoIt3Wrapper_OutFile_Type">#AutoIt3Wrapper_OutFile_Type=</item>
+					<item name="#AutoIt3Wrapper_Compression">#AutoIt3Wrapper_Compression=</item>
+					<item name="#AutoIt3Wrapper_UseUpx">#AutoIt3Wrapper_UseUpx=</item>
+					<item name="#AutoIt3Wrapper_Change2CUI">#AutoIt3Wrapper_Change2CUI=</item>
+					<item name="#AutoIt3Wrapper_Res_Comment">#AutoIt3Wrapper_Res_Comment=</item>
+					<item name="#AutoIt3Wrapper_Res_Description">#AutoIt3Wrapper_Res_Description=</item>
+					<item name="#AutoIt3Wrapper_Res_Fileversion">#AutoIt3Wrapper_Res_Fileversion=</item>
+					<item name="#AutoIt3Wrapper_Res_FileVersion_AutoIncrement">#AutoIt3Wrapper_Res_FileVersion_AutoIncrement=</item>
+					<item name="#AutoIt3Wrapper_Res_Language">#AutoIt3Wrapper_Res_Language=</item>
+					<item name="#AutoIt3Wrapper_Res_LegalCopyright">#AutoIt3Wrapper_Res_LegalCopyright=</item>
+					<item name="#AutoIt3Wrapper_Res_SaveSource">#AutoIt3Wrapper_Res_SaveSource=</item>
+					<item name="#AutoIt3Wrapper_res_requestedExecutionLevel">#AutoIt3Wrapper_res_requestedExecutionLevel=</item>
+					<item name="#AutoIt3Wrapper_Res_Field">#AutoIt3Wrapper_Res_Field=</item>
+					<item name="#AutoIt3Wrapper_Res_Icon_Add">#AutoIt3Wrapper_Res_Icon_Add=</item>
+					<item name="#AutoIt3Wrapper_Res_File_Add">#AutoIt3Wrapper_Res_File_Add=</item>
+					<item name="#AutoIt3Wrapper_Run_Tidy">#AutoIt3Wrapper_Run_Tidy=</item>
+					<item name="#AutoIt3Wrapper_Tidy_Stop_OnError">#AutoIt3Wrapper_Tidy_Stop_OnError=</item>
+					<item name="#Tidy_Parameters">#Tidy_Parameters=</item>
+					<item name="#AutoIt3Wrapper_Run_Obfuscator">#AutoIt3Wrapper_Run_Obfuscator=</item>
+					<item name="#Obfuscator_parameters">#obfuscator_parameters</item>
+					<item name="#AutoIt3Wrapper_Run_AU3Check">#AutoIt3Wrapper_Run_AU3Check=</item>
+					<item name="#AutoIt3Wrapper_AU3Check_Parameters">#AutoIt3Wrapper_AU3Check_Parameters=</item>
+					<item name="#AutoIt3Wrapper_AU3Check_Dat">#AutoIt3Wrapper_AU3Check_Dat=</item>
+					<item name="#AutoIt3Wrapper_AU3Check_Stop_OnWarning">#AutoIt3Wrapper_AU3Check_Stop_OnWarning=</item>
+					<item name="#AutoIt3Wrapper_AU3Check_Parameters">#AutoIt3Wrapper_AU3Check_Parameters=</item>
+					<item name="#AutoIt3Wrapper_PlugIn_Funcs">#AutoIt3Wrapper_PlugIn_Funcs=</item>
+					<item name="#AutoIt3Wrapper_Run_cvsWrapper">#AutoIt3Wrapper_Run_cvsWrapper=</item>
+					<item name="#AutoIt3Wrapper_cvsWrapper_Parameters">#AutoIt3Wrapper_cvsWrapper_Parameters=</item>
+					<item name="#AutoIt3Wrapper_Run_Before">#AutoIt3Wrapper_Run_Before=</item>
+					<item name="#AutoIt3Wrapper_Run_After">#AutoIt3Wrapper_Run_After=</item>
+				</menu>
+				<menu name="Obfuscator">
+						<item name="#Obfuscator_off">#Obfuscator_off</item>
+						<item name="#Obfuscator_on">#Obfuscator_on</item>
+						<item name="#Obfuscator_Ignore_Funcs">#Obfuscator_Ignore_Funcs=</item>
+						<item name="#Obfuscator_Ignore_Variables">#Obfuscator_Ignore_Variables=</item>
+						<item name="#Obfuscator_Parameters">#Obfuscator_Parameters=</item>
+				</menu>
+				<menu name="Au3Check">
+						<item name="#forceref">#forceref</item>
+				</menu>
+				<menu name="Tidy">
+						<item name="#Tidy_Parameters">#Tidy_Parameters=</item>
+				</menu>
+		</menu>
+
+		<menu name="Options">
+			<item name="CaretCoordMode">Opt("CaretCoordMode", 1)          ;1=absolute, 0=relative, 2=client</item>
+		<item name="ExpandEnvStrings">Opt("ExpandEnvStrings", 0)        ;0=don't expand, 1=do expand</item>
+		<item name="ExpandVarStrings">Opt("ExpandVarStrings", 0)        ;0=don't expand, 1=do expand</item>
+			 <item name="FtpBinaryMode">Opt("FtpBinaryMode", 1)           ;1=binary, 0=ASCII</item>
+			 <item name="GUICloseOnESC">Opt("GUICloseOnESC", 1)           ;1=ESC  closes, 0=ESC won't close</item>
+				<item name="GUICoordMode">Opt("GUICoordMode", 1)            ;1=absolute, 0=relative, 2=cell</item>
+<item name="GUIDataSeparatorChar">Opt("GUIDataSeparatorChar","||")  ;"||" is the default</item>
+			<item name="GUIOnEventMode">Opt("GUIOnEventMode", 0)          ;0=disabled, 1=OnEvent mode enabled</item>
+			 <item name="GUIResizeMode">Opt("GUIResizeMode", 0)           ;0=no resizing, &lt;1024 special resizing</item>
+		 <item name="GUIEventOptions">Opt("GUIEventOptions",0)          ;0=default, 1=just notification, 2=GuiCtrlRead tab index</item>
+		 <item name="MouseClickDelay">Opt("MouseClickDelay", 10)        ;10 milliseconds</item>
+ <item name="MouseClickDownDelay">Opt("MouseClickDownDelay", 10)    ;10 milliseconds</item>
+ <item name="MouseClickDragDelay">Opt("MouseClickDragDelay", 250)   ;250 milliseconds</item>
+			<item name="MouseCoordMode">Opt("MouseCoordMode", 1)          ;1=absolute, 0=relative, 2=client</item>
+		 <item name="MustDeclareVars">Opt("MustDeclareVars", 0)         ;0=no, 1=require pre-declare</item>
+					<item name="OnExitFunc">Opt("OnExitFunc","OnAutoItExit")  ;"OnAutoItExit" called</item>
+			<item name="PixelCoordMode">Opt("PixelCoordMode", 1)          ;1=absolute, 0=relative, 2=client</item>
+			<item name="SendAttachMode">Opt("SendAttachMode", 0)          ;0=don't attach, 1=do attach</item>
+		<item name="SendCapslockMode">Opt("SendCapslockMode", 1)        ;1=store and restore, 0=don't</item>
+				<item name="SendKeyDelay">Opt("SendKeyDelay", 5)            ;5 milliseconds</item>
+		<item name="SendKeyDownDelay">Opt("SendKeyDownDelay", 1)        ;1 millisecond</item>
+					<item name="TCPTimeout">Opt("TCPTimeout",100)             ;100 milliseconds</item>
+			 <item name="TrayAutoPause">Opt("TrayAutoPause",1)            ;0=no pause, 1=Pause</item>
+			 <item name="TrayIconDebug">Opt("TrayIconDebug", 0)           ;0=no info, 1=debug line info</item>
+				<item name="TrayIconHide">Opt("TrayIconHide", 0)            ;0=show, 1=hide tray icon</item>
+				<item name="TrayMenuMode">Opt("TrayMenuMode",0)             ;0=append, 1=no default menu, 2=no automatic check, 4=menuitemID  not return</item>
+		 <item name="TrayOnEventMode">Opt("TrayOnEventMode",0)          ;0=disable, 1=enable</item>
+ <item name="WinDetectHiddenText">Opt("WinDetectHiddenText", 0)     ;0=don't detect, 1=do detect</item>
+	 <item name="WinSearchChildren">Opt("WinSearchChildren", 1)       ;0=no, 1=search children also</item>
+		<item name="WinTextMatchMode">Opt("WinTextMatchMode", 1)        ;1=complete, 2=quick</item>
+	 <item name="WinTitleMatchMode">Opt("WinTitleMatchMode", 1)       ;1=start, 2=subStr, 3=exact, 4=advanced, -1 to -4=Nocase</item>
+				<item name="WinWaitDelay">Opt("WinWaitDelay", 250)          ;250 milliseconds</item>
+		</menu>
+</menu>
