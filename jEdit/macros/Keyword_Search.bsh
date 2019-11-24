@@ -1,0 +1,31 @@
+/* Keyword Search V2.0
+Tue Mar 14 15:12:19 CET 2017 @633 /Internet-Zeit/
+(c) by Thorsten Willert (thorsten.willert@gmx.de)
+================================================================================
+Based on the plugin "Context Help"
+uses the same filestructur and filenames!
+================================================================================
+Installation:
+
+Add a shortcut to this macro for your keyword-help,
+and put the keyword.bsh to the following directory(s):
+
+%appdata%\jedit\contexthelp\%buffermode%\keyword.bsh
+================================================================================
+*/
+void keyword_search()
+{
+	command = new StringBuffer();
+	command.append( System.getenv("appdata") );
+	command.append( "\\jedit\\contexthelp\\" );
+	command.append( buffer.getMode() );
+	command.append( "\\keyword.bsh" );
+
+	boolean exists = (new File( command.toString() )).exists();
+	if( exists )
+		bg( command.toString() );
+	else
+		Macros.error(view, "KeyWord Helper:\n\nNo \"keyword.bsh\" found for Edit-Mode:\n" + buffer.getMode().toString() );
+
+}
+keyword_search();
