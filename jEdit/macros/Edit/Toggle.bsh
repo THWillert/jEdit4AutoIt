@@ -1,0 +1,95 @@
+/* Toggle V4.0
+Fri Mar 03 12:49:57 CET 2017 @534 /Internet-Zeit/
+by Thorsten Willert (thorsten.willert@gmx.de)
+Macros/*
+================================================================================
+Toggles the word under curser e.g: true / false
+
+Configuration:
+
+%appdata%/jedit/toggle/%buffermode%/toggle.config
+or "universal"-config-file in
+%appdata%/jedit/toggle/default/toggle.config
+================================================================================
+e.g. toggle.config:
+
+true|false
+big|small
+high|low
+
+================================================================================
+*/
+void toggle()
+{
+	sPath = new StringBuffer();
+	sPath.append( System.getenv("appdata") );
+	sPath.append( "\\jedit\\toggle\\" );
+	sPath.append( buffer.getMode() );
+	sPath.append( "\\toggle.config" );
+	File file1 = new File(sPath.toString());
+
+	if ( !file1.exists()  )
+	{
+		sPath = new StringBuffer();
+		sPath.append( System.getenv("appdata") );
+		sPath.append( "\\jedit\\toggle\\default\\toggle.config" );
+	}
+
+	File file = new File(sPath.toString());
+
+	int iPos = textArea.getCaretPosition();
+
+	try {
+		FileReader fr = new FileReader(file);
+		char[] temp = new char[(int) file.length()];
+		fr.read(temp);
+		sInput = new String(temp);
+
+		String[] sData = sInput.split("\\n");
+		String[][] list = new String[2][sData.length];
+		String[] sTemp = new String[2];
+
+		for (i=0; i< sData.length; i++)
+		{
+			if ( sData[i].startsWith("#")) continue;
+
+			sTemp = sData[i].split("\\|");
+			if ( sData[i].length() > 3 )
+			{
+				list[0][i] = sTemp[0].trim();
+				list[1][i] = sTemp[1].trim();
+			}
+		}
+		fr.close();
+
+		textArea.selectWord();
+		sOld = textArea.getSelectedText();
+
+		for ( int i=0;i < list[0].length; i++)
+		{
+			if ( sOld.equalsIgnoreCase( list[0][i] ) )
+			{
+				textArea.setSelectedText(list[1][i]);
+				break;
+			}
+			else if ( sOld.equalsIgnoreCase( list[1][i] ) )
+			{
+				textArea.setSelectedText(list[0][i]);
+				break;
+			}
+		}
+	} catch (FileNotFoundException e1) {
+		Macros.error(view,"No toggle.config-file found in:\n" + sPath.toString());
+	} catch (IOException e2) {
+		e2.printStackTrace();
+	} catch(Exception e) {
+		e.printStackTrace();
+	}
+
+	textArea.setCaretPosition(iPos);
+}
+//==============================================================================
+if(buffer.isReadOnly())
+	Macros.error(view, "Buffer is read-only.");
+else
+	toggle();
