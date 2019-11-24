@@ -1,0 +1,919 @@
+<?xml version="1.0"?>
+<!DOCTYPE MODE SYSTEM "xmode.dtd">
+<!-- AutoItScript mode V4.0 by Thorsten Willert
+
+Sat Mar 04 18:09:48 CET 2017 @756 /Internet-Zeit/
+
+Catalog entry:
+================================================================================
+
+<MODE NAME="autoitscript"	FILE="au3.xml"
+				FILE_NAME_GLOB="*.{au3}"/>
+
+================================================================================
+
+V4.0
+- updated to AutoIt V3.3.14.2
+
+V3.0
+- changed to template version
+
+V2.5
+- updated to AutoIt V3.3.0.0
+
+V2.4
+- added: Excel Management
+
+V2.3 Updated to AutoIt V3.2.13.3
+- added: _GDIPlus_GraphicsFillPolygon
+- added: _GUICtrlTab_ClickTab
+- added: _GUICtrlComboBoxEx_GetUnicode
+- added: _GUICtrlComboBoxEx_SetUnicode
+- added: _Timer_GetIdleTime
+- added: _WinAPI_GetWindowPlacement
+- added: _WinAPI_SetWindowPlacement
+
+V2.2 Updated to AutoIt v3.2.12.0
+
+- added: RunAs
+- added: RunAsWait
+- added: GUISetAccelerators
+- added: StdioClose
+- added: GUICtrlSetDefColor
+- added: GUICtrlSetDefBkColor
+- added: @AutoItUnicode (@Unicode marked as INVALID)
+- removed: RunAsSet (marked as INVALID)
+
+V2.1 (03/30/2008)
+- updated the AutoIt3Wrapper - directives
+
+V2.0
+- updated to the new UDFs
+- added FF.au3
+
+V1.7
+- added: Now %env% and $$strings in strings now highlighted, too.
+	(Options: ExpandEnvStrings, ExpandVarStrings)
+
+V1.65
+- fixed: Added functions from Memory.au3
+
+================================================================================
+-->
+<MODE>
+	<PROPS>
+		<PROPERTY NAME="commentStart" VALUE="#cs" />
+		<PROPERTY NAME="commentEnd" VALUE="#ce" />
+		<PROPERTY NAME="lineComment" VALUE=";" />
+		<PROPERTY NAME="folding" VALUE="indent" />
+		<PROPERTY NAME="wordBreakChars" VALUE=",+-=&lt;&gt;/?^&amp;*" />
+		<PROPERTY NAME="noWordSep" VALUE="_@" />
+		<!--<PROPERTY NAME="indentNextLines"
+			VALUE="\s*(if|do|else|select|switch|while)(.*)"/>-->
+		<PROPERTY NAME="indentNextLines" VALUE="\s*(\b(if|while|for|else|elseif|do|select|case|func|switch))($|\s.*|\(.*)" />
+		<PROPERTY NAME="unindentThisLine" VALUE="\s*(\b(endif|wend|else|elseif|until|endselect|endfunc|endswitch))($|\s.*|\(.*)" />
+		<!--<PROPERTY NAME="electricKeys" VALUE="\s*(\b(endif|wend|else|elseif|until|endselect|endfunc|endswitch))($|\s.*|\(.*)" />-->
+		<PROPERTY NAME="unindentNextLines" VALUE="\s*(\b(endif|wend|else|elseif|until|endselect|break|endfunc|endswitch))($|\s.*|\(.*)" />
+	</PROPS>
+
+	<RULES IGNORE_CASE="TRUE"
+	HIGHLIGHT_DIGITS="TRUE"
+	DIGIT_RE="(0x\p{XDigit}+[lL]?|\d+(e\d*)?[lLdDfF]?)">
+
+<!-- ########################################################################### -->
+
+		<EOL_SPAN TYPE="COMMENT2">;</EOL_SPAN>
+
+		<SPAN TYPE="COMMENT1" NO_LINE_BREAK="FALSE">
+			<BEGIN>#cs</BEGIN>
+			<END>#ce</END>
+		</SPAN>
+		<SPAN TYPE="COMMENT2" NO_LINE_BREAK="FALSE">
+			<BEGIN>#comments-start</BEGIN>
+			<END>#comments-end</END>
+		</SPAN>
+
+		<!-- "Strings" -->
+		<SPAN TYPE="LITERAL1" DELEGATE="STRING1" NO_LINE_BREAK="TRUE">
+			<BEGIN>"</BEGIN>
+			<END>"</END>
+		</SPAN>
+		<!--<SEQ_REGEXP HASH_CHAR="&quot;" DELEGATE="KEYS" TYPE="LITERAL1">(&quot;)((?!\1).|\1{2})*\1</SEQ_REGEXP>-->
+		<!-- 'Strings' -->
+		<SPAN TYPE="LITERAL2" DELEGATE="STRING2" NO_LINE_BREAK="TRUE">
+			<BEGIN>'</BEGIN>
+			<END>'</END>
+		</SPAN>
+		<!--<SEQ_REGEXP HASH_CHAR="'" TYPE="LITERAL2">(')((?!\1).|\1{2})*\1</SEQ_REGEXP>-->
+
+		 <!-- preprocessor statements -->
+		<EOL_SPAN TYPE="MARKUP" DELEGATE="PP" AT_LINE_START="TRUE">#</EOL_SPAN>
+
+		<!-- Own Functions -->
+		<MARK_PREVIOUS EXCLUDE_MATCH="TRUE" TYPE="FUNCTION" MATCH_TYPE="OPERATOR">(</MARK_PREVIOUS>
+
+		<!-- Objects -->
+		<SEQ_REGEXP HASH_CHAR="." TYPE="FUNCTION">\w*[\.][A-Za-z_]+</SEQ_REGEXP>
+
+		<!-- Comparison operators -->
+		<SEQ TYPE="OPERATOR">&lt;</SEQ>
+		<SEQ TYPE="OPERATOR">&lt;=</SEQ>
+		<SEQ TYPE="OPERATOR">&gt;=</SEQ>
+		<SEQ TYPE="OPERATOR">-=</SEQ>
+		<SEQ TYPE="OPERATOR">+=</SEQ>
+		<SEQ TYPE="OPERATOR">&amp;=</SEQ>
+		<SEQ TYPE="OPERATOR">&gt;</SEQ>
+		<SEQ TYPE="OPERATOR">=</SEQ>
+		<SEQ TYPE="OPERATOR">&lt;&gt;</SEQ>
+
+		<!-- Arithmetic operators -->
+		<SEQ TYPE="OPERATOR">+</SEQ>
+		<SEQ TYPE="OPERATOR">-</SEQ>
+		<SEQ TYPE="OPERATOR">*</SEQ>
+		<SEQ TYPE="OPERATOR">/</SEQ>
+		<SEQ TYPE="OPERATOR">\</SEQ>
+		<SEQ TYPE="OPERATOR">^</SEQ>
+
+		<SEQ TYPE="OPERATOR">&amp;</SEQ>
+		<SEQ TYPE="OPERATOR">[</SEQ>
+		<SEQ TYPE="OPERATOR">]</SEQ>
+		<SEQ TYPE="OPERATOR">(</SEQ>
+		<SEQ TYPE="OPERATOR">)</SEQ>
+
+		<!-- Variables -->
+		<SEQ_REGEXP HASH_CHAR="$" TYPE="LITERAL3">[$]{1}[\w]+</SEQ_REGEXP>
+		<!-- Marking a typing error with variables -->
+		<SEQ_REGEXP HASH_CHAR="$" TYPE="INVALID">[$]{2,}[\w]+</SEQ_REGEXP>
+		<SEQ_REGEXP HASH_CHAR="$" TYPE="INVALID">^[ \t]*\$[ \t]*(.*)</SEQ_REGEXP>
+
+		<!-- ;-) -->
+		<SEQ_REGEXP TYPE="INVALID">^[ \t]*[Cc](onst|ONST)\s+[Gg](lobal|LOBAL)</SEQ_REGEXP>
+		<SEQ_REGEXP TYPE="INVALID">^[ \t]*[Cc](onst|ONST)\s+[Ll](ocal|OCAL)</SEQ_REGEXP>
+		<SEQ_REGEXP TYPE="INVALID">^[ \t]*[Es](lse|LSE)\s+[Ii][Fi]</SEQ_REGEXP>
+
+		<IMPORT DELEGATE="SK"/>
+		<IMPORT DELEGATE="MACROS"/>
+
+		<KEYWORDS>
+			<KEYWORD1>ByRef</KEYWORD1>
+			<KEYWORD1>Case</KEYWORD1>
+			<KEYWORD1>Const</KEYWORD1>
+			<KEYWORD1>ContinueCase</KEYWORD1>
+			<KEYWORD1>ContinueLoop</KEYWORD1>
+			<KEYWORD1>Default</KEYWORD1>
+			<KEYWORD1>Dim</KEYWORD1>
+			<KEYWORD1>Do</KEYWORD1>
+			<KEYWORD1>Else</KEYWORD1>
+			<KEYWORD1>ElseIf</KEYWORD1>
+			<KEYWORD1>EndFunc</KEYWORD1>
+			<KEYWORD1>EndIf</KEYWORD1>
+			<KEYWORD1>EndSelect</KEYWORD1>
+			<KEYWORD1>EndSwitch</KEYWORD1>
+			<KEYWORD1>EndWith</KEYWORD1>
+			<KEYWORD1>Enum</KEYWORD1>
+			<KEYWORD1>Exit</KEYWORD1>
+			<KEYWORD1>ExitLoop</KEYWORD1>
+			<KEYWORD1>For</KEYWORD1>
+			<KEYWORD1>Func</KEYWORD1>
+			<KEYWORD1>Global</KEYWORD1>
+			<KEYWORD1>If</KEYWORD1>
+			<KEYWORD1>In</KEYWORD1>
+			<KEYWORD1>Local</KEYWORD1>
+			<KEYWORD1>Next</KEYWORD1>
+			<KEYWORD1>ReDim</KEYWORD1>
+			<KEYWORD1>Return</KEYWORD1>
+			<KEYWORD1>Select</KEYWORD1>
+			<KEYWORD1>Step</KEYWORD1>
+			<KEYWORD1>Switch</KEYWORD1>
+			<KEYWORD1>Then</KEYWORD1>
+			<KEYWORD1>To</KEYWORD1>
+			<KEYWORD1>Until</KEYWORD1>
+			<KEYWORD1>Wend</KEYWORD1>
+			<KEYWORD1>While</KEYWORD1>
+			<KEYWORD1>With</KEYWORD1>
+
+			<!-- Variables -->
+			<MARKUP>global</MARKUP>
+			<MARKUP>local</MARKUP>
+			<MARKUP>dim</MARKUP>
+			<MARKUP>const</MARKUP>
+			<MARKUP>static</MARKUP>
+
+			<!-- Logical Operators -->
+			<OPERATOR>not</OPERATOR>
+			<OPERATOR>or</OPERATOR>
+			<OPERATOR>and</OPERATOR>
+
+			<!-- Constants -->
+			<KEYWORD4>true</KEYWORD4>
+			<KEYWORD4>false</KEYWORD4>
+			<KEYWORD4>null</KEYWORD4>
+
+			<!-- Functions -->
+			<KEYWORD2>Abs</KEYWORD2>
+			<KEYWORD2>ACos</KEYWORD2>
+			<KEYWORD2>AdlibRegister</KEYWORD2>
+			<KEYWORD2>AdlibUnRegister</KEYWORD2>
+			<KEYWORD2>Asc</KEYWORD2>
+			<KEYWORD2>AscW</KEYWORD2>
+			<KEYWORD2>ASin</KEYWORD2>
+			<KEYWORD2>Assign</KEYWORD2>
+			<KEYWORD2>ATan</KEYWORD2>
+			<KEYWORD2>AutoItSetOption</KEYWORD2>
+			<KEYWORD2>AutoItWinGetTitle</KEYWORD2>
+			<KEYWORD2>AutoItWinSetTitle</KEYWORD2>
+			<KEYWORD2>Beep</KEYWORD2>
+			<KEYWORD2>Binary</KEYWORD2>
+			<KEYWORD2>BinaryLen</KEYWORD2>
+			<KEYWORD2>BinaryMid</KEYWORD2>
+			<KEYWORD2>BinaryToString</KEYWORD2>
+			<KEYWORD2>BitAND</KEYWORD2>
+			<KEYWORD2>BitNOT</KEYWORD2>
+			<KEYWORD2>BitOR</KEYWORD2>
+			<KEYWORD2>BitRotate</KEYWORD2>
+			<KEYWORD2>BitShift</KEYWORD2>
+			<KEYWORD2>BitXOR</KEYWORD2>
+			<KEYWORD2>BlockInput</KEYWORD2>
+			<KEYWORD2>Break</KEYWORD2>
+			<KEYWORD2>Call</KEYWORD2>
+			<KEYWORD2>CDTray</KEYWORD2>
+			<KEYWORD2>Ceiling</KEYWORD2>
+			<KEYWORD2>Chr</KEYWORD2>
+			<KEYWORD2>ChrW</KEYWORD2>
+			<KEYWORD2>ClipGet</KEYWORD2>
+			<KEYWORD2>ClipPut</KEYWORD2>
+			<KEYWORD2>ConsoleRead</KEYWORD2>
+			<KEYWORD2>ConsoleWrite</KEYWORD2>
+			<KEYWORD2>ConsoleWriteError</KEYWORD2>
+			<KEYWORD2>ControlClick</KEYWORD2>
+			<KEYWORD2>ControlCommand</KEYWORD2>
+			<KEYWORD2>ControlDisable</KEYWORD2>
+			<KEYWORD2>ControlEnable</KEYWORD2>
+			<KEYWORD2>ControlFocus</KEYWORD2>
+			<KEYWORD2>ControlGetFocus</KEYWORD2>
+			<KEYWORD2>ControlGetHandle</KEYWORD2>
+			<KEYWORD2>ControlGetPos</KEYWORD2>
+			<KEYWORD2>ControlGetText</KEYWORD2>
+			<KEYWORD2>ControlHide</KEYWORD2>
+			<KEYWORD2>ControlListView</KEYWORD2>
+			<KEYWORD2>ControlMove</KEYWORD2>
+			<KEYWORD2>ControlSend</KEYWORD2>
+			<KEYWORD2>ControlSetText</KEYWORD2>
+			<KEYWORD2>ControlShow</KEYWORD2>
+			<KEYWORD2>ControlTreeView</KEYWORD2>
+			<KEYWORD2>Cos</KEYWORD2>
+			<KEYWORD2>Dec</KEYWORD2>
+			<KEYWORD2>DirCopy</KEYWORD2>
+			<KEYWORD2>DirCreate</KEYWORD2>
+			<KEYWORD2>DirGetSize</KEYWORD2>
+			<KEYWORD2>DirMove</KEYWORD2>
+			<KEYWORD2>DirRemove</KEYWORD2>
+			<KEYWORD2>DllCall</KEYWORD2>
+			<KEYWORD2>DllCallAddress</KEYWORD2>
+			<KEYWORD2>DllCallbackFree</KEYWORD2>
+			<KEYWORD2>DllCallbackGetPtr</KEYWORD2>
+			<KEYWORD2>DllCallbackRegister</KEYWORD2>
+			<KEYWORD2>DllClose</KEYWORD2>
+			<KEYWORD2>DllOpen</KEYWORD2>
+			<KEYWORD2>DllStructCreate</KEYWORD2>
+			<KEYWORD2>DllStructGetData</KEYWORD2>
+			<KEYWORD2>DllStructGetPtr</KEYWORD2>
+			<KEYWORD2>DllStructGetSize</KEYWORD2>
+			<KEYWORD2>DllStructSetData</KEYWORD2>
+			<KEYWORD2>DriveGetDrive</KEYWORD2>
+			<KEYWORD2>DriveGetFileSystem</KEYWORD2>
+			<KEYWORD2>DriveGetLabel</KEYWORD2>
+			<KEYWORD2>DriveGetSerial</KEYWORD2>
+			<KEYWORD2>DriveGetType</KEYWORD2>
+			<KEYWORD2>DriveMapAdd</KEYWORD2>
+			<KEYWORD2>DriveMapDel</KEYWORD2>
+			<KEYWORD2>DriveMapGet</KEYWORD2>
+			<KEYWORD2>DriveSetLabel</KEYWORD2>
+			<KEYWORD2>DriveSpaceFree</KEYWORD2>
+			<KEYWORD2>DriveSpaceTotal</KEYWORD2>
+			<KEYWORD2>DriveStatus</KEYWORD2>
+			<KEYWORD2>EnvGet</KEYWORD2>
+			<KEYWORD2>EnvSet</KEYWORD2>
+			<KEYWORD2>EnvUpdate</KEYWORD2>
+			<KEYWORD2>Eval</KEYWORD2>
+			<KEYWORD2>Execute</KEYWORD2>
+			<KEYWORD2>Exp</KEYWORD2>
+			<KEYWORD2>FileChangeDir</KEYWORD2>
+			<KEYWORD2>FileClose</KEYWORD2>
+			<KEYWORD2>FileCopy</KEYWORD2>
+			<KEYWORD2>FileCreateNTFSLink</KEYWORD2>
+			<KEYWORD2>FileCreateShortcut</KEYWORD2>
+			<KEYWORD2>FileDelete</KEYWORD2>
+			<KEYWORD2>FileExists</KEYWORD2>
+			<KEYWORD2>FileFindFirstFile</KEYWORD2>
+			<KEYWORD2>FileFindNextFile</KEYWORD2>
+			<KEYWORD2>FileFlush</KEYWORD2>
+			<KEYWORD2>FileGetAttrib</KEYWORD2>
+			<KEYWORD2>FileGetEncoding</KEYWORD2>
+			<KEYWORD2>FileGetLongName</KEYWORD2>
+			<KEYWORD2>FileGetPos</KEYWORD2>
+			<KEYWORD2>FileGetShortcut</KEYWORD2>
+			<KEYWORD2>FileGetShortName</KEYWORD2>
+			<KEYWORD2>FileGetSize</KEYWORD2>
+			<KEYWORD2>FileGetTime</KEYWORD2>
+			<KEYWORD2>FileGetVersion</KEYWORD2>
+			<KEYWORD2>FileInstall</KEYWORD2>
+			<KEYWORD2>FileMove</KEYWORD2>
+			<KEYWORD2>FileOpen</KEYWORD2>
+			<KEYWORD2>FileOpenDialog</KEYWORD2>
+			<KEYWORD2>FileRead</KEYWORD2>
+			<KEYWORD2>FileReadLine</KEYWORD2>
+			<KEYWORD2>FileReadToArray</KEYWORD2>
+			<KEYWORD2>FileRecycle</KEYWORD2>
+			<KEYWORD2>FileRecycleEmpty</KEYWORD2>
+			<KEYWORD2>FileSaveDialog</KEYWORD2>
+			<KEYWORD2>FileSelectFolder</KEYWORD2>
+			<KEYWORD2>FileSetAttrib</KEYWORD2>
+			<KEYWORD2>FileSetEnd</KEYWORD2>
+			<KEYWORD2>FileSetPos</KEYWORD2>
+			<KEYWORD2>FileSetTime</KEYWORD2>
+			<KEYWORD2>FileWrite</KEYWORD2>
+			<KEYWORD2>FileWriteLine</KEYWORD2>
+			<KEYWORD2>Floor</KEYWORD2>
+			<KEYWORD2>FtpSetProxy</KEYWORD2>
+			<KEYWORD2>FuncName</KEYWORD2>
+			<KEYWORD2>GUICreate</KEYWORD2>
+			<KEYWORD2>GUICtrlCreateAvi</KEYWORD2>
+			<KEYWORD2>GUICtrlCreateButton</KEYWORD2>
+			<KEYWORD2>GUICtrlCreateCheckbox</KEYWORD2>
+			<KEYWORD2>GUICtrlCreateCombo</KEYWORD2>
+			<KEYWORD2>GUICtrlCreateContextMenu</KEYWORD2>
+			<KEYWORD2>GUICtrlCreateDate</KEYWORD2>
+			<KEYWORD2>GUICtrlCreateDummy</KEYWORD2>
+			<KEYWORD2>GUICtrlCreateEdit</KEYWORD2>
+			<KEYWORD2>GUICtrlCreateGraphic</KEYWORD2>
+			<KEYWORD2>GUICtrlCreateGroup</KEYWORD2>
+			<KEYWORD2>GUICtrlCreateIcon</KEYWORD2>
+			<KEYWORD2>GUICtrlCreateInput</KEYWORD2>
+			<KEYWORD2>GUICtrlCreateLabel</KEYWORD2>
+			<KEYWORD2>GUICtrlCreateList</KEYWORD2>
+			<KEYWORD2>GUICtrlCreateListView</KEYWORD2>
+			<KEYWORD2>GUICtrlCreateListViewItem</KEYWORD2>
+			<KEYWORD2>GUICtrlCreateMenu</KEYWORD2>
+			<KEYWORD2>GUICtrlCreateMenuItem</KEYWORD2>
+			<KEYWORD2>GUICtrlCreateMonthCal</KEYWORD2>
+			<KEYWORD2>GUICtrlCreateObj</KEYWORD2>
+			<KEYWORD2>GUICtrlCreatePic</KEYWORD2>
+			<KEYWORD2>GUICtrlCreateProgress</KEYWORD2>
+			<KEYWORD2>GUICtrlCreateRadio</KEYWORD2>
+			<KEYWORD2>GUICtrlCreateSlider</KEYWORD2>
+			<KEYWORD2>GUICtrlCreateTab</KEYWORD2>
+			<KEYWORD2>GUICtrlCreateTabItem</KEYWORD2>
+			<KEYWORD2>GUICtrlCreateTreeView</KEYWORD2>
+			<KEYWORD2>GUICtrlCreateTreeViewItem</KEYWORD2>
+			<KEYWORD2>GUICtrlCreateUpdown</KEYWORD2>
+			<KEYWORD2>GUICtrlDelete</KEYWORD2>
+			<KEYWORD2>GUICtrlGetHandle</KEYWORD2>
+			<KEYWORD2>GUICtrlGetState</KEYWORD2>
+			<KEYWORD2>GUICtrlRead</KEYWORD2>
+			<KEYWORD2>GUICtrlRecvMsg</KEYWORD2>
+			<KEYWORD2>GUICtrlRegisterListViewSort</KEYWORD2>
+			<KEYWORD2>GUICtrlSendMsg</KEYWORD2>
+			<KEYWORD2>GUICtrlSendToDummy</KEYWORD2>
+			<KEYWORD2>GUICtrlSetBkColor</KEYWORD2>
+			<KEYWORD2>GUICtrlSetColor</KEYWORD2>
+			<KEYWORD2>GUICtrlSetCursor</KEYWORD2>
+			<KEYWORD2>GUICtrlSetData</KEYWORD2>
+			<KEYWORD2>GUICtrlSetDefBkColor</KEYWORD2>
+			<KEYWORD2>GUICtrlSetDefColor</KEYWORD2>
+			<KEYWORD2>GUICtrlSetFont</KEYWORD2>
+			<KEYWORD2>GUICtrlSetGraphic</KEYWORD2>
+			<KEYWORD2>GUICtrlSetImage</KEYWORD2>
+			<KEYWORD2>GUICtrlSetLimit</KEYWORD2>
+			<KEYWORD2>GUICtrlSetOnEvent</KEYWORD2>
+			<KEYWORD2>GUICtrlSetPos</KEYWORD2>
+			<KEYWORD2>GUICtrlSetResizing</KEYWORD2>
+			<KEYWORD2>GUICtrlSetState</KEYWORD2>
+			<KEYWORD2>GUICtrlSetStyle</KEYWORD2>
+			<KEYWORD2>GUICtrlSetTip</KEYWORD2>
+			<KEYWORD2>GUIDelete</KEYWORD2>
+			<KEYWORD2>GUIGetCursorInfo</KEYWORD2>
+			<KEYWORD2>GUIGetMsg</KEYWORD2>
+			<KEYWORD2>GUIGetStyle</KEYWORD2>
+			<KEYWORD2>GUIRegisterMsg</KEYWORD2>
+			<KEYWORD2>GUISetAccelerators</KEYWORD2>
+			<KEYWORD2>GUISetBkColor</KEYWORD2>
+			<KEYWORD2>GUISetCoord</KEYWORD2>
+			<KEYWORD2>GUISetCursor</KEYWORD2>
+			<KEYWORD2>GUISetFont</KEYWORD2>
+			<KEYWORD2>GUISetHelp</KEYWORD2>
+			<KEYWORD2>GUISetIcon</KEYWORD2>
+			<KEYWORD2>GUISetOnEvent</KEYWORD2>
+			<KEYWORD2>GUISetState</KEYWORD2>
+			<KEYWORD2>GUISetStyle</KEYWORD2>
+			<KEYWORD2>GUIStartGroup</KEYWORD2>
+			<KEYWORD2>GUISwitch</KEYWORD2>
+			<KEYWORD2>Hex</KEYWORD2>
+			<KEYWORD2>HotKeySet</KEYWORD2>
+			<KEYWORD2>HttpSetProxy</KEYWORD2>
+			<KEYWORD2>HttpSetUserAgent</KEYWORD2>
+			<KEYWORD2>HWnd</KEYWORD2>
+			<KEYWORD2>InetClose</KEYWORD2>
+			<KEYWORD2>InetGet</KEYWORD2>
+			<KEYWORD2>InetGetInfo</KEYWORD2>
+			<KEYWORD2>InetGetSize</KEYWORD2>
+			<KEYWORD2>InetRead</KEYWORD2>
+			<KEYWORD2>IniDelete</KEYWORD2>
+			<KEYWORD2>IniRead</KEYWORD2>
+			<KEYWORD2>IniReadSection</KEYWORD2>
+			<KEYWORD2>IniReadSectionNames</KEYWORD2>
+			<KEYWORD2>IniRenameSection</KEYWORD2>
+			<KEYWORD2>IniWrite</KEYWORD2>
+			<KEYWORD2>IniWriteSection</KEYWORD2>
+			<KEYWORD2>InputBox</KEYWORD2>
+			<KEYWORD2>Int</KEYWORD2>
+			<KEYWORD2>IsAdmin</KEYWORD2>
+			<KEYWORD2>IsArray</KEYWORD2>
+			<KEYWORD2>IsBinary</KEYWORD2>
+			<KEYWORD2>IsBool</KEYWORD2>
+			<KEYWORD2>IsDeclared</KEYWORD2>
+			<KEYWORD2>IsDllStruct</KEYWORD2>
+			<KEYWORD2>IsFloat</KEYWORD2>
+			<KEYWORD2>IsFunc</KEYWORD2>
+			<KEYWORD2>IsHWnd</KEYWORD2>
+			<KEYWORD2>IsInt</KEYWORD2>
+			<KEYWORD2>IsKeyword</KEYWORD2>
+			<KEYWORD2>IsNumber</KEYWORD2>
+			<KEYWORD2>IsObj</KEYWORD2>
+			<KEYWORD2>IsPtr</KEYWORD2>
+			<KEYWORD2>IsString</KEYWORD2>
+			<KEYWORD2>Log</KEYWORD2>
+			<KEYWORD2>MemGetStats</KEYWORD2>
+			<KEYWORD2>Mod</KEYWORD2>
+			<KEYWORD2>MouseClick</KEYWORD2>
+			<KEYWORD2>MouseClickDrag</KEYWORD2>
+			<KEYWORD2>MouseDown</KEYWORD2>
+			<KEYWORD2>MouseGetCursor</KEYWORD2>
+			<KEYWORD2>MouseGetPos</KEYWORD2>
+			<KEYWORD2>MouseMove</KEYWORD2>
+			<KEYWORD2>MouseUp</KEYWORD2>
+			<KEYWORD2>MouseWheel</KEYWORD2>
+			<KEYWORD2>MsgBox</KEYWORD2>
+			<KEYWORD2>Number</KEYWORD2>
+			<KEYWORD2>ObjCreate</KEYWORD2>
+			<KEYWORD2>ObjCreateInterface</KEYWORD2>
+			<KEYWORD2>ObjEvent</KEYWORD2>
+			<KEYWORD2>ObjGet</KEYWORD2>
+			<KEYWORD2>ObjName</KEYWORD2>
+			<KEYWORD2>OnAutoItExitRegister</KEYWORD2>
+			<KEYWORD2>OnAutoItExitUnRegister</KEYWORD2>
+			<KEYWORD2>Ping</KEYWORD2>
+			<KEYWORD2>PixelChecksum</KEYWORD2>
+			<KEYWORD2>PixelGetColor</KEYWORD2>
+			<KEYWORD2>PixelSearch</KEYWORD2>
+			<KEYWORD2>ProcessClose</KEYWORD2>
+			<KEYWORD2>ProcessExists</KEYWORD2>
+			<KEYWORD2>ProcessGetStats</KEYWORD2>
+			<KEYWORD2>ProcessList</KEYWORD2>
+			<KEYWORD2>ProcessSetPriority</KEYWORD2>
+			<KEYWORD2>ProcessWait</KEYWORD2>
+			<KEYWORD2>ProcessWaitClose</KEYWORD2>
+			<KEYWORD2>ProgressOff</KEYWORD2>
+			<KEYWORD2>ProgressOn</KEYWORD2>
+			<KEYWORD2>ProgressSet</KEYWORD2>
+			<KEYWORD2>Ptr</KEYWORD2>
+			<KEYWORD2>Random</KEYWORD2>
+			<KEYWORD2>RegDelete</KEYWORD2>
+			<KEYWORD2>RegEnumKey</KEYWORD2>
+			<KEYWORD2>RegEnumVal</KEYWORD2>
+			<KEYWORD2>RegRead</KEYWORD2>
+			<KEYWORD2>RegWrite</KEYWORD2>
+			<KEYWORD2>Round</KEYWORD2>
+			<KEYWORD2>Run</KEYWORD2>
+			<KEYWORD2>RunAs</KEYWORD2>
+			<KEYWORD2>RunAsWait</KEYWORD2>
+			<KEYWORD2>RunWait</KEYWORD2>
+			<KEYWORD2>Send</KEYWORD2>
+			<KEYWORD2>SendKeepActive</KEYWORD2>
+			<KEYWORD2>SetError</KEYWORD2>
+			<KEYWORD2>SetExtended</KEYWORD2>
+			<KEYWORD2>ShellExecute</KEYWORD2>
+			<KEYWORD2>ShellExecuteWait</KEYWORD2>
+			<KEYWORD2>Shutdown</KEYWORD2>
+			<KEYWORD2>Sin</KEYWORD2>
+			<KEYWORD2>Sleep</KEYWORD2>
+			<KEYWORD2>SoundPlay</KEYWORD2>
+			<KEYWORD2>SoundSetWaveVolume</KEYWORD2>
+			<KEYWORD2>SplashImageOn</KEYWORD2>
+			<KEYWORD2>SplashOff</KEYWORD2>
+			<KEYWORD2>SplashTextOn</KEYWORD2>
+			<KEYWORD2>Sqrt</KEYWORD2>
+			<KEYWORD2>SRandom</KEYWORD2>
+			<KEYWORD2>StatusbarGetText</KEYWORD2>
+			<KEYWORD2>StderrRead</KEYWORD2>
+			<KEYWORD2>StdinWrite</KEYWORD2>
+			<KEYWORD2>StdioClose</KEYWORD2>
+			<KEYWORD2>StdoutRead</KEYWORD2>
+			<KEYWORD2>String</KEYWORD2>
+			<KEYWORD2>StringAddCR</KEYWORD2>
+			<KEYWORD2>StringCompare</KEYWORD2>
+			<KEYWORD2>StringFormat</KEYWORD2>
+			<KEYWORD2>StringFromASCIIArray</KEYWORD2>
+			<KEYWORD2>StringInStr</KEYWORD2>
+			<KEYWORD2>StringIsAlNum</KEYWORD2>
+			<KEYWORD2>StringIsAlpha</KEYWORD2>
+			<KEYWORD2>StringIsASCII</KEYWORD2>
+			<KEYWORD2>StringIsDigit</KEYWORD2>
+			<KEYWORD2>StringIsFloat</KEYWORD2>
+			<KEYWORD2>StringIsInt</KEYWORD2>
+			<KEYWORD2>StringIsLower</KEYWORD2>
+			<KEYWORD2>StringIsSpace</KEYWORD2>
+			<KEYWORD2>StringIsUpper</KEYWORD2>
+			<KEYWORD2>StringIsXDigit</KEYWORD2>
+			<KEYWORD2>StringLeft</KEYWORD2>
+			<KEYWORD2>StringLen</KEYWORD2>
+			<KEYWORD2>StringLower</KEYWORD2>
+			<KEYWORD2>StringMid</KEYWORD2>
+			<KEYWORD2>StringRegExp</KEYWORD2>
+			<KEYWORD2>StringRegExpReplace</KEYWORD2>
+			<KEYWORD2>StringReplace</KEYWORD2>
+			<KEYWORD2>StringReverse</KEYWORD2>
+			<KEYWORD2>StringRight</KEYWORD2>
+			<KEYWORD2>StringSplit</KEYWORD2>
+			<KEYWORD2>StringStripCR</KEYWORD2>
+			<KEYWORD2>StringStripWS</KEYWORD2>
+			<KEYWORD2>StringToASCIIArray</KEYWORD2>
+			<KEYWORD2>StringToBinary</KEYWORD2>
+			<KEYWORD2>StringTrimLeft</KEYWORD2>
+			<KEYWORD2>StringTrimRight</KEYWORD2>
+			<KEYWORD2>StringUpper</KEYWORD2>
+			<KEYWORD2>Tan</KEYWORD2>
+			<KEYWORD2>TCPAccept</KEYWORD2>
+			<KEYWORD2>TCPCloseSocket</KEYWORD2>
+			<KEYWORD2>TCPConnect</KEYWORD2>
+			<KEYWORD2>TCPListen</KEYWORD2>
+			<KEYWORD2>TCPNameToIP</KEYWORD2>
+			<KEYWORD2>TCPRecv</KEYWORD2>
+			<KEYWORD2>TCPSend</KEYWORD2>
+			<KEYWORD2>TCPShutdown, UDPShutdown</KEYWORD2>
+			<KEYWORD2>TCPStartup, UDPStartup</KEYWORD2>
+			<KEYWORD2>TimerDiff</KEYWORD2>
+			<KEYWORD2>TimerInit</KEYWORD2>
+			<KEYWORD2>ToolTip</KEYWORD2>
+			<KEYWORD2>TrayCreateItem</KEYWORD2>
+			<KEYWORD2>TrayCreateMenu</KEYWORD2>
+			<KEYWORD2>TrayGetMsg</KEYWORD2>
+			<KEYWORD2>TrayItemDelete</KEYWORD2>
+			<KEYWORD2>TrayItemGetHandle</KEYWORD2>
+			<KEYWORD2>TrayItemGetState</KEYWORD2>
+			<KEYWORD2>TrayItemGetText</KEYWORD2>
+			<KEYWORD2>TrayItemSetOnEvent</KEYWORD2>
+			<KEYWORD2>TrayItemSetState</KEYWORD2>
+			<KEYWORD2>TrayItemSetText</KEYWORD2>
+			<KEYWORD2>TraySetClick</KEYWORD2>
+			<KEYWORD2>TraySetIcon</KEYWORD2>
+			<KEYWORD2>TraySetOnEvent</KEYWORD2>
+			<KEYWORD2>TraySetPauseIcon</KEYWORD2>
+			<KEYWORD2>TraySetState</KEYWORD2>
+			<KEYWORD2>TraySetToolTip</KEYWORD2>
+			<KEYWORD2>TrayTip</KEYWORD2>
+			<KEYWORD2>UBound</KEYWORD2>
+			<KEYWORD2>UDPBind</KEYWORD2>
+			<KEYWORD2>UDPCloseSocket</KEYWORD2>
+			<KEYWORD2>UDPOpen</KEYWORD2>
+			<KEYWORD2>UDPRecv</KEYWORD2>
+			<KEYWORD2>UDPSend</KEYWORD2>
+			<KEYWORD2>VarGetType</KEYWORD2>
+			<KEYWORD2>WinActivate</KEYWORD2>
+			<KEYWORD2>WinActive</KEYWORD2>
+			<KEYWORD2>WinClose</KEYWORD2>
+			<KEYWORD2>WinExists</KEYWORD2>
+			<KEYWORD2>WinFlash</KEYWORD2>
+			<KEYWORD2>WinGetCaretPos</KEYWORD2>
+			<KEYWORD2>WinGetClassList</KEYWORD2>
+			<KEYWORD2>WinGetClientSize</KEYWORD2>
+			<KEYWORD2>WinGetHandle</KEYWORD2>
+			<KEYWORD2>WinGetPos</KEYWORD2>
+			<KEYWORD2>WinGetProcess</KEYWORD2>
+			<KEYWORD2>WinGetState</KEYWORD2>
+			<KEYWORD2>WinGetText</KEYWORD2>
+			<KEYWORD2>WinGetTitle</KEYWORD2>
+			<KEYWORD2>WinKill</KEYWORD2>
+			<KEYWORD2>WinList</KEYWORD2>
+			<KEYWORD2>WinMenuSelectItem</KEYWORD2>
+			<KEYWORD2>WinMinimizeAll</KEYWORD2>
+			<KEYWORD2>WinMinimizeAllUndo</KEYWORD2>
+			<KEYWORD2>WinMove</KEYWORD2>
+			<KEYWORD2>WinSetOnTop</KEYWORD2>
+			<KEYWORD2>WinSetState</KEYWORD2>
+			<KEYWORD2>WinSetTitle</KEYWORD2>
+			<KEYWORD2>WinSetTrans</KEYWORD2>
+			<KEYWORD2>WinWait</KEYWORD2>
+			<KEYWORD2>WinWaitActive</KEYWORD2>
+			<KEYWORD2>WinWaitClose</KEYWORD2>
+			<KEYWORD2>WinWaitNotActive</KEYWORD2>
+
+<!-- UDFs -->
+<!-- UDF_INCLUDE 1uQBCpPGfQgIV-F971NY -->
+<!-- END UDFs -->
+
+		</KEYWORDS>
+	</RULES>
+
+	<RULES SET="STRING1" DEFAULT="LITERAL1">
+		<IMPORT DELEGATE="SK"/>
+		<IMPORT DELEGATE="STRINGS"/>
+		<IMPORT DELEGATE="MACROS"/>
+	</RULES>
+
+	<RULES SET="STRING2" DEFAULT="LITERAL2">
+		<IMPORT DELEGATE="SK"/>
+		<IMPORT DELEGATE="STRINGS"/>
+		<IMPORT DELEGATE="MACROS"/>
+	</RULES>
+
+	<RULES SET="STRINGS">
+		<!-- Expand ENVs -->
+		<SEQ_REGEXP HASH_CHAR="%" TYPE="LITERAL4">(\%)\w+(\1)</SEQ_REGEXP>
+		<!-- Expand Variables -->
+		<SEQ_REGEXP HASH_CHAR="$" TYPE="LITERAL4">(\$)\w+(\1)</SEQ_REGEXP>
+		<!-- Expand Macros -->
+		<MARK_PREVIOUS EXCLUDE_MATCH="FALSE" TYPE="LITERAL3">@</MARK_PREVIOUS>
+	</RULES>
+
+	<RULES SET="MACROS">
+		<KEYWORDS>
+			<!-- Macros -->
+			<LITERAL3>@AppDataCommonDir</LITERAL3>
+			<LITERAL3>@AppDataDir</LITERAL3>
+			<LITERAL3>@AutoItExe</LITERAL3>
+			<LITERAL3>@AutoItPID</LITERAL3>
+			<LITERAL3>@AutoItVersion</LITERAL3>
+			<LITERAL3>@AutoItX64</LITERAL3>
+			<LITERAL3>@COM_EventObj</LITERAL3>
+			<LITERAL3>@CommonFilesDir</LITERAL3>
+			<LITERAL3>@Compiled</LITERAL3>
+			<LITERAL3>@ComputerName</LITERAL3>
+			<LITERAL3>@ComSpec</LITERAL3>
+			<LITERAL3>@CPUArch</LITERAL3>
+			<LITERAL3>@CR</LITERAL3>
+			<LITERAL3>@CRLF</LITERAL3>
+			<LITERAL3>@DesktopCommonDir</LITERAL3>
+			<LITERAL3>@DesktopDepth</LITERAL3>
+			<LITERAL3>@DesktopDir</LITERAL3>
+			<LITERAL3>@DesktopHeight</LITERAL3>
+			<LITERAL3>@DesktopRefresh</LITERAL3>
+			<LITERAL3>@DesktopWidth</LITERAL3>
+			<LITERAL3>@DocumentsCommonDir</LITERAL3>
+			<LITERAL3>@error</LITERAL3>
+			<LITERAL3>@exitCode</LITERAL3>
+			<LITERAL3>@exitMethod</LITERAL3>
+			<LITERAL3>@extended</LITERAL3>
+			<LITERAL3>@FavoritesCommonDir</LITERAL3>
+			<LITERAL3>@FavoritesDir</LITERAL3>
+			<LITERAL3>@GUI_CtrlHandle</LITERAL3>
+			<LITERAL3>@GUI_CtrlId</LITERAL3>
+			<LITERAL3>@GUI_DragFile</LITERAL3>
+			<LITERAL3>@GUI_DragId</LITERAL3>
+			<LITERAL3>@GUI_DropId</LITERAL3>
+			<LITERAL3>@GUI_WinHandle</LITERAL3>
+			<LITERAL3>@HomeDrive</LITERAL3>
+			<LITERAL3>@HomePath</LITERAL3>
+			<LITERAL3>@HomeShare</LITERAL3>
+			<LITERAL3>@HotKeyPressed</LITERAL3>
+			<LITERAL3>@HOUR</LITERAL3>
+			<LITERAL3>@IPAddress1</LITERAL3>
+			<LITERAL3>@IPAddress2</LITERAL3>
+			<LITERAL3>@IPAddress3</LITERAL3>
+			<LITERAL3>@IPAddress4</LITERAL3>
+			<LITERAL3>@KBLayout</LITERAL3>
+			<LITERAL3>@LF</LITERAL3>
+			<LITERAL3>@LocalAppDataDir</LITERAL3>
+			<LITERAL3>@LogonDNSDomain</LITERAL3>
+			<LITERAL3>@LogonDomain</LITERAL3>
+			<LITERAL3>@LogonServer</LITERAL3>
+			<LITERAL3>@MDAY</LITERAL3>
+			<LITERAL3>@MIN</LITERAL3>
+			<LITERAL3>@MON</LITERAL3>
+			<LITERAL3>@MSEC</LITERAL3>
+			<LITERAL3>@MUILang</LITERAL3>
+			<LITERAL3>@MyDocumentsDir</LITERAL3>
+			<LITERAL3>@NumParams</LITERAL3>
+			<LITERAL3>@OSArch</LITERAL3>
+			<LITERAL3>@OSBuild</LITERAL3>
+			<LITERAL3>@OSLang</LITERAL3>
+			<LITERAL3>@OSServicePack</LITERAL3>
+			<LITERAL3>@OSType</LITERAL3>
+			<LITERAL3>@OSVersion</LITERAL3>
+			<LITERAL3>@ProgramFilesDir</LITERAL3>
+			<LITERAL3>@ProgramsCommonDir</LITERAL3>
+			<LITERAL3>@ProgramsDir</LITERAL3>
+			<LITERAL3>@ScriptDir</LITERAL3>
+			<LITERAL3>@ScriptFullPath</LITERAL3>
+			<LITERAL3>@ScriptLineNumber</LITERAL3>
+			<LITERAL3>@ScriptName</LITERAL3>
+			<LITERAL3>@SEC</LITERAL3>
+			<LITERAL3>@StartMenuCommonDir</LITERAL3>
+			<LITERAL3>@StartMenuDir</LITERAL3>
+			<LITERAL3>@StartupCommonDir</LITERAL3>
+			<LITERAL3>@StartupDir</LITERAL3>
+			<LITERAL3>@SW_DISABLE</LITERAL3>
+			<LITERAL3>@SW_ENABLE</LITERAL3>
+			<LITERAL3>@SW_HIDE</LITERAL3>
+			<LITERAL3>@SW_LOCK</LITERAL3>
+			<LITERAL3>@SW_MAXIMIZE</LITERAL3>
+			<LITERAL3>@SW_MINIMIZE</LITERAL3>
+			<LITERAL3>@SW_RESTORE</LITERAL3>
+			<LITERAL3>@SW_SHOW</LITERAL3>
+			<LITERAL3>@SW_SHOWDEFAULT</LITERAL3>
+			<LITERAL3>@SW_SHOWMAXIMIZED</LITERAL3>
+			<LITERAL3>@SW_SHOWMINIMIZED</LITERAL3>
+			<LITERAL3>@SW_SHOWMINNOACTIVE</LITERAL3>
+			<LITERAL3>@SW_SHOWNA</LITERAL3>
+			<LITERAL3>@SW_SHOWNOACTIVATE</LITERAL3>
+			<LITERAL3>@SW_SHOWNORMAL</LITERAL3>
+			<LITERAL3>@SW_UNLOCK</LITERAL3>
+			<LITERAL3>@SystemDir</LITERAL3>
+			<LITERAL3>@TAB</LITERAL3>
+			<LITERAL3>@TempDir</LITERAL3>
+			<LITERAL3>@TRAY_ID</LITERAL3>
+			<LITERAL3>@TrayIconFlashing</LITERAL3>
+			<LITERAL3>@TrayIconVisible</LITERAL3>
+			<LITERAL3>@UserName</LITERAL3>
+			<LITERAL3>@UserProfileDir</LITERAL3>
+			<LITERAL3>@WDAY</LITERAL3>
+			<LITERAL3>@WindowsDir</LITERAL3>
+			<LITERAL3>@WorkingDir</LITERAL3>
+			<LITERAL3>@YDAY</LITERAL3>
+			<LITERAL3>@YEAR</LITERAL3>
+			<LITERAL3>@extended</LITERAL3>
+		</KEYWORDS>
+	</RULES>
+
+	<RULES SET="SK">
+		<!-- Keycodes -->
+		<SEQ TYPE="MARKUP">{!}</SEQ>
+		<SEQ TYPE="MARKUP">{#}</SEQ>
+		<SEQ TYPE="MARKUP">{+}</SEQ>
+		<SEQ TYPE="MARKUP">{^}</SEQ>
+		<SEQ TYPE="MARKUP">{altdown}</SEQ>
+		<SEQ TYPE="MARKUP">{altup}</SEQ>
+		<SEQ TYPE="MARKUP">{alt}</SEQ>
+		<SEQ TYPE="MARKUP">{appskey}</SEQ>
+		<SEQ TYPE="MARKUP">{asc}</SEQ>
+		<SEQ TYPE="MARKUP">{backspace}</SEQ>
+		<SEQ TYPE="MARKUP">{break}</SEQ>
+		<SEQ TYPE="MARKUP">{browser_back}</SEQ>
+		<SEQ TYPE="MARKUP">{browser_favorites}</SEQ>
+		<SEQ TYPE="MARKUP">{browser_forward}</SEQ>
+		<SEQ TYPE="MARKUP">{browser_home}</SEQ>
+		<SEQ TYPE="MARKUP">{browser_refresh}</SEQ>
+		<SEQ TYPE="MARKUP">{browser_search}</SEQ>
+		<SEQ TYPE="MARKUP">{browser_stop}</SEQ>
+		<SEQ TYPE="MARKUP">{bs}</SEQ>
+		<SEQ TYPE="MARKUP">{capslock}</SEQ>
+		<SEQ TYPE="MARKUP">{ctrldown}</SEQ>
+		<SEQ TYPE="MARKUP">{ctrlup}</SEQ>
+		<SEQ TYPE="MARKUP">{delete}</SEQ>
+		<SEQ TYPE="MARKUP">{del}</SEQ>
+		<SEQ TYPE="MARKUP">{down}</SEQ>
+		<SEQ TYPE="MARKUP">{end}</SEQ>
+		<SEQ TYPE="MARKUP">{enter}</SEQ>
+		<SEQ TYPE="MARKUP">{escape}</SEQ>
+		<SEQ TYPE="MARKUP">{esc}</SEQ>
+		<SEQ TYPE="MARKUP">{f10}</SEQ>
+		<SEQ TYPE="MARKUP">{f11}</SEQ>
+		<SEQ TYPE="MARKUP">{f12}</SEQ>
+		<SEQ TYPE="MARKUP">{f1}</SEQ>
+		<SEQ TYPE="MARKUP">{f2}</SEQ>
+		<SEQ TYPE="MARKUP">{f3}</SEQ>
+		<SEQ TYPE="MARKUP">{f4}</SEQ>
+		<SEQ TYPE="MARKUP">{f5}</SEQ>
+		<SEQ TYPE="MARKUP">{f6}</SEQ>
+		<SEQ TYPE="MARKUP">{f7}</SEQ>
+		<SEQ TYPE="MARKUP">{f8}</SEQ>
+		<SEQ TYPE="MARKUP">{f9}</SEQ>
+		<SEQ TYPE="MARKUP">{home}</SEQ>
+		<SEQ TYPE="MARKUP">{insert}</SEQ>
+		<SEQ TYPE="MARKUP">{ins}</SEQ>
+		<SEQ TYPE="MARKUP">{lalt}</SEQ>
+		<SEQ TYPE="MARKUP">{launch_app1}</SEQ>
+		<SEQ TYPE="MARKUP">{launch_app2}</SEQ>
+		<SEQ TYPE="MARKUP">{launch_mail}</SEQ>
+		<SEQ TYPE="MARKUP">{launch_media}</SEQ>
+		<SEQ TYPE="MARKUP">{lctrl}</SEQ>
+		<SEQ TYPE="MARKUP">{left}</SEQ>
+		<SEQ TYPE="MARKUP">{lshift}</SEQ>
+		<SEQ TYPE="MARKUP">{lwindown}</SEQ>
+		<SEQ TYPE="MARKUP">{lwinup}</SEQ>
+		<SEQ TYPE="MARKUP">{lwin}</SEQ>
+		<SEQ TYPE="MARKUP">{media_next}</SEQ>
+		<SEQ TYPE="MARKUP">{media_play_pause}</SEQ>
+		<SEQ TYPE="MARKUP">{media_prev}</SEQ>
+		<SEQ TYPE="MARKUP">{media_stop}</SEQ>
+		<SEQ TYPE="MARKUP">{numlock}</SEQ>
+		<SEQ TYPE="MARKUP">{numpad0}</SEQ>
+		<SEQ TYPE="MARKUP">{numpad1}</SEQ>
+		<SEQ TYPE="MARKUP">{numpad2}</SEQ>
+		<SEQ TYPE="MARKUP">{numpad3}</SEQ>
+		<SEQ TYPE="MARKUP">{numpad4}</SEQ>
+		<SEQ TYPE="MARKUP">{numpad5}</SEQ>
+		<SEQ TYPE="MARKUP">{numpad6}</SEQ>
+		<SEQ TYPE="MARKUP">{numpad7}</SEQ>
+		<SEQ TYPE="MARKUP">{numpad8}</SEQ>
+		<SEQ TYPE="MARKUP">{numpad9}</SEQ>
+		<SEQ TYPE="MARKUP">{numpadadd}</SEQ>
+		<SEQ TYPE="MARKUP">{numpaddiv}</SEQ>
+		<SEQ TYPE="MARKUP">{numpaddot}</SEQ>
+		<SEQ TYPE="MARKUP">{numpadenter}</SEQ>
+		<SEQ TYPE="MARKUP">{numpadmult}</SEQ>
+		<SEQ TYPE="MARKUP">{numpadsub}</SEQ>
+		<SEQ TYPE="MARKUP">{pause}</SEQ>
+		<SEQ TYPE="MARKUP">{pgdn}</SEQ>
+		<SEQ TYPE="MARKUP">{pgup}</SEQ>
+		<SEQ TYPE="MARKUP">{printscreen}</SEQ>
+		<SEQ TYPE="MARKUP">{ralt}</SEQ>
+		<SEQ TYPE="MARKUP">{rctrl}</SEQ>
+		<SEQ TYPE="MARKUP">{right}</SEQ>
+		<SEQ TYPE="MARKUP">{rshift}</SEQ>
+		<SEQ TYPE="MARKUP">{rwindown}</SEQ>
+		<SEQ TYPE="MARKUP">{rwinup}</SEQ>
+		<SEQ TYPE="MARKUP">{rwin}</SEQ>
+		<SEQ TYPE="MARKUP">{scrolllock}</SEQ>
+		<SEQ TYPE="MARKUP">{shiftdown}</SEQ>
+		<SEQ TYPE="MARKUP">{shiftup}</SEQ>
+		<SEQ TYPE="MARKUP">{sleep}</SEQ>
+		<SEQ TYPE="MARKUP">{space}</SEQ>
+		<SEQ TYPE="MARKUP">{tab}</SEQ>
+		<SEQ TYPE="MARKUP">{up}</SEQ>
+		<SEQ TYPE="MARKUP">{volume_down}</SEQ>
+		<SEQ TYPE="MARKUP">{volume_mute}</SEQ>
+		<SEQ TYPE="MARKUP">{volume_up}</SEQ>
+		<SEQ TYPE="MARKUP">{{}</SEQ>
+		<SEQ TYPE="MARKUP">{}}</SEQ>
+	</RULES>
+
+	<RULES SET="PP" IGNORE_CASE="TRUE"
+		HIGHLIGHT_DIGITS="TRUE"
+		DEFAULT="COMMENT2"
+		DIGIT_RE="(0x\p{XDigit}+[lL]?|\d+(e\d*)?[lLdDfF]?)">
+
+		<SEQ_REGEXP HASH_CHAR="&quot;" TYPE="LITERAL2">(&quot;)((?!\1).|\1{2})*\1</SEQ_REGEXP>
+
+		<SEQ_REGEXP HASH_CHAR="&lt;" TYPE="LITERAL1">(&lt;)(.*&gt;)</SEQ_REGEXP>
+
+		<EOL_SPAN TYPE="COMMENT2">;</EOL_SPAN>
+
+		<!-- Directives -->
+		<KEYWORDS>
+			<MARKUP>include</MARKUP>
+			<MARKUP>include-once</MARKUP>
+			<MARKUP>notrayicon</MARKUP>
+			<MARKUP>OnAutoItStartRegister</MARKUP>
+			<MARKUP>pragma</MARKUP>
+			<MARKUP>requireadmin</MARKUP>
+
+			<!--<MARKUP>AutoIt3Wrapper_allow_decompile</MARKUP>-->
+			<MARKUP>AutoIt3Wrapper_Res_Icon_Add</MARKUP>
+			<MARKUP>AutoIt3Wrapper_Res_Language</MARKUP>
+			<MARKUP>AutoIt3Wrapper_Version</MARKUP>
+			<MARKUP>AutoIt3Wrapper_cvsWrapper_Parameters</MARKUP>
+			<MARKUP>AutoIt3Wrapper_au3check_dat</MARKUP>
+			<MARKUP>AutoIt3Wrapper_au3check_parameters</MARKUP>
+			<MARKUP>AutoIt3Wrapper_au3check_stop_onwarning</MARKUP>
+			<MARKUP>AutoIt3Wrapper_aut2exe</MARKUP>
+			<MARKUP>AutoIt3Wrapper_autoit3</MARKUP>
+			<MARKUP>AutoIt3Wrapper_compression</MARKUP>
+			<MARKUP>AutoIt3Wrapper_icon</MARKUP>
+			<MARKUP>AutoIt3Wrapper_outfile</MARKUP>
+			<MARKUP>AutoIt3Wrapper_outfile_type</MARKUP>
+			<!--<MARKUP>AutoIt3Wrapper_passphrase</MARKUP>-->
+			<MARKUP>AutoIt3Wrapper_plugin_funcs</MARKUP>
+			<MARKUP>AutoIt3Wrapper_prompt</MARKUP>
+			<MARKUP>AutoIt3Wrapper_res_comment</MARKUP>
+			<MARKUP>AutoIt3Wrapper_res_description</MARKUP>
+			<MARKUP>AutoIt3Wrapper_res_field1name</MARKUP>
+			<MARKUP>AutoIt3Wrapper_res_field1value</MARKUP>
+			<MARKUP>AutoIt3Wrapper_res_field2name</MARKUP>
+			<MARKUP>AutoIt3Wrapper_res_field2value</MARKUP>
+			<MARKUP>AutoIt3Wrapper_res_field</MARKUP>
+			<MARKUP>AutoIt3Wrapper_res_fileversion</MARKUP>
+			<MARKUP>AutoIt3Wrapper_res_fileversion_autoincrement</MARKUP>
+			<MARKUP>AutoIt3Wrapper_res_language</MARKUP>
+			<MARKUP>AutoIt3Wrapper_res_legalcopyright</MARKUP>
+			<MARKUP>AutoIt3Wrapper_run_after</MARKUP>
+			<MARKUP>AutoIt3Wrapper_run_au3check</MARKUP>
+			<MARKUP>AutoIt3Wrapper_run_before</MARKUP>
+			<MARKUP>AutoIt3Wrapper_run_cvswrapper</MARKUP>
+			<MARKUP>AutoIt3Wrapper_run_debug_mode</MARKUP>
+			<MARKUP>AutoIt3Wrapper_run_obfuscator</MARKUP>
+			<MARKUP>AutoIt3Wrapper_run_tidy</MARKUP>
+			<MARKUP>AutoIt3Wrapper_tidy_stop_onerror</MARKUP>
+			<MARKUP>AutoIt3Wrapper_useansi</MARKUP>
+			<MARKUP>AutoIt3Wrapper_useupx</MARKUP>
+
+			<MARKUP>endregion</MARKUP>
+			<MARKUP>forceref</MARKUP>
+			<MARKUP>Obfuscator_off</MARKUP>
+			<MARKUP>Obfuscator_on</MARKUP>
+			<MARKUP>Obfuscator_parameters</MARKUP>
+			<MARKUP>region</MARKUP>
+			<MARKUP>tidy_parameters</MARKUP>
+		</KEYWORDS>
+	</RULES>
+</MODE>
