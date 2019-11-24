@@ -1,0 +1,161 @@
+/* Doc_Update
+(c) Wed Apr 15 09:54:52 CEST 2009 @371 /Internet Time/
+by Thorsten Willert <thorsten.willert@gmx.de>
+
+Macros/AutoItScript
+================================================================================
+Updates the description fields:
+
+; Syntax ........:
+; Date ..........:
+
+above the function on the cursor postion.
+================================================================================
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with the jEdit program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+
+*/
+//==============================================================================
+void main(view)
+{
+	int iPos = textArea.getCaretPosition();
+	insertText(makeSyntax());
+	textArea.setCaretPosition(iPos);
+}
+
+//==============================================================================
+	String formatSyntax(String sPara)
+	{
+		String[] saParameters = sPara.split(",");
+		sSyntax = new StringBuffer();
+		sEnd = new StringBuffer();
+		boolean bByRef = false;
+		int iByRef = -1;
+
+		if ( sPara.length() >= 2 )
+		{
+			for(int i=0; i<saParameters.length; i++)
+			{
+				saParameters[i] = saParameters[i].trim();
+				iByRef = saParameters[i].toLowerCase().indexOf("byref");
+
+				if ( iByRef != -1 )
+				{
+					saParameters[i] = saParameters[i].substring(iByRef+6);
+					bByRef = true;
+				}
+				else
+					bByRef = false;
+
+				saParameters[i] = replaceAllStrings(saParameters[i]," ","");
+				saParameters[i] = replaceAllStrings(saParameters[i],"="," = ");
+				if ( !saParameters[i].startsWith("$") ) saParameters[i] = "$" + saParameters[i];
+				if ( bByRef ) saParameters[i] = "ByRef " + saParameters[i];
+			}
+			for(int i=0; i<saParameters.length; i++)
+			{
+				if( saParameters[i].indexOf("=") != -1 )
+				{
+					sSyntax.append("[");
+					sEnd.append("]");
+				}
+				i != 0 ? sSyntax.append(", " + saParameters[i]) : sSyntax.append(saParameters[i]);
+			}
+			sSyntax.append( sEnd.toString() );
+		}
+		return sSyntax.toString();
+	}
+//==============================================================================
+	void insertText(String sSyntax)
+	{
+		sText = new StringBuffer();
+		sDate = new StringBuffer();
+
+		sText.append("; Syntax ........: ");
+		sText.append(sSyntax);
+
+		sDate.append("; Date ..........: ");
+		sDate.append(Calendar.getInstance().getTime().toString());
+
+		for ( i=textArea.getCaretLine() ; i>=0; i--)
+		{
+			sLine = textArea.getLineText(i).toLowerCase().trim();
+			if ( sLine.indexOf("#function#") != -1 || sLine.startsWith("endfunc") ) break;
+			if ( sLine.startsWith("; syntax") )
+			{
+				textArea.setCaretPosition( textArea.getLineStartOffset(i) );
+				textArea.selectLine();
+				textArea.setSelectedText(sText.toString() );
+			};
+			if ( sLine.startsWith("; date") )
+			{
+				textArea.setCaretPosition( textArea.getLineStartOffset(i) );
+				textArea.selectLine();
+				textArea.setSelectedText(sDate.toString() );
+			};
+		};
+	};
+
+//==============================================================================
+	String makeSyntax()
+	{
+		sSyntax = new StringBuffer();
+
+		for ( i=textArea.getCaretLine() ; i>=0; i--)
+		{
+			sFunction = textArea.getLineText(i).trim();
+			sLine = sFunction.toLowerCase();
+			if ( sLine.indexOf("#function#") != -1 || sLine.startsWith("endfunc") ) break;
+			if ( sLine.startsWith("func") )
+			{
+				sSyntax.append( sFunction.trim().substring( 5, sFunction.indexOf("(") ) ) ;
+				sSyntax.append( "(" ) ;
+				sSyntax.append(  formatSyntax( sFunction.substring(sFunction.indexOf("(")+1 , sFunction.lastIndexOf(")") ) ) );
+				sSyntax.append( ")" ) ;
+				break;
+			}
+		};
+		return sSyntax.toString();
+	};
+//==============================================================================
+public final String replaceAllStrings( String source, String search, String replace)
+{
+	if(search.equals(replace)) {
+		return source; //kann ja sein, dass wir nichts tun m�ssen
+	}
+	StringBuffer result = new StringBuffer();
+	int len = search.length();
+	if(len == 0) {
+		return source; //verhindert Endlosschleife bei search.equals("");
+	}
+	int pos = 0; //position
+	int nPos; //next position
+	do {
+		nPos = source.indexOf(search, pos);
+		if(nPos != -1) { //gefunden
+			result.append(source.substring(pos, nPos));
+			result.append(replace);
+			pos = nPos+len;
+		} else { //nicht gefunden
+			result.append(source.substring(pos)); //letzter abschnitt
+		}
+	} while(nPos!= -1);
+	return result.toString();
+}
+//==============================================================================
+if ( buffer.getMode().toString().equals("autoitscript") )
+	main(view);
+else
+	Macros.error(view, "No AutoItScript-file in current buffer!");

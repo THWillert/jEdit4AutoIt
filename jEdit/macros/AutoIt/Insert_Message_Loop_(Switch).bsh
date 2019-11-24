@@ -1,0 +1,77 @@
+/* Insert_Message_Loop (Switch), V1.2
+(c) 2008/20/06, by Thorsten Willert (thorsten.willert@gmx.de)
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+================================================================================
+Macros/AutoItScript
+================================================================================
+Inserts a Message-Loop for AutoIt GUIs, with a variable number of Cases:
+
+While 1 ;Message Loop
+	$nMsg = GUIGetMsg()
+		Switch $nMsg
+			Case $GUI_EVENVT_CLOSE
+				Exit
+			Case $nMsg
+			...
+			Case Else
+
+		EndSwitch
+Wend ;==> Message Loop
+
+================================================================================
+*/
+
+void Insert_Message_Loop(View view)
+{
+	String sNum = "5";
+	if ( AUTOIT_DEF_MSGL != void ) sNum = AUTOIT_DEF_MSGL.toString();
+
+	String nummer=Macros.input(view, "How many Cases?",sNum);
+	if(nummer !=null)
+	{
+		if(eval(nummer)!=null)
+		{
+			textArea.selectLine();
+			text=textArea.getSelectedText();
+
+			if(text==null)text="";
+
+			textArea.setSelectedText(text + "While 1 ;Message Loop\n");
+			textArea.setSelectedText(text + "\tSwitch GUIGetMsg()\n");
+			textArea.setSelectedText(text + "\t\tCase $GUI_EVENT_CLOSE\n");
+			textArea.setSelectedText(text + "\t\t\tExit\n");
+
+			for(i=0 ; i < Integer.parseInt(nummer);i++)
+			{
+				textArea.setSelectedText(text + "\t\tCase \n" + text + "\t\t\t\n");
+			}
+
+			textArea.setSelectedText(text + "\t\tCase Else\n");
+			textArea.setSelectedText(text + "\t\t\t\n" + text + "\tEndSwitch\n");
+			textArea.setSelectedText(text + "Wend ;==> Message Loop\n");
+		}
+	}
+}
+//==============================================================================
+if(buffer.isReadOnly())
+	Macros.error(view, "Buffer is read-only.");
+else
+{
+	if ( buffer.getMode().toString().equals("autoitscript") )
+		Insert_Message_Loop(view);
+	else
+		Macros.error(view, "No AutoItScript-file in current buffer!");
+}

@@ -1,0 +1,89 @@
+/* Function_Goto_Definition V0.31b, (C) by Thorsten Willert
+(c)  2008/20/06, by Thorsten Willert (thorsten.willert@gmx.de)
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+================================================================================
+Macros/AutoItScript
+================================================================================
+Jumps to the definition of the function under the cursor.
+================================================================================
+*/
+
+void main(View view)
+{
+	if ( AUTOIT_PATH != void && AUTOIT_PATH != null )
+	{
+		try {
+			textArea.selectWord();
+			String sFunc = textArea.getSelectedText().toLowerCase();
+
+//==============================================================================
+// Searching in current Buffer ...
+			if ( SearchInBuffer(sFunc) ) return;
+//==============================================================================
+// Searching in AutoIt/Includes ...
+			list = AUTOIT_INCLUDES;
+			int iList = list[0].length;
+			for ( int i=0; i<iList; i++)
+			{
+				if ( list[1][i] == null ) continue;
+				if ( list[1][i].equals( sFunc ) )
+				{
+					jEdit.openFile( view, AUTOIT_PATH + "\\Include\\" + list[0][i] );
+					break;
+				}
+			}
+			if ( SearchInBuffer(sFunc) ) return;
+
+//==============================================================================
+// Searching in User Includes ... ToDo
+
+//==============================================================================
+// Searching in Current dir ... ToDo
+
+		} catch(Exception e) {};
+	}
+	else
+		Macros.error(view, "Error: AUTOIT_PATH not defined!" );
+}
+//==============================================================================
+boolean SearchInBuffer(String sFunc)
+{
+	boolean ret = false;
+
+	oldset = SearchAndReplace.getSearchFileSet();
+
+	SearchAndReplace.setRegexp(true);
+	SearchAndReplace.setReverseSearch(false);
+	SearchAndReplace.setIgnoreCase(true);
+	SearchAndReplace.setAutoWrapAround(true);
+
+	SearchAndReplace.setSearchString("^[ \t]*func[ \t]+" + sFunc);
+	SearchAndReplace.setSearchFileSet(new CurrentBufferSet());
+
+	if ( SearchAndReplace.find(view) ) ret = true;
+
+	textArea.selectNone();
+	textArea.goToStartOfLine(false);
+	SearchAndReplace.setSearchFileSet(oldset);
+
+	return ret;
+}
+//==============================================================================
+if ( buffer.getMode().toString().equals("autoitscript") )
+	main(view);
+else
+	Macros.error(view, "No AutoItScript-file in current buffer!");
+

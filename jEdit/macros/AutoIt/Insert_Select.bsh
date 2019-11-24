@@ -1,0 +1,51 @@
+/* Insert_Select, V2.2
+(c) 2008/20/06, by Thorsten Willert (thorsten.willert@gmx.de)
+
+Macros/AutoItScript
+================================================================================
+Inserts a Select for AutoIt, with a variable number of Cases:
+
+Select 
+	Case
+	...
+	Case Else
+
+EndSelect
+
+================================================================================
+*/
+void Insert_Select(View view)
+{
+	String sNum = "5";
+	if ( AUTOIT_DEF_CASE != void ) sNum = AUTOIT_DEF_CASE.toString();
+
+	String nummer=Macros.input(view, "How many Cases?",sNum);
+	if(nummer !=null)
+	{
+		if(eval(nummer)!=null)
+		{
+			textArea.selectLine();
+			text=textArea.getSelectedText();
+			if(text==null)text="";
+
+			textArea.setSelectedText(text + "Select\n");
+
+			for(i=0 ; i < Integer.parseInt(nummer);i++)
+			{
+				textArea.setSelectedText(text + "\tCase \n" + text + "\t\n");
+			}
+
+			textArea.setSelectedText(text + "\tCase Else\n" + text + "\t\n" + text + "EndSelect\n");
+		}
+	}
+}
+//==============================================================================
+if(buffer.isReadOnly())
+	Macros.error(view, "Buffer is read-only.");
+else
+{
+	if ( buffer.getMode().toString().equals("autoitscript") )
+		Insert_Select(view);
+	else
+		Macros.error(view, "No AutoItScript-file in current buffer!");
+}

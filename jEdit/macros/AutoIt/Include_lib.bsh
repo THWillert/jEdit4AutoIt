@@ -1,0 +1,49 @@
+/* Include Lib V3.1, (C) by Thorsten Willert
+(c) 2008/20/06, by Thorsten Willert (thorsten.willert@gmx.de)
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+================================================================================
+Macros/AutoItScript
+================================================================================
+Opens a file requester in %programfiles"/AutoIt/Include and makes from all
+selected files "#include <...>" directives.
+
+================================================================================
+*/
+void Include(View view)
+{
+	if ( AUTOIT_PATH != void && AUTOIT_PATH != null )
+	{
+		files = FileChooser("",AUTOIT_PATH + "\\Include\\",true);
+		if(files[0] == "") return;
+		for ( i=0; i< files.length; i++)
+		{
+			file = files[i].substring(files[i].lastIndexOf("\\")+1);
+			textArea.insert("#include <" +file + ">\n",true);
+		}
+	}
+	else
+		Macros.error(view, "Error: AUTOIT_PATH not defined!" );
+}
+//==============================================================================
+if(buffer.isReadOnly())
+	Macros.error(view, "Buffer is read-only.");
+else
+{
+	if ( buffer.getMode().toString().equals("autoitscript") )
+		Include(view);
+	else
+		Macros.error(view, "No AutoItScript-file in current buffer!");
+}

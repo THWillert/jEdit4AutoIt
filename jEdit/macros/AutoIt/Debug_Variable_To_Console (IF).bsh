@@ -1,0 +1,71 @@
+/* debug_variable_to_console (If) V1.3
+(c) 2008/20/06, by Thorsten Willert (thorsten.willert@gmx.de)
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+================================================================================
+Macros/AutoIt
+================================================================================
+Macro to create a debug output from the variable at cursor position
+in the next line.
+
+Requires: $__DEBUG__ = True
+
+================================================================================
+
+e.g.:
+Cursor at $ahklhjh + macro =
+
+$ahklhjh = 2 + 3
+If $__DEBUG__ Then ConsoleWrite("DEBUG (" & @ScriptLineNumber & ") ==> $ahklhjh: " & $ahklhjh & @CRLF) ;#__DEBUG__
+
+================================================================================
+
+*/
+void debug_variable_to_console()
+{
+	variable = new StringBuffer();
+
+	buffer.readLock();
+		pos = textArea.getCaretPosition();
+
+		SearchAndReplace.setAutoWrapAround(false);
+		SearchAndReplace.setRegexp(false);
+		SearchAndReplace.setReverseSearch(true);
+		SearchAndReplace.setSearchString("$");
+		SearchAndReplace.setSearchFileSet(new CurrentBufferSet());
+		SearchAndReplace.find(view);
+		textArea.selectWord();
+		variable = textArea.getSelectedText();
+	buffer.readUnlock();
+
+	if (variable != null)
+	{
+		textArea.goToEndOfLine(false);
+		textArea.setSelectedText("\nIf $__DEBUG__ Then ConsoleWrite(\"DEBUG (\" & @ScriptLineNumber-1 & \") ==> " + variable + ": \" & " + variable + " & @CRLF) ;#__DEBUG__" );
+	}
+
+	textArea.setCaretPosition(pos);
+}
+//==============================================================================
+if(buffer.isReadOnly())
+	Macros.error(view, "Buffer is read-only.");
+else
+{
+	if ( buffer.getMode().toString().equals("autoitscript") )
+		debug_variable_to_console();
+	else
+		Macros.error(view, "No AutoItScript-file in current buffer!");
+}
+

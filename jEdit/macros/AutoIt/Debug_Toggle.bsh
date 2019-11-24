@@ -1,0 +1,83 @@
+/* Debug_Toggle (If) V1.0
+(c) 2008/20/05, by Thorsten Willert (thorsten.willert@gmx.de)
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+================================================================================
+Macros/AutoItScript
+================================================================================
+Toggles the variable $__DEBUG__ = True/False
+or inserting it, if it not exists, at the first
+line of script:
+
+	Const Global = $__DEBUG__ = True ;#__DEBUG__
+================================================================================
+*/
+void DebugToggle(View view)
+{
+	oldset = SearchAndReplace.getSearchFileSet();
+	pos = textArea.getCaretPosition();
+
+	SearchAndReplace.setAutoWrapAround(true);
+	SearchAndReplace.setRegexp(true);
+	SearchAndReplace.setReverseSearch(false);
+	SearchAndReplace.setIgnoreCase(true);
+
+	SearchAndReplace.setSearchString("^[ \\t]*[Gg]lobal\\s+[Cc]onst\\s+(\\$__DEBUG__)\\s*=\\s*[Tt](RUE|rue)(.*)");
+	SearchAndReplace.setSearchFileSet(new CurrentBufferSet());
+
+	if ( SearchAndReplace.find(view) )
+	{
+		text = textArea.getSelectedText();
+		text = text.replace("True","False");
+		text = text.replace("true","false");
+		text = text.replace("TRUE","FALSE");
+		textArea.setSelectedText(text);
+		pos = pos+1;
+	}
+	else
+	{
+		SearchAndReplace.setSearchString("^[ \\t]*[Gg]lobal\\s+[Cc]onst\\s+(\\$__DEBUG__)\\s*=\\s*[Ff](ALSE|alse)(.*)");
+		SearchAndReplace.setSearchFileSet(new CurrentBufferSet());
+
+		if ( SearchAndReplace.find(view) )
+		{
+			text = textArea.getSelectedText();
+			text = text.replace("False","True");
+			text = text.replace("false","true");
+			text = text.replace("FALSE","TRUE");
+			textArea.setSelectedText(text);
+			pos = pos-1;
+		}
+		else
+		{
+			textArea.setCaretPosition(0);
+			textArea.setSelectedText("Global Const $__DEBUG__ = True ;#__DEBUG__\n\n");
+			pos= pos+44;
+		}
+	}
+
+	textArea.setCaretPosition(pos);
+	SearchAndReplace.setSearchFileSet(oldset);
+}
+//==============================================================================
+if(buffer.isReadOnly())
+	Macros.error(view, "Buffer is read-only.");
+else
+{
+	if ( buffer.getMode().toString().equals("autoitscript") )
+		DebugToggle(view);
+	else
+		Macros.error(view, "No AutoItScript-file in current buffer!");
+}

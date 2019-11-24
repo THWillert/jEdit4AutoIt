@@ -1,0 +1,387 @@
+/* AutoItScript Funktion Wizard V2.5
+(c) Tue Apr 21 16:21:51 CEST 2009 @640 /Internet Time/
+by Thorsten Willert <thorsten.willert@gmx.de>
+
+Macros/AutoItScript
+================================================================================
+
+V2.5
+Fixed: removed empty line in parameter list
+
+2.4
+Changed: Checked the default informations.
+
+2.3
+Changed: Modified => Date
+
+2.2
+NEW: Added AutoIt version
+
+V2.1
+NEW: Added the default parameters to the discription
+
+V2.0
+NEW: Button "Get from Function": Reads the function declaration at cursor Position.
+
+V1.2
+Window now always "on top"
+================================================================================
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with the jEdit program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+
+*/
+import javax.swing.border.*;
+//==============================================================================
+void main(view)
+{
+	//String sVersion = "AutoItScript Function Wizzard\n2008-2009, (c) by Thorsten Willert\nthorsten.willert@gmx.de";
+	String sTitle = "AutoItScript Function Wizzard V2.5";
+
+	JFrame dialog = new JFrame(sTitle);
+	content = new JPanel(new BorderLayout() );
+	dialog.setContentPane(content);
+	dialog.setResizable(false);
+
+	buttonPanel = new JPanel(new GridLayout(19,2,3,3) );
+	buttonPanel.setBorder( new EmptyBorder(3,3,3,3) );
+/*
+	buttonPanel.add( new JLabel("<html><b>Mode:</b></html>") );
+	ComboMode = new JComboBox();
+	ComboMode.addItem( "Insert" );
+	ComboMode.addItem( "Replace" );
+	ComboMode.addItem( "Get from function" );
+	buttonPanel.add( ComboMode );
+*/
+	buttonPanel.add( new JLabel("Function Type:") );
+	ComboType = new JComboBox();
+	ComboType.addItem( "FUNCTION" );
+	ComboType.addItem( "INTERNAL_USE_ONLY" );
+	buttonPanel.add( ComboType );
+
+	buttonPanel.add( new JLabel("Name:") );
+	NameField = new JTextField();
+	buttonPanel.add( NameField );
+
+	buttonPanel.add( new JLabel("Description:") );
+	DescrField = new JTextField();
+	buttonPanel.add( DescrField );
+
+	ReqCheck = new JCheckBox("Requirement(s):",false);
+	buttonPanel.add( ReqCheck );
+	ReqField = new HistoryTextField("macro.AutoItScript_Function_Wizzard-Requirement");
+	buttonPanel.add( ReqField );
+/*
+	AutoItVersionCheck = new JCheckBox("AutoIt Version",false);
+	buttonPanel.add( AutoItVersionCheck );
+*/
+	buttonPanel.add( new JLabel("AutoIt Version:") );
+	AutoItVersionField = new JTextField( AUTOIT_VERSION.toUpperCase() );
+	buttonPanel.add( AutoItVersionField );
+	AutoItVersionField.setEditable(false);
+
+	buttonPanel.add( new JLabel("Parameter(s):") );
+	ParaField = new JTextField();
+	buttonPanel.add( ParaField );
+
+	/*
+	buttonPanel.add( new JLabel("Syntax:") );
+	SyntaxField = new JTextField();
+	buttonPanel.add( SyntaxField );
+	SyntaxField.setEditable(false);
+	*/
+
+	buttonPanel.add( new JLabel("Return Value Success:") );
+	SuccessField = new HistoryTextField("macro.AutoItScript_Function_Wizzard-Success");
+	buttonPanel.add( SuccessField );
+
+	buttonPanel.add( new JLabel("Return Value Failure:") );
+	FailureField = new HistoryTextField("macro.AutoItScript_Function_Wizzard-Failure");
+	buttonPanel.add( FailureField );
+
+	ErrorCheck = new JCheckBox("Sets @ERROR",false);
+	buttonPanel.add( ErrorCheck );
+	buttonPanel.add( new JLabel("") );
+
+	ExtendedCheck = new JCheckBox("Sets @EXTENDED",false);
+	buttonPanel.add( ExtendedCheck );
+	buttonPanel.add( new JLabel("") );
+
+	buttonPanel.add( new JLabel("Author(s):") );
+	AuthorField = new HistoryTextField("macro.AutoItScript_Function_Wizzard-Author");
+	buttonPanel.add( AuthorField );
+
+	buttonPanel.add( new JLabel("Date:") );
+	ModField = new JTextField( Calendar.getInstance().getTime().toString() );
+	buttonPanel.add( ModField );
+	ModField.setEditable(false);
+
+	VersionCheck = new JCheckBox("Version:",false);
+	buttonPanel.add( VersionCheck );
+	VersionField = new JTextField("1.0");
+	buttonPanel.add( VersionField );
+
+	RemarksCheck = new JCheckBox("Remark(s):",false);
+	buttonPanel.add( RemarksCheck );
+	RemarksField = new JTextField();
+	buttonPanel.add( RemarksField );
+
+	RelCheck = new JCheckBox("Related:",true);
+	buttonPanel.add( RelCheck );
+	RelField = new JTextField();
+	buttonPanel.add( RelField );
+
+	LinkCheck = new JCheckBox("Link:",true);
+	buttonPanel.add( LinkCheck );
+	LinkField = new JTextField();
+	buttonPanel.add( LinkField );
+
+	ExampleCheck = new JCheckBox("Example:",true);
+	buttonPanel.add( ExampleCheck );
+	ComboExample = new JComboBox();
+	ComboExample.addItem( "Yes" );
+	ComboExample.addItem( "No" );
+	buttonPanel.add( ComboExample );
+
+	ReturnCheck = new JCheckBox("<html><i>Insert Return</i></html>",true);
+	buttonPanel.add( ReturnCheck );
+	//AutoCheck = new JCheckBox("<html><b>Auto-Insert</b></html>",true);
+	//buttonPanel.add( AutoCheck );
+	//buttonPanel.add( new JLabel("") );
+	ButtonRead = new JButton("Get from function");
+	buttonPanel.add( ButtonRead );
+	ButtonRead.addActionListener(this);
+
+	ButtonInsert = new JButton("Insert");
+	buttonPanel.add( ButtonInsert );
+	ButtonInsert.addActionListener(this);
+
+	ButtonCancel = new JButton("Cancel");
+	buttonPanel.add( ButtonCancel );
+	ButtonCancel.addActionListener(this);
+
+	content.add(buttonPanel, "Center");
+
+	dialog.pack();
+	dialog.setLocationRelativeTo(view);
+	dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+	dialog.setVisible(true);
+	dialog.setAlwaysOnTop(true);
+
+//==============================================================================
+
+	void actionPerformed(e)
+	{
+		cmd = e.getActionCommand().toLowerCase();
+
+		if(cmd.indexOf("insert") != -1 && NameField.getText().length() > 2)
+		{
+			ModField.setText(Calendar.getInstance().getTime().toString() );
+			formatText();
+			if ( testFunctionName() )insertText();
+		}
+		else if(cmd.indexOf("insert") != -1 && NameField.getText().length() <= 2)
+		{
+			dialog.setAlwaysOnTop(false);
+			Macros.error(view, "no function name!");
+			dialog.setAlwaysOnTop(true);
+		}
+		else if(cmd.indexOf("cancel") != -1)
+			dialog.dispose();
+		else if(cmd.indexOf("func") != -1)
+			readDeclaration();
+	}
+//==============================================================================
+	void formatText()
+	{
+		String[] saParameters = ParaField.getText().split(",");
+		sParameter = new StringBuffer();
+		boolean bByRef = false;
+		int iByRef = -1;
+
+		NameField.setText( 	NameField.getText().trim() );
+		DescrField.setText( 	DescrField.getText().trim() );
+
+		if ( ParaField.getText().length() >= 2 )
+		{
+			for(int i=0; i<saParameters.length; i++)
+			{
+				saParameters[i] = saParameters[i].trim();
+				iByRef = saParameters[i].toLowerCase().indexOf("byref");
+
+				if ( iByRef != -1 )
+				{
+					saParameters[i] = saParameters[i].substring(iByRef+6);
+					bByRef = true;
+				}
+				else
+					bByRef = false;
+
+				saParameters[i] = replaceAllStrings(saParameters[i]," ","");
+				saParameters[i] = replaceAllStrings(saParameters[i],"="," = ");
+				if ( !saParameters[i].startsWith("$") ) saParameters[i] = "$" + saParameters[i];
+				if ( bByRef ) saParameters[i] = "ByRef " + saParameters[i];
+
+				i != 0 ? sParameter.append( ", " + saParameters[i] ) : sParameter.append( saParameters[i] );
+			}
+		}
+		ParaField.setText( 	sParameter.toString() );
+		FailureField.setText( 	FailureField.getText().trim() );
+		SuccessField.setText( 	SuccessField.getText().trim() );
+		AuthorField.setText( 	AuthorField.getText().trim() );
+		VersionField.setText( 	VersionField.getText().trim() );
+		RemarksField.setText( 	RemarksField.getText().trim() );
+		RelField.setText( 	RelField.getText().trim() );
+		LinkField.setText( 	LinkField.getText().trim() );
+	}
+//==============================================================================
+	void insertText()
+	{
+		int iMaxLineLen = buffer.getIntegerProperty("maxLineLen",80);
+		String[] saParameters = ParaField.getText().split(",");
+		sSyntax = new StringBuffer();
+		sEnd = new StringBuffer();
+
+		sText = new StringBuffer();
+		sText.append("\n; #" );
+		sText.append( ComboType.getSelectedItem() );
+		sText.append( "# " );
+		sText.append( stringRepeat( iMaxLineLen-5-ComboType.getSelectedItem().length(), "=") );
+		sText.append("\n; Name ..........: " + NameField.getText() );
+		sText.append("\n; Description ...: " + DescrField.getText() );
+		//if ( AutoItVersionCheck.isSelected() )	sText.append("\n; AutoIt Version : " + AutoItVersionField.getText() );
+		sText.append("\n; AutoIt Version : " + AutoItVersionField.getText() );
+		if ( ReqCheck.isSelected() ) 		sText.append("\n; Requirement(s).: " + ReqField.getText() );
+		for(int i=0; i<saParameters.length; i++)
+		{
+			if( saParameters[i].indexOf("=") != -1 )
+			{
+				sSyntax.append("[");
+				sEnd.append("]");
+			}
+			i != 0 ? sSyntax.append("," + saParameters[i]) : sSyntax.append(saParameters[i]);
+		}
+		sSyntax.append( sEnd.toString() );
+		sText.append("\n; Syntax ........: " + NameField.getText() + "(" + sSyntax.toString() + ")" );
+		sText.append("\n; Parameter(s): .: ");
+		for(int i=0; i<saParameters.length; i++)
+		{
+			saParameters[i] = replaceAllStrings(saParameters[i],"ByRef","");
+
+			if ( saParameters[i].indexOf("=") == -1)
+			{
+				if (i>0) sText.append("\n;                  " );
+				sText.append(saParameters[i].trim() );
+				sText.append( stringRepeat( 12-saParameters[i].trim().length(), " ") );
+				sText.append(" - ");
+			}
+			else
+			{
+				if (i>0) sText.append("\n;                  ");
+				sText.append(saParameters[i].substring(0,saParameters[i].indexOf("=")).trim() );
+				sText.append( stringRepeat( 12-saParameters[i].substring(0,saParameters[i].indexOf("=")).trim().length(), " ") );
+				sText.append(" - Optional: ");
+				sText.append("(Default ");
+				sText.append( saParameters[i].substring( saParameters[i].indexOf("=") ).trim() );
+				sText.append(") :");
+			}
+		}
+		sText.append("\n; Return Value ..: Success      - " + SuccessField.getText() );
+		sText.append("\n;                  Failure      - " + FailureField.getText() );
+		if ( ErrorCheck.isSelected() )		sText.append("\n;                  @ERROR       - " );
+		if ( ExtendedCheck.isSelected() )	sText.append("\n;                  @EXTENDED    - " );
+		sText.append("\n; Author(s) .....: " + AuthorField.getText() );
+		sText.append("\n; Date ..........: " + ModField.getText() );
+		if ( VersionCheck.isSelected() )	sText.append("\n; Version .......: " + VersionField.getText() );
+		if ( RemarksCheck.isSelected() ) 	sText.append("\n; Remark(s) .....: " + RemarksField.getText() );
+		if ( LinkCheck.isSelected() ) 		sText.append("\n; Link ..........: " + LinkField.getText() );
+		if ( RelCheck.isSelected() ) 		sText.append("\n; Related .......: " + RelField.getText() );
+		if ( ExampleCheck.isSelected() ) 	sText.append("\n; Example .......: " + ComboExample.getSelectedItem() );
+		sText.append("\n; " );
+		sText.append( stringRepeat( iMaxLineLen-2, "=") );
+		sText.append("\nFunc " + NameField.getText() + "(" + ParaField.getText() + ")" );
+		sText.append("\n\t\n");
+		if ( ReturnCheck.isSelected() ) 	sText.append("\tReturn\n");
+		sText.append("EndFunc ;==> " + NameField.getText() + "\n" );
+
+		textArea.goToStartOfLine(false);
+		buffer.insert(textArea.getCaretPosition(),sText.toString() );
+
+		AuthorField.addCurrentToHistory();
+		SuccessField.addCurrentToHistory();
+		FailureField.addCurrentToHistory();
+		ReqField.addCurrentToHistory();
+	}
+//==============================================================================
+
+	void readDeclaration()
+	{
+		int iPos = textArea.getCaretPosition();
+
+		textArea.selectLine();
+		String sFunction = textArea.getSelectedText();
+
+		if ( sFunction.toLowerCase().trim().startsWith("func") )
+		{
+			NameField.setText( sFunction.trim().substring( 5, sFunction.indexOf("(") ) );
+			ParaField.setText( sFunction.substring(sFunction.indexOf("(")+1 , sFunction.lastIndexOf(")") ) );
+			ReturnCheck.setSelected(false);
+		}
+
+		textArea.setCaretPosition(iPos);
+	};
+
+
+//==============================================================================
+	boolean testFunctionName()
+	{
+		return true;
+	}
+}
+//==============================================================================
+public final String stringRepeat(int n, String s) {
+	StringBuffer sp = new StringBuffer();
+	for (int i=0; i<n ; i++) sp.append(s);
+	return sp.toString();
+};
+//==============================================================================
+public final String replaceAllStrings( String source, String search, String replace)
+{
+	if(search.equals(replace)) {
+		return source; //kann ja sein, dass wir nichts tun müssen
+	}
+	StringBuffer result = new StringBuffer();
+	int len = search.length();
+	if(len == 0) {
+		return source; //verhindert Endlosschleife bei search.equals("");
+	}
+	int pos = 0; //position
+	int nPos; //next position
+	do {
+		nPos = source.indexOf(search, pos);
+		if(nPos != -1) { //gefunden
+			result.append(source.substring(pos, nPos));
+			result.append(replace);
+			pos = nPos+len;
+		} else { //nicht gefunden
+			result.append(source.substring(pos)); //letzter abschnitt
+		}
+	} while(nPos!= -1);
+	return result.toString();
+}
+//==============================================================================
+if ( buffer.getMode().toString().equals("autoitscript") )
+	main(view);
+else
+	Macros.error(view, "No AutoItScript-file in current buffer!");

@@ -1,0 +1,84 @@
+/* Open_Include V3.1, (C) by Thorsten Willert
+(c) 2008/20/06, by Thorsten Willert (thorsten.willert@gmx.de)
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+================================================================================
+Macros/AutoItScript
+================================================================================
+Opens the include file after the #include directive from the current line in a
+new buffer.
+
+It searches files in:
+1. %programfiles%/AutoIt/Include
+2. Directory from the file in the buffer.
+3. User include-dirs from registry
+================================================================================
+*/
+
+void Open_Include(View view)
+{
+	if ( AUTOIT_PATH != void && AUTOIT_PATH != null )
+	{
+		int iPos = textArea.getCaretPosition();
+		textArea.selectLine();
+		try {
+			sLine = textArea.getSelectedText().trim();
+
+			// Searching only for files if there's an #include-directive
+			if ( sLine.toUpperCase().startsWith("#INCLUDE") )
+			{
+				// Extracting filename from line
+				sFile  = sLine.substring(9).replaceAll("[<>\"]","").trim();
+				// Current file-dir
+				sPath  = buffer.getDirectory();
+				// File in AutoIt Include-Dir
+				sFile1 = AUTOIT_PATH + "\\Include\\" + sFile;
+				// File in current file-dir
+				sFile2 = sPath + "\\" + sFile;
+
+				textArea.setCaretPosition(iPos);
+
+				if( new File( sFile1 ).exists() )				// AutoIt/Includes
+					jEdit.openFile( view, sFile1 );
+				else if (new File( sFile2 ).exists() )			// Current dir
+					jEdit.openFile( view, sFile2 );
+				else if ( AUTOIT_INCPATH.getClass().isArray() && AUTOIT_INCPATH[0] != null ) // User Includes
+				{
+					for (int i=0; i< AUTOIT_INCPATH.length; i++)
+					{
+						sFile3 = AUTOIT_INCPATH[i] + "\\" + sFile;
+						if ( new File( sFile3 ).exists() )
+						{
+							jEdit.openFile( view, sFile3 );
+							break;
+						}
+					}
+				}
+				else
+					Macros.error(view,"Include-File not found:\n\n" + sFile1 + "\nOR\n" + sFile2);
+			}
+			else
+				textArea.setCaretPosition(iPos);
+		} catch(Exception e) {};
+	}
+	else
+		Macros.error(view, "Error: AUTOIT_PATH not defined!" );
+}
+//==============================================================================
+if ( buffer.getMode().toString().equals("autoitscript") )
+	Open_Include(view);
+else
+	Macros.error(view, "No AutoItScript-file in current buffer!");
+

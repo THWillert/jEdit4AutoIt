@@ -1,0 +1,404 @@
+/* PP_AutoIt.bsh V0.0.0.14 (Preprozessor for AutoIt), by Thorsten Willert
+thorsten.willert@gmx.de
+Wed May 13 20:26:55 CEST 2009 @810 /Internet Time/
+
+V0.0.0.14
+- added: automatic undo on errors
+- fixed: error with #ifdef structure
+
+v0.0.0.13
+- added: more error checks for macro definition
+- changend: regex for: a = ( b ? c : d)
+- fixed: line number in error messages
+
+V0.0.0.12
+- added: check for read only buffer
+- optimized code
+
+V0.0.0.11
+- added: !( for Not
+- changed: Now you can't override the constants like __DATE__
+- optimized code
+
+V0.0.0.10
+- added: c=a%b c=Mod(a,b)
+- added: !b=Not b
+- added: For i : Array=For i=0 To UBound(Array)-1
+
+V0.0.0.9
+- added: macro __DATE__
+- fixed: errors with >>, << and ~
+- optimized code
+
+//==============================================================================
+#define const
+or
+#define macro definition
+e.g.:
+#define macro anything_without_spaces
+#define macro "a string"
+//==============================================================================
+#undefine or #undef
+removes a macro defined with #define
+//==============================================================================
+#ifdef
+
+#elif
+
+#else
+
+#endif
+//==============================================================================
+Constants:
+__TIME__	=	current time
+__DATE__	=	current date
+__DATE_AND_TIME__=	current date and time
+__NAME__	=	file name with path
+__FILE__	=	buffer(file)name
+__AUTOIT_VERSION__=	version of AutoIt
+__AUTOIT_BETAVERSION__=beta version of AutoIt
+//==============================================================================
+Replaces:
+$i++	=	$i +=1
+
+$i--	=	$i -=1
+
+var=(bed ? var 1 : var2) =
+	IF bed THEN
+		var=var1
+	ELSE
+		var=var2
+	ENDIF
+bed ? a1 : a2 =
+	IF bed THEN
+		a1
+	ELSE
+		a2
+	ENDIF
+<<	=	BitShift
+>>	=	BitShift
+~	=	BitNot
+!	=	Not
+%	=	Mod
+
+For $i : Array =
+For $i = 0 To UBound(Array)-1
+*/
+
+//==============================================================================
+import java.util.regex.*;
+import java.text.SimpleDateFormat;
+
+//==============================================================================
+
+ArrayList alDefine=new ArrayList(64);
+ArrayList alDefineDef=new ArrayList(64);
+
+void pp(View view)
+{
+	try{
+		addConst();
+
+		if(buffer.isDirty()){
+			buffer.save(view,null);
+			VFSManager.waitForRequests();
+		}
+
+		Search = SearchAndReplace.getSearchFileSet();
+		SearchAndReplace.setBeanShellReplace(false);
+
+		if(define() && ifdef() ){
+			removeStatements();
+			replaceDefine();
+			shortcuts();
+		}
+		else
+		{
+			if(buffer.insideCompoundEdit())buffer.endCompoundEdit(); // macro wrappper
+			buffer.undo(textArea);
+		};
+	} catch(e){
+		if(buffer.insideCompoundEdit())buffer.endCompoundEdit(); // macro wrappper
+		buffer.undo(textArea);
+		Macros.error(view, e.toString());
+	} finally {
+		textArea.goToBufferStart(false);
+		SearchAndReplace.setSearchFileSet(Search);
+	}
+
+	return;
+}
+//==============================================================================
+boolean ifdef()
+{
+	Stack stStack=new Stack();
+	boolean bDelete=false;
+	boolean bTrue=false;
+
+	for(int i=0;i<textArea.getLineCount();i++){
+		sLine=textArea.getLineText(i).trim();
+		sLineL=sLine.toLowerCase();
+
+		if(sLineL.startsWith("#ifdef")){
+
+			if(sLine.indexOf(" ")!=-1)
+				def=sLine.substring(sLine.indexOf(" ")).trim();
+			else {
+				Macros.error(view, "Line: " +(i+1)+ " #ifdef missing argument");
+				return false;
+			}
+			if(stStack.search("#ifdef")!=-1){
+				Macros.error(view, "Line: " +(i+1)+ " #ifdef stack error:\n(nested #ifdef not supported yet)");
+				return false;
+			}
+
+			stStack.push("#ifdef");
+
+			int iIndex=alDefine.indexOf(def);
+			if(iIndex !=-1)
+			{
+				bDelete=true;
+				bTrue=true;
+			}
+
+			markLine(i);
+		}
+		else if(sLineL.startsWith("#elif")){
+			if(stStack.search("#ifdef")==-1){
+				Macros.error(view, "Line: " +(i+1)+ " #elif without #ifdef");
+				return false;
+			}
+
+			if(sLine.indexOf(" ")!=-1)
+				def=sLine.substring(sLine.indexOf(" ")).trim();
+			else {
+				Macros.error(view, "Line: " +(i+1)+ " #elif missing argument");
+				return false;
+			}
+
+			if( stStack.peek().equals("#elif") ) stStack.pop();
+			stStack.push("#elif");
+
+			int iIndex=alDefine.indexOf(def);
+			if(iIndex !=-1 && !bTrue)
+			{
+				bTrue=true;
+				bDelete=true;
+			}
+			else
+				bDelete=false;
+
+			markLine(i);
+		}
+		else if(sLineL.startsWith("#else")){
+			if(stStack.search("#ifdef")==-1){
+				Macros.error(view, "Line: " +(i+1)+ " #else without #ifdef");
+				return false;
+			}
+
+			bDelete = ( bTrue ? false : true );
+
+			stStack.push("#else");
+
+			markLine(i);
+		}
+		else if(sLineL.startsWith("#endif")){
+			if(stStack.search("#ifdef")==-1){
+				Macros.error(view, "Line: " +(i+1)+ " #endif without #ifdef");
+				return false;
+			}
+
+			if(stStack.peek().equals("#else"))stStack.pop();
+			if(stStack.peek().equals("#elif"))stStack.pop();
+			if(stStack.peek().equals("#ifdef"))stStack.pop();
+
+			bDelete=false;
+			bTrue=false;
+
+			markLine(i);
+		}
+		else if(!stStack.empty() && !bDelete) markLine(i);
+	}
+
+	if(!stStack.empty()){
+		sMsg="";
+		while(!stStack.empty()){ sMsg +=stStack.pop(); }
+		Macros.error(view, "Stack not empty:\n" + sMsg + "\n\n#ifdef without #endif?");
+		return false;
+	}
+	else
+		return true;
+
+}
+//==============================================================================
+void markLine(int iLine)
+{
+	textArea.setCaretPosition( textArea.getLineStartOffset(iLine) );
+	textArea.insert(";;;",false);
+}
+//==============================================================================
+boolean define()
+{
+	// macros with arguments
+	Pattern p1=Pattern.compile("#define\\s+\\w+\\(.*?\\)(\\s+\\w+\\(.*?\\))?");
+	//
+	Pattern p2=Pattern.compile("^[a-zA-Z][\\w]+$");
+
+	for(int i=0;i<textArea.getLineCount();i++){
+		sLine=textArea.getLineText(i).trim();
+		sLineL=sLine.toLowerCase();
+
+		if(sLineL.startsWith("#define")){
+			if(p1.matcher(sLine).find()){
+				Macros.error(view, "Macros with arguments not supported yet: (" + (i+1) + ") :\n" + sLine);
+				return false;
+			}
+			else if(sLine.indexOf("\"")==-1){
+				if (sLine.length() >9)
+					sDef=(sLine.substring(sLine.lastIndexOf(" "))).trim();
+				else {
+					Macros.error(view, "Error macro definition: (" + (i+1) + ") : " + sLine);
+					return false;
+				}
+				alDefineDef.add(sDef);
+				sMacro=(sLine.substring(sLine.indexOf(" "), sLine.lastIndexOf(" "))).trim();
+				if(sMacro.length()==0)sMacro=sDef;
+				if( !p2.matcher(sMacro).find()) {
+					Macros.error(view, "Error macro definition: (" + (i+1) + ") : " + sLine + "\nMacro must start with a letter and may only contain letters, numbers and the _ char.");
+					return false;
+				}
+				if(alDefine.contains(sMacro)){
+					Macros.error(view, "Macro alway defined: (" + (i+1) + ") : " + sLine);
+					return false;
+				}
+				alDefine.add(sMacro);
+			}
+			else {
+				alDefine.add((sLine.substring(sLine.indexOf(" "), sLine.indexOf("\"")-1)).trim());
+				sMacro=(sLine.substring(sLine.indexOf("\""), sLine.lastIndexOf("\"")+1)).trim();
+				if(sMacro.length()<=3) {
+					Macros.error(view, "Error macro definition: (" + (i+1) + ") : " + sLine);
+					return false;
+				}
+				alDefineDef.add(sMacro);
+			}
+		}
+		else if(sLineL.startsWith("#undefine ")|| sLineL.startsWith("#undef ")) undefine(sLine);
+	}
+	return true;
+}
+//==============================================================================
+void undefine(sLine)
+{
+	def=sLine.substring(sLine.indexOf(" ")).trim();
+	int iIndex=alDefine.indexOf(def);
+	if(iIndex !=-1){
+		alDefine.remove(iIndex);
+		alDefineDef.remove(iIndex);
+	}
+}
+//==============================================================================
+void replaceDefine()
+{
+	SaR = SearchAndReplace;
+	SaR.setIgnoreCase(false);
+	SaR.setRegexp(true);
+
+	for(int i=0; i<alDefine.size(); i++){
+		SaR.setSearchString("\\b" + alDefine.get(i) + "\\b");
+		SaR.setReplaceString(SaR.escapeRegexp(alDefineDef.get(i),false ));
+		SaR.replaceAll(view);
+	}
+}
+//==============================================================================
+void removeStatements()
+{
+	SaR = SearchAndReplace;
+	SaR.setIgnoreCase(true);
+	SaR.setRegexp(true);
+
+	SaR.setReplaceString("");
+
+	SaR.setSearchString("^#(un)?def(ine)?(.*?)\n");
+	SaR.replaceAll(view);
+
+	SaR.setSearchString("^;;+.*?(\n|$)");
+	SaR.replaceAll(view);
+}
+//==============================================================================
+void addConst()
+{
+	Calendar c=Calendar.getInstance();
+
+	alDefine.add("__DATE_AND_TIME__");
+	alDefineDef.add(c.getTime().toString());
+
+	alDefine.add("__DATE__");
+	alDefineDef.add(new SimpleDateFormat("EEE MMM yyyy").format(c.getTime()));
+
+	alDefine.add("__TIME__");
+	alDefineDef.add(new SimpleDateFormat("kk:mm:ss").format(c.getTime()));
+
+	alDefine.add("__NAME__");
+	alDefineDef.add(buffer.getName());
+
+	alDefine.add("__FILE__");
+	alDefineDef.add(buffer.getPath());
+
+	alDefine.add("__AUTOIT_VERSION__");
+	alDefineDef.add(AUTOIT_VERSION);
+
+	alDefine.add("__AUTOIT_BETAVERSION__");
+	alDefineDef.add(AUTOIT_BETAVERSION);
+}
+//==============================================================================
+void shortcuts()
+{
+	SearchAndReplace.setIgnoreCase(true);
+	SearchAndReplace.setRegexp(true);
+
+	String[] saSearch={"(\\$[\\w]+(?:\\[.*\\])?)\\+\\+[ \\t]*", // ++
+			"(\\$[\\w]+(?:\\[.*\\])?)\\-\\-[ \\t]*", //--
+			"^\\s*(\\$[\\w]+(?:\\[.*\\])?)\\s*=\\s*\\((.+)\\?(.+):(.+)\\)$", // a = ( b ? c : d)
+			"^\\s*(.+)\\?(.+):(.+)$", // a ? b : c
+			"(.*)(\\$[\\w]+(?:\\[.*\\])?|[\\d]+)\\s*<<\\s*(\\$[\\w]+(?:\\[.*\\])?|[\\d]+)", // <<
+			"(.*)(\\$[\\w]+(?:\\[.*\\])?|[\\d]+)\\s*<<=\\s*(\\$[\\w]+(?:\\[.*\\])?|[\\d]+)", // <<=
+			"(.*)(\\$[\\w]+(?:\\[.*\\])?|[\\d]+)\\s*>>\\s*(\\$[\\w]+(?:\\[.*\\])?|[\\d]+)", // >>
+			"(.*)(\\$[\\w]+(?:\\[.*\\])?|[\\d]+)\\s*>>=\\s*(\\$[\\w]+(?:\\[.*\\])?|[\\d]+)", // <<=
+			"(.*)~(\\$[\\w]+(?:\\[.*\\])?|[\\d]+)", // negation
+			"(.*)(\\$[\\w]+(?:\\[.*\\])?|[\\d]+)\\s*%\\s*(\\$[\\w]+(?:\\[.*\\])?|[\\d]+)", // modulo %
+			"(.*)(\\$[\\w]+(?:\\[.*\\])?|[\\d]+)\\s*%=\\s*(\\$[\\w]+(?:\\[.*\\])?|[\\d]+)", // modulo %=
+			"\\s+[!](\\$?[\\w]+(?:\\[.*\\])?|\\()", // Not
+			"(.*?)For\\s+(\\$[\\w]+(?:\\[.*\\])?)\\s*:\\s*(\\$[\\w]+)"}; // For $i : $aArray => For $i = 0 To UBound($aArray)-1
+	String[] saReplace={"$1 += 1",
+			"$1 -= 1",
+			"If $2 Then\n\t$1 =$3\nElse\n\t$1 =$4\nEndIf\n",
+			"If $1 Then\n\t$2\nElse\n\t$3\nEndIf\n",
+			"$1BitShift($2, $3)",
+			"$1$2 = BitShift($2, $3)",
+			"$1BitShift($2, -($3))",
+			"$1$2 = BitShift($2, -($3))",
+			"$1BitNot($2)",
+			"$1Mod($2, $3)",
+			"$1$2 = Mod($2, $3)",
+			" Not $1",
+			"$1For $2=0 To UBound($3)-1"};
+
+	for(int i=0;i<saSearch.length;i++)
+	{
+		SearchAndReplace.setSearchString(saSearch[i]);
+		SearchAndReplace.setReplaceString(saReplace[i]);
+		SearchAndReplace.replaceAll(view);
+	}
+}
+//==============================================================================
+if(buffer.isReadOnly())
+	Macros.error(view, "Buffer is read-only.");
+else
+{
+	if ( buffer.getMode().toString().equals("autoitscript") )
+		pp(view);
+	else
+		Macros.error(view, "No AutoItScript-file in current buffer!");
+}
+

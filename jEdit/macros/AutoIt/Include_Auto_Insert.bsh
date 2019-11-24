@@ -1,0 +1,211 @@
+/* Include_Auto_Insert V0.70b
+(c) 2008/20/06 by Thorsten Willert (thorsten.willert@gmx.de)
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+================================================================================
+Macros/AutoIt*
+================================================================================
+Configuration:
+
+%userprofile"/.jedit/AutoItScript/Includes.xml
+================================================================================
+
+V0.70
+- added: VFSManager.waitForRequests(); after saving a "dirty" buffer
+
+*/
+void main(View view)
+{
+	import java.util.regex.*;
+//==============================================================================
+
+	Pattern p1 = Pattern.compile("^[ \\t]*func[ \\t]*\\w+[ \\t]*\\(");
+	Pattern p2 = Pattern.compile("_\\w+[ \\t]*\\(");
+	Pattern p3 = Pattern.compile("^[ \\t]*#include[ \\t]*[<]");
+	Pattern p4 = Pattern.compile("[ \\t]*gui\\w*[ \\t]*\\(");
+	Pattern p5 = Pattern.compile("[ \\t]*(run(asset|wait)?|shell(executewait|execute)?)[ \\t]*\\(");
+
+	String sLine = "";
+	sIncludes = new StringBuffer();
+
+	ArrayList alFuncExt = new ArrayList(1024);
+	//ArrayList alFuncInt = new ArrayList(128);
+	ArrayList alLines = new ArrayList(2048);
+
+	boolean bComment = false;
+	boolean bGUIConstants = false;
+	boolean bConstants = false;
+
+//==============================================================================
+
+	if ( buffer.isDirty() )
+	{
+		buffer.save(view,null);
+		VFSManager.waitForRequests();
+	}
+
+	alLines = FileRead( buffer.getPath() );
+
+	textArea.setCaretPosition(0);
+
+	for (int i=0; i < alLines.size(); i++)
+	{
+		if ( alLines.get(i) == null ) continue;
+		text = alLines.get(i).trim().toLowerCase();
+
+		textArea.goToNextLine(false);
+
+		if ( text.indexOf("#cs") != -1 ) bComment = true;
+		else if ( text.indexOf("#ce") != -1 ) bComment = false;
+		else if (text.indexOf(";") == 0 || text.equals("") || bComment ) continue;
+
+		if ( p1.matcher(text).find() )
+			continue; //alFuncInt.add( text.substring( text.indexOf("func")+5, text.indexOf("(") ) );
+		else if ( p2.matcher(text).find() )
+			alFuncExt.add(text.substring( text.indexOf("_") ) );
+		else if (p3.matcher(text).find() )
+		{
+			textArea.goToPrevLine(false);
+			textArea.deleteLine();
+		}
+		else if (!bGUIConstants)
+		{
+			if (p4.matcher(text).find() ) bGUIConstants = true;
+		}
+		else if (!bConstants)
+		{
+			if (p5.matcher(text).find() ) bConstants = true;
+		}
+	}
+
+	sIncludes = BuildInc(AUTOIT_INCLUDES, FilterFunc(alFuncExt), bGUIConstants ,bConstants);
+
+	if ( sIncludes.length() > 3)
+	{
+		textArea.setCaretPosition(0);
+		if ( SearchRegion() )
+			textArea.setSelectedText(sIncludes);
+		else
+			textArea.setSelectedText("#region Includes" + sIncludes + "\n#endregion Includes\n");
+	}
+
+	textArea.setCaretPosition(0);
+}
+//==============================================================================
+String FilterFunc(ArrayList alFuncExt)
+{
+	String sFuncExt;
+	String sRet = "";
+	String tmp = "";
+	int i=0;
+
+	Collections.sort(alFuncExt);
+
+	for (i=0; i<alFuncExt.size() ;i++)
+	{
+		sFuncExt = alFuncExt.get(i);
+		if ( sFuncExt.equals( tmp ) )
+			alFuncExt.remove(i);
+		else
+			sRet += sFuncExt;
+		tmp = sFuncExt;
+	}
+
+	return sRet;
+}
+//==============================================================================
+String BuildInc(String[][] list, String sFuncExt, bGUIConstants ,bConstants)
+{
+	String sIncludes = "";
+	String sIncOld = "";
+	ArrayList alIncludes = new ArrayList(32);
+	int iList = list[0].length;
+
+	for (int j=0; j < iList; j++)
+	{
+		if ( list[1][j] == null) continue;
+		if ( sFuncExt.indexOf( list[1][j] ) != -1 )
+				alIncludes.add( "\n#include <" + list[0][j] + ">");
+	}
+
+	if (bGUIConstants) alIncludes.add( "\n#include <GUIConstantsEx.au3>");
+	if (bConstants) alIncludes.add( "\n#include <Constants.au3>");
+
+	Collections.sort(alIncludes);
+
+	for (int i=0; i< alIncludes.size() ;i++)
+	{
+		if ( sIncOld.equals( alIncludes.get(i) ) ) continue;
+		sIncludes += alIncludes.get(i);
+		sIncOld = alIncludes.get(i);
+	}
+
+	return sIncludes;
+}
+//==============================================================================
+boolean SearchRegion()
+{
+	oldset = SearchAndReplace.getSearchFileSet();
+
+	SearchAndReplace.setRegexp(true);
+	SearchAndReplace.setReverseSearch(false);
+	SearchAndReplace.setIgnoreCase(true);
+
+	SearchAndReplace.setSearchString("^[ \\t]*#region[ \\t]*includes[ \\t]*(.*)");
+	SearchAndReplace.setSearchFileSet(new CurrentBufferSet());
+
+	if ( SearchAndReplace.find(view) )
+	{
+		textArea.goToEndOfLine(false);
+		return true;
+	}
+
+	SearchAndReplace.setSearchFileSet(oldset);
+	return false;
+}
+
+//==============================================================================
+ArrayList FileRead(String sFile)
+{
+	String str;
+	ArrayList alLines = new ArrayList(2048);
+
+	try {
+		BufferedReader in = new BufferedReader(new FileReader(sFile));
+		try{
+			while((str=in.readLine())!=null)
+				alLines.add(str);
+
+			in.close();
+		} catch (IOException e) {
+			Macros.error(view,"Read error :" + sFile);
+		} finally {
+			in.close();
+		}
+	} catch (IOException e) {
+		Macros.error(view,"Open error :" + sFile);
+	}
+	return alLines;
+}
+//==============================================================================
+if(buffer.isReadOnly())
+	Macros.error(view, "Buffer is read-only.");
+else
+{
+	if ( buffer.getMode().toString().equals("autoitscript") )
+		main(view);
+	else
+		Macros.error(view, "No AutoItScript-file in current buffer!");
+}
