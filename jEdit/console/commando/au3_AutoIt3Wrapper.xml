@@ -1,0 +1,103 @@
+<?xml version="1.0" ?>
+<!DOCTYPE COMMANDO SYSTEM "commando.dtd">
+<!-- AutoItScript AutoIt3Wrapper-command V3.3 , by Thorsten Willert
+
+V3.3
+- changed: using Obfuscator.exe in AutoIt3/Extras/ OR AutoIt3/SciTe/AutoIt3Wrapper/
+
+V3.2
+- added: "Clear console" option.
+
+V3.1
+- changed: replaced hread.sleep(200) with VFSManager.waitForRequests();
+
+V3.0
+- removed entry for AutoIt3-dir (used AUTOIT_PATH instead)
+
+V2.0
+- removed "Allow Decompile" option
+
+V1.1
+- new: added a buffer-save command (thanks to jonk!)
+
+-->
+
+<COMMANDO>
+	<UI>
+		<CAPTION LABEL="Files">
+			<FILE_ENTRY LABEL="Destination file (exe/a3x)" VARNAME="out"
+				EVAL='buffer.getPath().substring( 0, buffer.getPath().lastIndexOf(".") ).concat(".exe")' />
+			<FILE_ENTRY LABEL="Custom Icon" VARNAME="icon" />
+		</CAPTION>
+		<CAPTION LABEL="Compression">
+			<CHOICE LABEL="Level" VARNAME="compression" DEFAULT="2">
+				<OPTION LABEL="0" VALUE="0" />
+				<OPTION LABEL="1" VALUE="1" />
+				<OPTION LABEL="2" VALUE="2" />
+				<OPTION LABEL="3" VALUE="3" />
+				<OPTION LABEL="4" VALUE="4" />
+			</CHOICE>
+		</CAPTION>
+		<CAPTION LABEL="jEdit Console:">
+			<TOGGLE LABEL="Clear console" VARNAME="clr" />
+		</CAPTION>
+	</UI>
+	<COMMANDS>
+
+		<COMMAND CONFIRM="FALSE" SHELL="System">
+		if (clr) clearConsole(view);
+
+		if ( buffer.isDirty() )
+		{
+			buffer.save(view,null);
+			VFSManager.waitForRequests();
+		}
+
+		buf = new StringBuffer();
+
+		if ( buffer.getMode().toString().equals("autoitscript") )
+		{
+			File = new File(AUTOIT_PATH + "\\Extras\\Obfuscator.exe");
+			File2 = new File(AUTOIT_PATH + "\\SciTE\\AutoIt3Wrapper\\AutoIt3Wrapper.exe");
+
+			if (File.exists())
+				buf.append("\"" + AUTOIT_PATH + "\\Extras\\AutoIt3Wrapper.exe\" ");
+			else if (File2.exists())
+				buf.append("\"" + AUTOIT_PATH + "\\SciTE\\AutoIt3Wrapper\\AutoIt3Wrapper.exe\" ");
+			else
+			{
+				Macros.error(view, "AutoIt3Wrapper.exe not found!");
+				return;
+			}
+
+			buf.append(" /in \"");
+			buf.append(buffer.getPath());
+			buf.append('"');
+
+			buf.append(" /out \"");
+			buf.append(out);
+			buf.append('"');
+
+			boolean exists = (new File(icon)).exists();
+			if( exists )
+			{
+				buf.append(" /icon \"");
+				buf.append(icon);
+				buf.append('"');
+			}
+
+			buf.append(" /comp ");
+			buf.append(compression);
+
+			buf.append(" /AutoIt3Dir \"");
+			buf.append(AUTOIT_PATH);
+			buf.append('"');
+		}
+		else
+		{
+			Macros.error(view, "No AutoItScript-file in current buffer!");
+		}
+		buf.toString();
+		</COMMAND>
+	</COMMANDS>
+</COMMANDO>

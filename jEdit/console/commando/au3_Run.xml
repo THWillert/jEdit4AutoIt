@@ -1,0 +1,72 @@
+<?xml version="1.0" ?>
+<!DOCTYPE COMMANDO SYSTEM "commando.dtd">
+<!-- AutoItScript run-command V3.2 , by Thorsten Willert
+
+V3.2
+- added: "Clear console" option.
+
+V3.1
+- changed: replaced hread.sleep(200) with VFSManager.waitForRequests();
+
+V3.0
+- new: added x64 option.
+- changed: removed entries for the AutoIt3...exe files
+
+V2.2
+- new: added a buffer-save command (thanks to jonk!)
+
+V2.1
+- fixed: /ErrorStdOut was used as parameter for the script
+
+V2.0:
+- new: merged "au3_runA" and the "au3_run" command file
+
+-->
+
+<COMMANDO>
+	<UI>
+		<CAPTION LABEL="ANSI / Unicode / x64">
+			<CHOICE LABEL="Mode" VARNAME="ANSI" DEFAULT="1">
+					<OPTION LABEL="ANSI (Win 9x)" VALUE="0" />
+					<OPTION LABEL="Unicode" VALUE="1" />
+					<OPTION LABEL="x64" VALUE="2" />
+			</CHOICE>
+		</CAPTION>
+		<CAPTION LABEL="jEdit Console:">
+			<TOGGLE LABEL="Clear console" VARNAME="clr" />
+			<!--<TOGGLE LABEL="Output to new buffer" VARNAME="nb" />-->
+		</CAPTION>
+	</UI>
+	<COMMANDS>
+		<COMMAND CONFIRM="FALSE" SHELL="System">
+		if (clr) clearConsole(view);
+
+		if ( buffer.isDirty() )
+		{
+			buffer.save(view,null);
+			VFSManager.waitForRequests();
+		}
+
+		buf = new StringBuffer();
+
+		if ( buffer.getMode().toString().equals("autoitscript") )
+		{
+			if(ANSI.equals("1"))
+				buf.append("\"" + AUTOIT_PATH + "\\AutoIt3.exe");
+			else if(ANSI.equals("0"))
+				buf.append("\"" + AUTOIT_PATH + "\\AutoIt3A.exe");
+			else
+				buf.append("\"" + AUTOIT_PATH + "\\AutoIt3_x64.exe");
+
+			 buf.append("\" /ErrorStdOut \"");
+			 buf.append(buffer.getPath());
+			 buf.append('"');
+		}
+		else
+		{
+			Macros.error(view, "No AutoItScript-file in current buffer!");
+		};
+		buf.toString();
+		</COMMAND>
+	</COMMANDS>
+</COMMANDO>

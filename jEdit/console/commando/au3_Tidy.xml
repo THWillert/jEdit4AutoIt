@@ -1,0 +1,224 @@
+<?xml version="1.0" ?>
+<!DOCTYPE COMMANDO SYSTEM "commando.dtd">
+<!-- AutoItScript tidy-command V1.5 , by Thorsten Willert
+
+V1.5
+- Added: "Skip comment blocks" // ? changes the options for EndFunc and EndRegion ?
+- Added: Options for EndFunc comment // ? remove doesn't work ?
+- Added: Options for EndRegion comment // ? remove doesn't work ?
+- changed: using Tidy.exe in AutoIt3/Extras/ OR AutoIt3/SciTe/Tidy
+
+V1.4
+- added: "Clear console" option.
+
+V1.31
+- new: added option to open JDiff
+
+V1.3
+- changed: replaced hread.sleep(200) with VFSManager.waitForRequests();
+
+V1.2
+- new: added a buffer-save command (thanks to jonk!)
+
+V1.1:
+- changed: removed the default value from the Tidy.exe
+
+-->
+
+<COMMANDO>
+	<UI>
+		<CAPTION LABEL="Options">
+			<TOGGLE LABEL="Update Functions/Keywords/Macros/UDFs to Proper case" VARNAME="pr" />
+			<!--<CHOICE LABEL="Update Variables to" VARNAME="uptvars">
+				<OPTION LABEL="UpperCase" VALUE="1"/>
+				<OPTION LABEL="LowerCase" VALUE="2"/>
+				<OPTION LABEL="First Seen" VALUE="3"/>
+			</CHOICE>-->
+			<TOGGLE LABEL="Remove empty lines" VARNAME="rel" />
+			<CHOICE LABEL="Indent setting: 0=Tabs >0=Number of Spaces" VARNAME="tc" DEFAULT="0">
+				<OPTION LABEL="0" VALUE="0" />
+				<OPTION LABEL="1" VALUE="1" />
+				<OPTION LABEL="2" VALUE="2" />
+				<OPTION LABEL="3" VALUE="3" />
+				<OPTION LABEL="4" VALUE="4" />
+				<OPTION LABEL="5" VALUE="5" />
+				<OPTION LABEL="6" VALUE="6" />
+				<OPTION LABEL="7" VALUE="7" />
+				<OPTION LABEL="8" VALUE="8" />
+				<OPTION LABEL="9" VALUE="9" />
+				<OPTION LABEL="10" VALUE="10" />
+				<OPTION LABEL="11" VALUE="11" />
+				<OPTION LABEL="12" VALUE="12" />
+				<OPTION LABEL="13" VALUE="13" />
+				<OPTION LABEL="14" VALUE="14" />
+				<OPTION LABEL="15" VALUE="15" />
+				<OPTION LABEL="16" VALUE="16" />
+				<OPTION LABEL="17" VALUE="17" />
+				<OPTION LABEL="18" VALUE="18" />
+				<OPTION LABEL="19" VALUE="19" />
+				<OPTION LABEL="20" VALUE="20" />
+			</CHOICE>
+		</CAPTION>
+		<CAPTION LABEL="Comments">
+			<TOGGLE LABEL="Skip comment blocks" VARNAME="skip_com"/>
+			<CHOICE LABEL="EndFunc" VARNAME="endfunc">
+				<OPTION LABEL="Update" VALUE="1"/>
+				<OPTION LABEL="Skip" VALUE="2"/>
+				<OPTION LABEL="Remove" VALUE="3"/>
+			</CHOICE>
+			<CHOICE LABEL="EndRegion" VARNAME="endregion">
+				<OPTION LABEL="Update" VALUE="1"/>
+				<OPTION LABEL="Skip" VALUE="2"/>
+				<OPTION LABEL="Remove" VALUE="3"/>
+			</CHOICE>
+		</CAPTION>
+		<CAPTION LABEL="Sorting">
+			<TOGGLE LABEL="Sort all Func-Endfunc Blocks in sequence" VARNAME="sf" />
+			<TOGGLE LABEL="Sort all Func-Endfunc Blocks in sequence of the Comment at theend of the Func() statement and then FuncName" VARNAME="sfc" />
+		</CAPTION>
+		<CAPTION LABEL="Documentation">
+			<TOGGLE LABEL="Generate Documentation file" VARNAME="gd" />
+		</CAPTION>
+		<CAPTION LABEL="Versions">
+		<CHOICE LABEL="Keep n versions" VARNAME="kv" DEFAULT="5">
+				<OPTION LABEL="0" VALUE="0" />
+				<OPTION LABEL="1" VALUE="1" />
+				<OPTION LABEL="2" VALUE="2" />
+				<OPTION LABEL="3" VALUE="3" />
+				<OPTION LABEL="4" VALUE="4" />
+				<OPTION LABEL="5" VALUE="5" />
+				<OPTION LABEL="6" VALUE="6" />
+				<OPTION LABEL="7" VALUE="7" />
+				<OPTION LABEL="8" VALUE="8" />
+				<OPTION LABEL="9" VALUE="9" />
+				<OPTION LABEL="10" VALUE="10" />
+				<OPTION LABEL="11" VALUE="11" />
+				<OPTION LABEL="12" VALUE="12" />
+				<OPTION LABEL="13" VALUE="13" />
+				<OPTION LABEL="14" VALUE="14" />
+				<OPTION LABEL="15" VALUE="15" />
+				<OPTION LABEL="16" VALUE="16" />
+				<OPTION LABEL="17" VALUE="17" />
+				<OPTION LABEL="18" VALUE="18" />
+				<OPTION LABEL="19" VALUE="19" />
+				<OPTION LABEL="20" VALUE="20" />
+			</CHOICE>
+		</CAPTION>
+		<CAPTION LABEL="DIFF program">
+			<CHOICE LABEL="Open at the of the Tidy run" VARNAME="DIFF" DEFAULT="0">
+				<OPTION LABEL="JDiff" VALUE="0" />
+				<OPTION LABEL="External programm" VALUE="1" />
+			</CHOICE>
+			<FILE_ENTRY LABEL="DIFF program" VARNAME="diffexe" DEFAULT="" />
+			<ENTRY LABEL="Parameter for DIFF program" VARNAME="diffpara" DEFAULT='"%old%" "%new%"' />
+		</CAPTION>
+		<CAPTION LABEL="jEdit Console:">
+			<TOGGLE LABEL="Clear console" VARNAME="clr" />
+		</CAPTION>
+	</UI>
+	<COMMANDS>
+		<COMMAND CONFIRM="FALSE" SHELL="System">
+		if (clr) clearConsole(view);
+
+		if ( buffer.isDirty() )
+		{
+			buffer.save(view,null);
+			VFSManager.waitForRequests();
+		}
+
+		buf = new StringBuffer();
+
+		if ( buffer.getMode().toString().equals("autoitscript") )
+		{
+			File = new File(AUTOIT_PATH + "\\Extras\\Tidy.exe");
+			File2 = new File(AUTOIT_PATH + "\\SciTE\\Tidy\\Tidy.exe");
+
+			if (File.exists())
+				buf.append("\"" + AUTOIT_PATH + "\\Extras\\Tidy.exe\" ");
+			else if (File2.exists())
+				buf.append("\"" + AUTOIT_PATH + "\\SciTE\\Tidy\\Tidy.exe\" ");
+			else
+			{
+				Macros.error(view, "Tidy.exe not found!");
+				return;
+			}
+
+			buf.append('"');
+			buf.append(buffer.getPath());
+			buf.append('"');
+
+			if(pr)
+			{
+				buf.append(" /pr=1");
+				//buf.append(" /uv=");
+				//buf.append(uptvars);
+			}
+			else buf.append(" /pr=0");
+
+			switch(Integer.parseInt(endfunc) ) {
+				case 1: break;
+				case 2: buf.append(" /sefc"); break;
+				case 3: buf.append(" /refc");
+			};
+
+			switch(Integer.parseInt(endregion)) {
+				case 1: break;
+				case 2: buf.append(" /serc"); break;
+				case 3: buf.append(" /rerc");
+			};
+
+			if(skip_com) buf.append(" /scb");
+			if(rel) buf.append(" /rel");
+			if(sf) buf.append(" /sf");
+			if(sfc) buf.append(" /sfc");
+			if(gd) buf.append(" /gd");
+
+			buf.append(" /kv=");
+			buf.append(kv);
+
+			buf.append(" /tc=");
+			buf.append(tc);
+
+			buf.append(" /sci=1 ");
+
+			if ( DIFF.equals("0") )
+			{
+				try {
+				if ( jEdit.getProperty("plugin-blacklist.JDiffPlugin.jar").equals("false") )
+					jdiff.DualDiff.toggleFor(view);
+				} catch (Exception e) {};
+			}
+			else
+			{
+				boolean exists = ( new File(diffexe) ).exists();
+				if ( exists )
+				{
+					buf.append(" /sdp ");
+					buf.append('"');
+					buf.append(diffexe);
+					buf.append('"');
+
+					if ( !diffpara.equals("") )
+					{
+						buf.append(" ");
+						buf.append(diffpara);
+					}
+					else
+					{
+						buf.append(" \"%old%\" ");
+						buf.append("\"%new%\"");
+					};
+				}
+				else
+					buf.append(" /nsdp");
+			};
+		}
+		else
+		{
+			Macros.error(view, "No AutoItScript-file in current buffer!");
+		};
+
+		buf.toString();
+		</COMMAND>
+	</COMMANDS>
+</COMMANDO>

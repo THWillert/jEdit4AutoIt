@@ -1,0 +1,95 @@
+<?xml version="1.0" ?>
+<!DOCTYPE COMMANDO SYSTEM "commando.dtd">
+<!-- AutoItScript Obfuscator-command V2.3 , by Thorsten Willert
+V2.3:
+- added: Obfuscate Minimun (/om)
+
+V2.2
+- added: Option for: Remove Gobal Variable declarations lines that are not used
+- changed: using Obfuscator.exe in AutoIt3/Extras/ OR AutoIt3/SciTe/Obfuscator/
+
+V2.1
+- added: "Clear console" option.
+
+V1.1
+- changed: replaced hread.sleep(200) with VFSManager.waitForRequests();
+
+-->
+
+<COMMANDO>
+	<UI>
+		<CAPTION LABEL="Encryption">
+			<TOGGLE LABEL="Variable encryption" VARNAME="CV" />
+			<TOGGLE LABEL="FuncName encryption" VARNAME="CF" />
+			<TOGGLE LABEL="String encryption" VARNAME="CS" />
+			<TOGGLE LABEL="Numeric encryption" VARNAME="CN" />
+		</CAPTION>
+		<CAPTION LABEL="Remove">
+			<TOGGLE LABEL="Func's that are not used by the MainScript" VARNAME="SF" />
+			<TOGGLE LABEL="Gobal Variable declarations lines that are not used" VARNAME="SV" />
+		</CAPTION>
+		<CAPTION LABEL="Obfuscate Minimun">
+			<TOGGLE LABEL="Obfuscate Minimun" VARNAME="OM" />
+		</CAPTION>
+		<CAPTION LABEL="Show Console Info">
+				<CHOICE LABEL="SCI" VARNAME="SCI" DEFAULT="0">
+				<OPTION LABEL="Default Minimal output to the console; warning and errors" VALUE="0" />
+				<OPTION LABEL="Show more progress information" VALUE="1" />
+				<OPTION LABEL="Show all debug lines as found in the Obfuscator.log" VALUE="9" />
+			</CHOICE>
+		</CAPTION>
+		<CAPTION LABEL="jEdit Console:">
+			<TOGGLE LABEL="Clear console" VARNAME="clr" />
+		</CAPTION>
+	</UI>
+	<COMMANDS>
+		<COMMAND CONFIRM="FALSE" SHELL="System">
+		if (clr) clearConsole(view);
+
+		if ( buffer.isDirty() )
+		{
+			buffer.save(view,null);
+			VFSManager.waitForRequests();
+		}
+
+		buf = new StringBuffer();
+
+		if ( buffer.getMode().toString().equals("autoitscript") )
+		{
+			File = new File(AUTOIT_PATH + "\\Extras\\Obfuscator.exe");
+			File2 = new File(AUTOIT_PATH + "\\SciTE\\Obfuscator\\Obfuscator.exe");
+
+			if (File.exists())
+				buf.append("\"" + AUTOIT_PATH + "\\Extras\\Obfuscator.exe\" ");
+			else if (File2.exists())
+				buf.append("\"" + AUTOIT_PATH + "\\SciTE\\Obfuscator\\Obfuscator.exe\" ");
+			else
+			{
+				Macros.error(view, "Obfuscator.exe not found!");
+				return;
+			}
+
+			buf.append(" \"");
+			buf.append(buffer.getPath());
+			buf.append("\" ");
+
+			OM ? buf.append(" /OM=1") : buf.append(" /OM=0");
+			CV ? buf.append(" /CV=1") : buf.append(" /CV=0");
+			CF ? buf.append(" /CF=1") : buf.append(" /CF=0");
+			CS ? buf.append(" /CS=1") : buf.append(" /CS=0");
+			CN ? buf.append(" /CN=1") : buf.append(" /CN=0");
+			SF ? buf.append(" /SF=1") : buf.append(" /SF=0");
+			SV ? buf.append(" /SV=1") : buf.append(" /SV=0");
+
+			 buf.append(" /SCI ");
+			 buf.append(SCI);
+		}
+		else
+		{
+			Macros.error(view, "No AutoItScript-file in current buffer!");
+		};
+
+		buf.toString();
+		</COMMAND>
+	</COMMANDS>
+</COMMANDO>

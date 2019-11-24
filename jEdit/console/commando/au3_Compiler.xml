@@ -1,0 +1,125 @@
+<?xml version="1.0" ?>
+<!DOCTYPE COMMANDO SYSTEM "commando.dtd">
+<!-- AutoItScript compiler-command V3.3 , by Thorsten Willert
+V3.3
+- added: Options EXE/A3X
+
+V3.2
+- added: "Clear console" option.
+
+V3.1
+- changed: replaced hread.sleep(200) with VFSManager.waitForRequests();
+
+V3.0
+- added: x64 option
+- added: console option
+- changed: removed entry for the Aut2exe.exe
+
+V2.0
+- removed "Allow Decompile" option
+
+V1.3
+- new: added a buffer-save command (thanks to jonk!)
+
+V1.2
+- changed: removed the default value from the Auto2Exe.exe
+
+V1.1
+- changed: Removed the confirmation dialog.
+
+-->
+
+<COMMANDO>
+	<UI>
+		<CAPTION LABEL="Files">
+			<CHOICE LABEL="Type" VARNAME="type" DEFAULT=".exe">
+				<OPTION LABEL="EXE" VALUE=".exe" />
+				<OPTION LABEL="A3X" VALUE=".a3x" />
+			</CHOICE>
+			<FILE_ENTRY LABEL="Destination file" VARNAME="out"
+				EVAL='buffer.getPath().substring( 0, buffer.getPath().lastIndexOf(".") )' />
+			<FILE_ENTRY LABEL="Custom Icon" VARNAME="icon" />
+		</CAPTION>
+		<CAPTION LABEL="Compression">
+			<TOGGLE LABEL="UPX Compress .exe" VARNAME="UPX" />
+			<CHOICE LABEL="Level" VARNAME="compression" DEFAULT="2">
+				<OPTION LABEL="0" VALUE="0" />
+				<OPTION LABEL="1" VALUE="1" />
+				<OPTION LABEL="2" VALUE="2" />
+				<OPTION LABEL="3" VALUE="3" />
+				<OPTION LABEL="4" VALUE="4" />
+			</CHOICE>
+		</CAPTION>
+		<CAPTION LABEL="ANSI / Unicode / x64">
+			<CHOICE LABEL="Mode" VARNAME="ANSI" DEFAULT="1">
+				<OPTION LABEL="ANSI (Win 9x)" VALUE="0" />
+				<OPTION LABEL="Unicode" VALUE="1" />
+				<OPTION LABEL="x64" VALUE="2" />
+			</CHOICE>
+			<TOGGLE LABEL="Console" VARNAME="con" />
+		</CAPTION>
+		<CAPTION LABEL="jEdit Console:">
+			<TOGGLE LABEL="Clear console" VARNAME="clr" />
+		</CAPTION>
+	</UI>
+	<COMMANDS>
+		<COMMAND CONFIRM="FALSE" SHELL="System">
+		if (clr) clearConsole(view);
+
+		if ( buffer.isDirty() )
+		{
+			buffer.save(view,null);
+			VFSManager.waitForRequests();
+		}
+
+		buf = new StringBuffer();
+
+		if ( buffer.getMode().toString().equals("autoitscript") )
+		{
+			if(ANSI.equals("1"))
+				buf.append("\"" + AUTOIT_PATH + "\\Aut2exe\\Aut2exe.exe");
+			else if(ANSI.equals("0"))
+				buf.append("\"" + AUTOIT_PATH + "\\Aut2exe\\Aut2exeA.exe");
+			else
+				buf.append("\"" + AUTOIT_PATH + "\\Aut2exe\\Aut2exe_x64.exe");
+
+			buf.append("\" /in \"");
+			buf.append(buffer.getPath());
+			buf.append('"');
+
+			buf.append(" /out \"");
+			buf.append(out);
+			buf.append(type);
+			buf.append('"');
+
+			boolean exists = (new File(icon)).exists();
+			if( exists )
+			{
+				buf.append(" /icon \"");
+				buf.append(icon);
+				buf.append('"');
+			}
+
+			buf.append(" /comp ");
+			buf.append(compression);
+
+			if(ANSI.equals("1"))
+				buf.append(" /unicode ");
+			else if(ANSI.equals("0"))
+				buf.append(" /ansi ");
+			else
+				buf.append(" /x64 ");
+
+			if(!UPX) buf.append(" /nopack ");
+
+			if(con) buf.append(" /console ");
+		}
+		else
+		{
+			Macros.error(view, "No AutoItScript-file in current buffer!");
+		};
+
+		buf.toString();
+		</COMMAND>
+	</COMMANDS>
+</COMMANDO>

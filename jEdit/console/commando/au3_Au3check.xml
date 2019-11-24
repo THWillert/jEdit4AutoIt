@@ -1,0 +1,101 @@
+<?xml version="1.0" ?>
+<!DOCTYPE COMMANDO SYSTEM "commando.dtd">
+<!-- AutoItScript check-command V3.2 , by Thorsten Willert
+
+V3.2
+- added: "Clear console" option.
+- fixed: added closing " to the Au2check.exe command line
+
+V3.1
+- changed: replaced hread.sleep(200) with VFSManager.waitForRequests();
+
+V3.0
+- changed: removed entry for the Au2check.exe
+
+V2.2
+- new: added a buffer-save command (thanks to jonk!)
+
+V2.1:
+- changed: removed the default Au3check.exe
+
+V2.0:
+- new: Added all options from the Au3Check.exe to the UI
+
+-->
+
+<COMMANDO>
+	<UI>
+		<CAPTION LABEL="Options:">
+			<TOGGLE LABEL="Quiet (only error/warn output)" VARNAME="q" />
+			<TOGGLE LABEL="MustDeclareVars=1" VARNAME="d" />
+		</CAPTION>
+		<CAPTION LABEL="Warnings:">
+			<TOGGLE LABEL="Already included file" VARNAME="w1" />
+			<TOGGLE LABEL="Missing #comments-end" VARNAME="w2" />
+			<TOGGLE LABEL="Already declared var" VARNAME="w3" />
+			<TOGGLE LABEL="Local var used in global scope" VARNAME="w4" />
+			<TOGGLE LABEL="Local var declared but not used" VARNAME="w5" />
+			<TOGGLE LABEL="Warn when using Dim" VARNAME="w6" />
+		</CAPTION>
+		<CAPTION LABEL="Verbose:">
+			<TOGGLE LABEL="Show include path/files" VARNAME="v1" />
+			<TOGGLE LABEL="Show lexer tokems" VARNAME="v2" />
+			<TOGGLE LABEL="Show unreferenced UDFs and global variables" VARNAME="v3" />
+		</CAPTION>
+		<CAPTION LABEL="Additional directory for searching include files:">
+			<DIR_ENTRY LABEL="Dir" VARNAME="dir1" />
+		</CAPTION>
+		<CAPTION LABEL="jEdit Console:">
+			<TOGGLE LABEL="Clear console" VARNAME="clr" />
+		</CAPTION>
+	</UI>
+	<COMMANDS>
+		<COMMAND CONFIRM="FALSE" SHELL="System">
+		if (clr) clearConsole(view);
+
+		if ( buffer.isDirty() )
+		{
+			buffer.save(view,null);
+			VFSManager.waitForRequests();
+		}
+
+		buf = new StringBuffer();
+
+		if ( buffer.getMode().toString().equals("autoitscript") )
+		{
+			buf.append("\"" + AUTOIT_PATH + "\\Au3check.exe" + "\"");
+
+			if(q) buf.append(" -q");
+			if(d) buf.append(" -d");
+			if(w1) buf.append(" -w 1");
+			if(w2) buf.append(" -w 2");
+			if(w3) buf.append(" -w 3");
+			if(w4) buf.append(" -w 4");
+			if(w5) buf.append(" -w 5");
+			if(w6) buf.append(" -w 6");
+			if(v1) buf.append(" -v 1");
+			if(v2) buf.append(" -v 2");
+			if(v3) buf.append(" -v 3");
+
+			boolean exists = ( new File(dir1) ).exists();
+			if( exists )
+			{
+				buf.append(" -I \"");
+				buf.append(dir1);
+				buf.append('"');
+			}
+
+			buf.append(" \"");
+			buf.append( buffer.getPath() );
+			buf.append('"');
+
+		}
+		else
+		{
+			Macros.error(view, "No AutoItScript-file in current buffer!");
+		};
+
+		buf.toString();
+		</COMMAND>
+	</COMMANDS>
+</COMMANDO>
