@@ -28,5 +28,5 @@ Thorsten Willert
 [Homepage](http://www.thorsten-willert.de/)
 
 ## Lizenz
-Das ganze steht unter der [GNU 3.0](https://github.com/THWillert/jEdit4AutoIt/blob/master/LICENSE) Lizenz.
+Das Ganze steht unter der [GNU 3.0](https://github.com/THWillert/jEdit4AutoIt/blob/master/LICENSE) Lizenz.
 .
