@@ -5,6 +5,7 @@
 ConsoleWrite(@AppDataDir & @CRLF)
 Global $STEMPLATEPATH = @ScriptDir & "\Templates\"
 Global $SXINSERTTEMPLATE, $SXINSERTFILE, $SCLIPPERTEMPLATE, $SCLIPPERFILE
+
 If @CPUArch = "X64" Then
     Global $SDIRINCLUDES = RegRead("HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\AutoIt v3\AutoIt\", "InstallDir") & "\Include\"
     Global $SDIRUSERINCLUDES = RegRead("HKEY_CURRENT_USER\Software\Wow6432Node\AutoIt v3\AutoIt", "Include")
@@ -12,10 +13,13 @@ Else
     Global $SDIRINCLUDES = RegRead("HKEY_LOCAL_MACHINE\SOFTWARE\AutoIt v3\AutoIt\", "InstallDir") & "\Include\"
     Global $SDIRUSERINCLUDES = RegRead("HKEY_CURRENT_USER\Software\AutoIt v3\AutoIt", "Include")
 EndIf
+
 If Not FileExists($SDIRINCLUDES) Then
     MsgBox(64, "", "AutoIt includes not found in:" & @CRLF & $SDIRINCLUDES)
     Exit
 EndIf
+;===============================================================================
+
 GUICreate("jEdit4AutoIt_UDF_Updater", 340, 75)
 Global $HSTATUS = GUICtrlCreateLabel("Updating:", 10, 10)
 Global $HLABEL = GUICtrlCreateLabel("", 60, 10, 270, 20)
@@ -23,17 +27,22 @@ Global $HFILELABEL = GUICtrlCreateLabel("", 10, 30, 320, 20)
 Global $HPROGRESS2 = GUICtrlCreateProgress(10, 50, 320, 10)
 Global $HPROGRESS1 = GUICtrlCreateProgress(10, 60, 320, 10)
 GUISetState(@SW_SHOW)
+;===============================================================================
+
 Global $SEDITMODETEMPLATE = $STEMPLATEPATH & "au3.xml"
 Global $SEDITMODEFILE = @AppDataDir & "\jEdit\modes\au3.xml"
+
 If Not FileExists($SEDITMODEFILE) Then $SEDITMODEFILE = @ProgramFilesDir & "\jEdit\modes\au3.xml"
 If FileExists(@AppDataDir & "\jedit\xinsert\") Then
     $SXINSERTTEMPLATE = $STEMPLATEPATH & "AutoItScript.insert.xml"
     $SXINSERTFILE = @AppDataDir & "\jedit\xinsert\AutoItScript.insert.xml"
 EndIf
+
 If FileExists(@AppDataDir & "\jedit\clipper\") Then
     $SCLIPPERTEMPLATE = $STEMPLATEPATH & "AutoItScript_UDFs.cliplibrary"
     $SCLIPPERFILE = @AppDataDir & "\jedit\clipper\AutoItScript_UDFs.cliplibrary"
 EndIf
+
 GUICtrlSetData($HPROGRESS1, 20)
 _LABEL2($SDIRINCLUDES)
 Global $AINCLUDES = READINCLUDES($SDIRINCLUDES)
@@ -62,6 +71,7 @@ If FileExists($SCLIPPERTEMPLATE) Then
     GUICtrlSetData($HPROGRESS1, 100)
     CLIPPER_UPDATE()
 EndIf
+;===============================================================================
 Sleep(2000)
 GUICtrlSetData($HSTATUS, "Ready!")
 GUICtrlSetData($HLABEL, "")
@@ -73,6 +83,7 @@ While 1
     Sleep(50)
 WEnd
 Exit
+;===============================================================================
 Func AUTOINSERT_UPDATE()
     ConsoleWrite("Updating includes.xml ..." & @CRLF)
     Local $SXML, $AFUNC, $SFILE, $I, $J
@@ -93,6 +104,7 @@ Func AUTOINSERT_UPDATE()
     STRING2FILE($SAUTOINSERTFILE, $SXML)
     Return
 EndFunc   ;==>AUTOINSERT_UPDATE
+;===============================================================================
 Func CLIPPER_FUNCTION_LIST()
     Local $AFUNC
     Local $SFILE, $I, $J
@@ -109,6 +121,7 @@ Func CLIPPER_FUNCTION_LIST()
     GUICtrlSetData($HPROGRESS2, 100)
     Return $SXML
 EndFunc   ;==>CLIPPER_FUNCTION_LIST
+;===============================================================================
 Func CLIPPER_UPDATE()
     ConsoleWrite("Updating Clipper ..." & @CRLF)
     Local $SDATA
@@ -117,6 +130,7 @@ Func CLIPPER_UPDATE()
     STRING2FILE($SCLIPPERFILE, $SDATA)
     Return
 EndFunc   ;==>CLIPPER_UPDATE
+;===============================================================================
 Func EDITMODE_FUNCTION_LIST()
     Local $AFUNC
     Local $SFILE, $I, $J
@@ -135,6 +149,7 @@ Func EDITMODE_FUNCTION_LIST()
     GUICtrlSetData($HPROGRESS2, 100)
     Return $SXML
 EndFunc   ;==>EDITMODE_FUNCTION_LIST
+;===============================================================================
 Func EDITMODE_UPDATE()
     ConsoleWrite("Updating Edit-Mode ..." & @CRLF)
     Local $SDATA
@@ -143,6 +158,7 @@ Func EDITMODE_UPDATE()
     STRING2FILE($SEDITMODEFILE, $SDATA)
     Return
 EndFunc   ;==>EDITMODE_UPDATE
+;===============================================================================
 Func XINSERT_UDF_LIST($SMENU)
     Local $SFILE, $SNAME, $I
     Local $SXML = TAB(4) & '<menu name="' & $SMENU & '">' & @CRLF
@@ -157,6 +173,7 @@ Func XINSERT_UDF_LIST($SMENU)
     GUICtrlSetData($HPROGRESS2, 100)
     Return $SXML
 EndFunc   ;==>XINSERT_UDF_LIST
+;===============================================================================
 Func XINSERT_UDF_MENU()
     Local $AFUNC
     Local $SFILE, $SNAME, $I, $J
@@ -178,6 +195,7 @@ Func XINSERT_UDF_MENU()
     GUICtrlSetData($HPROGRESS2, 100)
     Return $SXML
 EndFunc   ;==>XINSERT_UDF_MENU
+;===============================================================================
 Func XINSERT_ENV_LIST()
     Local $I
     Local $SSET = Run(@ComSpec & " /c " & "set", @SystemDir, Default, $STDOUT_CHILD)
@@ -200,6 +218,7 @@ Func XINSERT_ENV_LIST()
     GUICtrlSetData($HPROGRESS2, 100)
     Return $SXML
 EndFunc   ;==>XINSERT_ENV_LIST
+;===============================================================================
 Func XINSERT_UPDATE()
     ConsoleWrite("Updating Xinsert ..." & @CRLF)
     Local $SUSER_MENU = "", $SDATA
@@ -214,6 +233,7 @@ Func XINSERT_UPDATE()
     STRING2FILE($SXINSERTFILE, $SDATA)
     Return
 EndFunc   ;==>XINSERT_UPDATE
+;===============================================================================
 Func READFUNCTIONS($SFILE, $BINTERNAL)
     Local $AFILE, $SRET
     Local $SREGEX = "^[\s]*[Ff]unc[\s]+([\w]+)"
@@ -228,6 +248,7 @@ Func READFUNCTIONS($SFILE, $BINTERNAL)
     Next
     Return $SRET
 EndFunc   ;==>READFUNCTIONS
+;===============================================================================
 Func READCONSTANTS($SFILE)
     Local $AFILE, $SRET
     Local $SREGEX = "^[\s]*[Gg]lobal[\s]*[Cc]onst[\s]*(\$[\w]+)(.*?)$"
@@ -239,6 +260,7 @@ Func READCONSTANTS($SFILE)
     Next
     Return $SRET
 EndFunc   ;==>READCONSTANTS
+;===============================================================================
 Func READINCLUDES($SDIR, $BINTERNAL = False)
     Local $AFILES = _FileListToArray($SDIRINCLUDES, "*.au3", 1)
     Local $ARET[$AFILES[0] + 1][2]
@@ -252,21 +274,25 @@ Func READINCLUDES($SDIR, $BINTERNAL = False)
     Next
     Return $ARET
 EndFunc   ;==>READINCLUDES
+;===============================================================================
 Func FILE2STRING($SFILE)
     Local $HFILE = FileOpen($SFILE, 0)
     Local $STEMP = FileRead($HFILE)
     FileClose($HFILE)
     Return $STEMP
 EndFunc   ;==>FILE2STRING
+;===============================================================================
 Func STRING2FILE($SFILE, $SSTRING)
     Local $HFILE = FileOpen($SFILE, 2)
     FileWrite($HFILE, $SSTRING)
     FileClose($HFILE)
     Return
 EndFunc   ;==>STRING2FILE
+;===============================================================================
 Func STRIPSUFFIX($SFILE)
     Return StringMid($SFILE, 1, StringInStr($SFILE, ".") - 1)
 EndFunc   ;==>STRIPSUFFIX
+;===============================================================================
 Func TAB($N)
     Local $TMP = ""
     For $I = 1 To $N
@@ -274,6 +300,7 @@ Func TAB($N)
     Next
     Return $TMP
 EndFunc   ;==>TAB
+;===============================================================================
 Func _LABEL2($SSTRING)
     If StringLen($SSTRING) > 70 Then $SSTRING = "..." & StringRight($SSTRING, 70)
     GUICtrlSetData($HFILELABEL, $SSTRING)
