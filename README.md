@@ -7,7 +7,7 @@ Bis dahin bitte [jEdit4AutoIt](http://jedit4autoit.thorsten-willert.de/) benutze
 ## Übersicht
 Erweitert jEdit zu einer IDE für [AutoIt](http://www.autoistscript.om).
 
-![jeDit4AutoIt](https://thorsten-willert.de/Themen/jEdit/jEdit4AutoIt/bilder/Au3_1.png)
+![jEdit4AutoIt](images/jEdit4AutoIt.png)
 
 ### Beinhaltet:
 
