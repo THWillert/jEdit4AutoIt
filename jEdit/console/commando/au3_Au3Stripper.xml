@@ -1,0 +1,121 @@
+<?xml version="1.0" ?>
+<!DOCTYPE COMMANDO SYSTEM "commando.dtd">
+<!-- AutoItScript Au3Stripper V0.1, 2019 by Thorsten Willert
+
+V0.1 First release
+
+-->
+
+<COMMANDO>
+	<UI>
+		<CAPTION LABEL="Strip">
+			<TOGGLE LABEL="PreExpand" VARNAME="expand"/>
+			<TOGGLE LABEL="StripOnly" VARNAME="strip"/>
+			<TOGGLE LABEL="StripUnusedFunc" VARNAME="func"/>
+			<TOGGLE LABEL="StripUnusedVars" VARNAME="vars"/>
+		</CAPTION>
+
+		<CAPTION LABEL="Misc">
+			<TOGGLE LABEL="MergeOnly" VARNAME="merge" />
+			<TOGGLE LABEL="RenameMinimum" VARNAME="rename" />
+			<TOGGLE LABEL="Replace @ScriptLineNumber" VARNAME="rsln" />
+			<TOGGLE LABEL="Beta (use Beta\Includes)" VARNAME="beta" />
+		</CAPTION>
+
+		<CAPTION LABEL="Iterations">
+		<CHOICE LABEL="Maximum Iterations" VARNAME="iter" DEFAULT="5">
+				<OPTION LABEL="0" VALUE="0" />
+				<OPTION LABEL="1" VALUE="1" />
+				<OPTION LABEL="2" VALUE="2" />
+				<OPTION LABEL="3" VALUE="3" />
+				<OPTION LABEL="4" VALUE="4" />
+				<OPTION LABEL="5" VALUE="5" />
+				<OPTION LABEL="6" VALUE="6" />
+				<OPTION LABEL="7" VALUE="7" />
+				<OPTION LABEL="8" VALUE="8" />
+				<OPTION LABEL="9" VALUE="9" />
+				<OPTION LABEL="10" VALUE="10" />
+			</CHOICE>
+		</CAPTION>
+
+		<CAPTION LABEL="Log">
+			<TOGGLE LABEL="Trace-Log" VARNAME="trace" />
+			<TOGGLE LABEL="Debug" VARNAME="debug" />
+			<CHOICE LABEL="ShowConsoleInfo" VARNAME="console" DEFAULT="0">
+				<OPTION LABEL="Minimal output" VALUE="0" />
+				<OPTION LABEL="Show more progress information" VALUE="1" />
+				<OPTION LABEL="Show all debug lines as found in Au3Stripper.log" VALUE="9" />
+			</CHOICE>
+		</CAPTION>
+
+		<CAPTION LABEL="jEdit Console:">
+			<TOGGLE LABEL="Clear console" VARNAME="clr" />
+		</CAPTION>
+	</UI>
+	<COMMANDS>
+		<COMMAND CONFIRM="FALSE" SHELL="System">
+		if (clr) clearConsole(view);
+
+		if ( buffer.isDirty() )
+		{
+			buffer.save(view,null);
+			VFSManager.waitForRequests();
+		}
+
+		buf = new StringBuffer();
+
+		if ( buffer.getMode().toString().equals("autoitscript") )
+		{
+			File = new File(AUTOIT_PATH + "\\Extras\\Au3Stripper.exe");
+			File2 = new File(AUTOIT_PATH + "\\SciTE\\Au3Stripper\\Au3Stripper.exe");
+
+			if (File.exists())
+				buf.append("\"" + AUTOIT_PATH + "\\Extras\\Au3Stripper.exe\" ");
+			else if (File2.exists())
+				buf.append("\"" + AUTOIT_PATH + "\\SciTE\\Au3Stripper\\Au3Stripper.exe\" ");
+			else
+			{
+				Macros.error(view, "Au3Stripper.exe not found!");
+				return;
+			}
+
+			buf.append('"');
+			buf.append(buffer.getPath());
+			buf.append('"');
+
+			if(expand) buf.append(" /PE");
+			if(strip) buf.append(" /SO");
+			if(func) {
+				buf.append(" /SF=1");
+			} else {
+				buf.append(" /SF=0");
+			}
+			if(vars) {
+				buf.append(" /SV=1");
+			} else {
+				buf.append(" /SV=0");
+			}
+
+			if(merge) buf.append(" /MO");
+			if(rename) buf.append(" /RM");
+			if(rsln) buf.append(" /rsln");
+			if(beta) buf.append(" /Beta");
+
+			buf.append(" /MI=");
+			buf.append(iter);
+
+			if(trace) buf.append(" /TL");
+			if(debug) buf.append(" /debug");
+
+			buf.append(" /SCI=");
+			buf.append(console);
+		}
+		else
+		{
+			Macros.error(view, "No AutoItScript-file in current buffer!");
+		};
+
+		buf.toString();
+		</COMMAND>
+	</COMMANDS>
+</COMMANDO>
