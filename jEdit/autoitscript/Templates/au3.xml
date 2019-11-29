@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <!DOCTYPE MODE SYSTEM "xmode.dtd">
-<!-- AutoItScript mode V4.0 by Thorsten Willert
+<!-- AutoItScript mode V4.1 by Thorsten Willert
 
-Sat Mar 04 18:09:48 CET 2017 @756 /Internet-Zeit/
+Fri Nov 29 16:03:47 CET 2019 @669 /Internet-Zeit/
 
 Catalog entry:
 ================================================================================
@@ -11,6 +11,9 @@ Catalog entry:
 				FILE_NAME_GLOB="*.{au3}"/>
 
 ================================================================================
+
+V4.1
+- added: Volatile
 
 V4.0
 - updated to AutoIt V3.3.14.2
@@ -188,6 +191,7 @@ V1.65
 			<KEYWORD1>Then</KEYWORD1>
 			<KEYWORD1>To</KEYWORD1>
 			<KEYWORD1>Until</KEYWORD1>
+			<KEYWORD1>Volatile</KEYWORD1>
 			<KEYWORD1>Wend</KEYWORD1>
 			<KEYWORD1>While</KEYWORD1>
 			<KEYWORD1>With</KEYWORD1>
@@ -741,7 +745,6 @@ V1.65
 			<LITERAL3>@WorkingDir</LITERAL3>
 			<LITERAL3>@YDAY</LITERAL3>
 			<LITERAL3>@YEAR</LITERAL3>
-			<LITERAL3>@extended</LITERAL3>
 		</KEYWORDS>
 	</RULES>
 
