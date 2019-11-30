@@ -1,6 +1,8 @@
 <?xml version="1.0" ?>
 <!DOCTYPE COMMANDO SYSTEM "commando.dtd">
-<!-- AutoItScript Au3Stripper V0.1, 2019 by Thorsten Willert
+<!-- AutoItScript Au3Stripper V0.2, 2019 by Thorsten Willert
+
+V0.2 fixed error with "Clear console" (30.11.2019)
 
 V0.1 First release
 
@@ -41,7 +43,7 @@ V0.1 First release
 		<CAPTION LABEL="Log">
 			<TOGGLE LABEL="Trace-Log" VARNAME="trace" />
 			<TOGGLE LABEL="Debug" VARNAME="debug" />
-			<CHOICE LABEL="ShowConsoleInfo" VARNAME="console" DEFAULT="0">
+			<CHOICE LABEL="ShowConsoleInfo" VARNAME="con" DEFAULT="0">
 				<OPTION LABEL="Minimal output" VALUE="0" />
 				<OPTION LABEL="Show more progress information" VALUE="1" />
 				<OPTION LABEL="Show all debug lines as found in Au3Stripper.log" VALUE="9" />
@@ -108,7 +110,7 @@ V0.1 First release
 			if(debug) buf.append(" /debug");
 
 			buf.append(" /SCI=");
-			buf.append(console);
+			buf.append(con);
 		}
 		else
 		{
