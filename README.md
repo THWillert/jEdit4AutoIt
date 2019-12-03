@@ -22,6 +22,11 @@ Für weitere Informationen [hier im Wiki weiterlesen ...](https://github.com/THW
 
 ## Diskussion / Vorschläge
 
+## ToDo
+- [ ] Dateien vervollständigen
+- [ ] Commando-Dateien überarbeiten
+- [ ] Wiki vervollständigen
+
 ## Author
 Thorsten Willert
 
