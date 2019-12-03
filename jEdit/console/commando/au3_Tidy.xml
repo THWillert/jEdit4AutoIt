@@ -1,6 +1,9 @@
 <?xml version="1.0" ?>
 <!DOCTYPE COMMANDO SYSTEM "commando.dtd">
-<!-- AutoItScript tidy-command V1.5 , by Thorsten Willert
+<!-- AutoItScript tidy-command V1.6 , by Thorsten Willert
+
+V1.6
+- Added: Updatevars
 
 V1.5
 - Added: "Skip comment blocks" // ? changes the options for EndFunc and EndRegion ?
@@ -29,11 +32,11 @@ V1.1:
 	<UI>
 		<CAPTION LABEL="Options">
 			<TOGGLE LABEL="Update Functions/Keywords/Macros/UDFs to Proper case" VARNAME="pr" />
-			<!--<CHOICE LABEL="Update Variables to" VARNAME="uptvars">
+			<CHOICE LABEL="Update Variables to" VARNAME="updatevars">
 				<OPTION LABEL="UpperCase" VALUE="1"/>
 				<OPTION LABEL="LowerCase" VALUE="2"/>
 				<OPTION LABEL="First Seen" VALUE="3"/>
-			</CHOICE>-->
+			</CHOICE>
 			<TOGGLE LABEL="Remove empty lines" VARNAME="rel" />
 			<CHOICE LABEL="Indent setting: 0=Tabs >0=Number of Spaces" VARNAME="tc" DEFAULT="0">
 				<OPTION LABEL="0" VALUE="0" />
@@ -72,9 +75,9 @@ V1.1:
 				<OPTION LABEL="Remove" VALUE="3"/>
 			</CHOICE>
 		</CAPTION>
-		<CAPTION LABEL="Sorting">
-			<TOGGLE LABEL="Sort all Func-Endfunc Blocks in sequence" VARNAME="sf" />
-			<TOGGLE LABEL="Sort all Func-Endfunc Blocks in sequence of the Comment at theend of the Func() statement and then FuncName" VARNAME="sfc" />
+		<CAPTION LABEL="Sort all Func-Endfunc Blocks">
+			<TOGGLE LABEL="in sequence" VARNAME="sf" />
+			<TOGGLE LABEL="in sequence of the Comment at the end of the Func() statement and then FuncName" VARNAME="sfc" />
 		</CAPTION>
 		<CAPTION LABEL="Documentation">
 			<TOGGLE LABEL="Generate Documentation file" VARNAME="gd" />
@@ -150,10 +153,11 @@ V1.1:
 			if(pr)
 			{
 				buf.append(" /pr=1");
-				//buf.append(" /uv=");
-				//buf.append(uptvars);
 			}
 			else buf.append(" /pr=0");
+
+			buf.append(" /uv=");
+			buf.append(updatevars);
 
 			switch(Integer.parseInt(endfunc) ) {
 				case 1: break;
