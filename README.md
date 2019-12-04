@@ -27,6 +27,7 @@ Für weitere Informationen [hier im Wiki weiterlesen ...](https://github.com/THW
 - [ ] Commando-Dateien überarbeiten
 - [ ] Präprozessor-Script durch Freemarker und FMPP ersetzen
 - [ ] Wiki vervollständigen
+- [ ] Wiki und Readme nach Englisch übersetzen
 
 ## Author
 Thorsten Willert
