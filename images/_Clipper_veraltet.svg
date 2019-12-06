@@ -4,7 +4,7 @@
      xmlns:xlink="http://www.w3.org/1999/xlink"
      width="300" height="30"
 >
-  <text font-size="16" x="10" y="20" font-family="Arial">
+  <text font-size="16" x="5" y="10" font-family="Arial">
     <tspan fill="red">Veraltet - bitte XInsert benutzen!</tspan>
   </text>
 </svg>
