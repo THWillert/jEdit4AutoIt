@@ -23,7 +23,7 @@ Für weitere Informationen [hier im Wiki weiterlesen ...](https://github.com/THW
 ## Diskussion / Vorschläge
 
 ## ToDo
-- [ ] Dateien vervollständigen
+- [X] Dateien vervollständigen
 - [ ] Commando-Dateien überarbeiten
 - [ ] Präprozessor-Script durch Freemarker und FMPP ersetzen
 - [ ] Wiki vervollständigen
