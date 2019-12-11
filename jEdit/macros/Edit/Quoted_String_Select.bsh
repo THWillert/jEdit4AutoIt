@@ -1,0 +1,50 @@
+/* Select Quoted String V2.0
+(c) 2007/02/08, by Thorsten Willert (thorsten.willert@gmx.de)
+
+Macros/*
+================================================================================
+Selects the quoted string at cursor-position:
+
+"String..." or 'String...'
+
+Limits:
+It can't complete select string like:
+
+	"This a string with a quote \" ..."
+================================================================================
+*/
+void Quoted_String_Select(View view)
+{
+	oldset = SearchAndReplace.getSearchFileSet();
+
+	SearchAndReplace.setAutoWrapAround(false);
+	SearchAndReplace.setRegexp(false);
+
+	SearchAndReplace.setSearchString("\"");
+	SearchAndReplace.setReverseSearch(true);
+	SearchAndReplace.setRegexp(false);
+	SearchAndReplace.setSearchFileSet(new CurrentBufferSet());
+
+	if ( SearchAndReplace.find(view) )
+	{
+		textArea.goToPrevWord(false);
+	}
+	else
+	{
+		SearchAndReplace.setSearchString("'");
+
+		SearchAndReplace.setSearchFileSet(new CurrentBufferSet());
+		SearchAndReplace.find(view);
+		textArea.goToPrevWord(false);
+	}
+
+	SearchAndReplace.setSearchString("(\"|')((?!\\1).|\\1{2})*\\1");
+	SearchAndReplace.setReverseSearch(false);
+	SearchAndReplace.setRegexp(true);
+	SearchAndReplace.setSearchFileSet(new CurrentBufferSet());
+	SearchAndReplace.find(view);
+
+	SearchAndReplace.setSearchFileSet(oldset);
+}
+Quoted_String_Select(view);
+

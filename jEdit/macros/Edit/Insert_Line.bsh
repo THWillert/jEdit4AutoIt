@@ -1,0 +1,38 @@
+/* Line V2.0
+(c) 2007/05/08, by Thorsten Willert (thorsten.willert@gmx.de)
+
+Inserts a line-comment depending on buffer mode
+================================================================================
+*/
+void Insert_Line(View view)
+{
+	int iRepeat = 80;
+	char cLine = '=';
+
+	if ( LINE_CHAR != void ) cLine = LINE_CHAR;
+	if ( LINE_REPEAT != void ) iRepeat = LINE_REPEAT;
+
+	int iPos = textArea.getCaretPosition();
+
+	char[] temp = new char[iRepeat];
+    for (int i = 0; i < iRepeat; i++) temp[i] = cLine;
+    sText = new String(temp);
+
+	comment = buffer.getContextSensitiveProperty(iPos,"lineComment");
+	cs = buffer.getContextSensitiveProperty(iPos,"commentStart");
+	ce = buffer.getContextSensitiveProperty(iPos,"commentEnd");
+
+	if(comment != null && comment.length() > 0)
+		buffer.insert(iPos,(comment + sText).substring(0,iRepeat));
+	else if(cs != null && ce != null)
+	{
+		sText = sText.substring(0,iRepeat-2-cs.length()-ce.length() );
+		buffer.insert(iPos,cs + " " + sText + " " + ce + "\n");
+	}
+
+}
+//==============================================================================
+if(buffer.isReadOnly())
+	Macros.error(view, "Buffer is read-only.");
+else
+	Insert_Line(view);

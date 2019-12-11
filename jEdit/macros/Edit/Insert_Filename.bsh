@@ -1,0 +1,19 @@
+/* Insert_Filename V3.0, (C) by Thorsten Willert
+(c) 2007/02/08, by Thorsten Willert (thorsten.willert@gmx.de)
+
+Macros/
+================================================================================
+Inserts a filename at cursor-position.
+================================================================================
+*/
+void Insert(View view)
+{
+	files = FileChooser("","",true);
+	if(files[0] == "") return;
+	textArea.insert(files[0],false);
+}
+//==============================================================================
+if(buffer.isReadOnly())
+	Macros.error(view, "Buffer is read-only.");
+else
+	Insert(view);
