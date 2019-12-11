@@ -2,10 +2,10 @@
 
 In Arbeit ...
 
-Bis dahin bitte [jEdit4AutoIt](http://jedit4autoit.thorsten-willert.de/) benutzen.
+Bis dahin auch bitte [jEdit4AutoIt](http://jedit4autoit.thorsten-willert.de/) beachten.
 
 ## Übersicht
-Erweitert jEdit zu einer IDE für [AutoIt](http://www.autoistscript.om).
+Erweitert [jEdit](http://www.jedit.org/) zu einer IDE für [AutoIt](http://www.autoitscript.com).
 
 ![jEdit4AutoIt](images/jEdit4AutoIt.png)
 
