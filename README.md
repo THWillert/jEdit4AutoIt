@@ -22,6 +22,10 @@ Für weitere Informationen [hier im Wiki weiterlesen ...](https://github.com/THW
 
 ## Diskussion / Vorschläge
 
+[AutoIt.de](https://autoit.de/thread/3362-jedit-f%C3%BCr-autoit/)
+
+[AutoIt.com](https://www.autoitscript.com/forum/topic/92418-jedit4autoit/)
+
 ## ToDo
 - [X] Dateien vervollständigen
 - [ ] Commando-Dateien überarbeiten
