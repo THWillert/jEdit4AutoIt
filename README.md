@@ -9,15 +9,6 @@ Erweitert [jEdit](http://www.jedit.org/) zu einer IDE für [AutoIt](http://www.a
 
 ![jEdit4AutoIt](images/jEdit4AutoIt.png)
 
-### Beinhaltet:
-
-- Edit-mode
-- Commando files
-- XInsert library
-- Clipper libraries
-- ctags
-- Macros
-
 Für weitere Informationen [hier im Wiki weiterlesen ...](https://github.com/THWillert/jEdit4AutoIt/wiki)
 
 ## Diskussion / Vorschläge
