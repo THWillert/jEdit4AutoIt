@@ -1,6 +1,6 @@
 # jEdit4AutoIt
 
-In Arbeit ...
+Die Dokumentation ist noch in Arbeit ...
 
 Bis dahin auch bitte [jEdit4AutoIt](http://jedit4autoit.thorsten-willert.de/) beachten.
 
