@@ -1,10 +1,1 @@
-<?xml version="1.0" encoding="utf-8"?>
-<svg version="1.1" 
-     xmlns="http://www.w3.org/2000/svg"
-     xmlns:xlink="http://www.w3.org/1999/xlink"
-     width="300" height="20"
->
-  <text font-size="14" x="10" y="15" font-family="Arial">
-    <tspan fill="red">Veraltet - bitte XInsert benutzen!</tspan>
-  </text>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="300" height="20" version="1.1"><text x="10" y="15" font-family="Arial" font-size="14"><tspan fill="red">Veraltet - bitte XInsert benutzen!</tspan></text></svg>
