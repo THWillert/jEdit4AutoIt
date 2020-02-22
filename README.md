@@ -1,7 +1,5 @@
 # jEdit4AutoIt
 
-Die Dokumentation ist noch in Arbeit ...
-
 ## Übersicht
 Erweitert [jEdit](http://www.jedit.org/) zu einer IDE für [AutoIt](http://www.autoitscript.com).
 
