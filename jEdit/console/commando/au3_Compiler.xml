@@ -1,6 +1,10 @@
 <?xml version="1.0" ?>
 <!DOCTYPE COMMANDO SYSTEM "commando.dtd">
-<!-- AutoItScript compiler-command V3.3 , by Thorsten Willert
+<!-- AutoItScript compiler-command V3.4, by Thorsten Willert
+
+V3.4 (10.04.2020)
+- Code cleaned up
+
 V3.3
 - added: Options EXE/A3X
 
@@ -66,16 +70,14 @@ V1.1
 		<COMMAND CONFIRM="FALSE" SHELL="System">
 		if (clr) clearConsole(view);
 
-		if ( buffer.isDirty() )
-		{
+		if ( buffer.isDirty() ) {
 			buffer.save(view,null);
 			VFSManager.waitForRequests();
 		}
 
 		buf = new StringBuffer();
 
-		if ( buffer.getMode().toString().equals("autoitscript") )
-		{
+		if ( buffer.getMode().toString().equals("autoitscript") ) {
 			if(ANSI.equals("1"))
 				buf.append("\"" + AUTOIT_PATH + "\\Aut2exe\\Aut2exe.exe");
 			else if(ANSI.equals("0"))
@@ -93,8 +95,7 @@ V1.1
 			buf.append('"');
 
 			boolean exists = (new File(icon)).exists();
-			if( exists )
-			{
+			if( exists ) {
 				buf.append(" /icon \"");
 				buf.append(icon);
 				buf.append('"');
@@ -113,9 +114,7 @@ V1.1
 			if(!UPX) buf.append(" /nopack ");
 
 			if(con) buf.append(" /console ");
-		}
-		else
-		{
+		} else {
 			Macros.error(view, "No AutoItScript-file in current buffer!");
 		};
 

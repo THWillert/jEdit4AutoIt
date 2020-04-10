@@ -1,6 +1,9 @@
 <?xml version="1.0" ?>
 <!DOCTYPE COMMANDO SYSTEM "commando.dtd">
-<!-- AutoItScript AutoIt3Wrapper-command V3.3 , by Thorsten Willert
+<!-- AutoItScript AutoIt3Wrapper-command V3.4, by Thorsten Willert
+
+V3.4 (10.04.2020)
+- Code cleaned up
 
 V3.3
 - changed: using Obfuscator.exe in AutoIt3/Extras/ OR AutoIt3/SciTe/AutoIt3Wrapper/
@@ -47,16 +50,14 @@ V1.1
 		<COMMAND CONFIRM="FALSE" SHELL="System">
 		if (clr) clearConsole(view);
 
-		if ( buffer.isDirty() )
-		{
+		if ( buffer.isDirty() ) {
 			buffer.save(view,null);
 			VFSManager.waitForRequests();
 		}
 
 		buf = new StringBuffer();
 
-		if ( buffer.getMode().toString().equals("autoitscript") )
-		{
+		if ( buffer.getMode().toString().equals("autoitscript") ) {
 			File = new File(AUTOIT_PATH + "\\Extras\\Obfuscator.exe");
 			File2 = new File(AUTOIT_PATH + "\\SciTE\\AutoIt3Wrapper\\AutoIt3Wrapper.exe");
 
@@ -64,8 +65,7 @@ V1.1
 				buf.append("\"" + AUTOIT_PATH + "\\Extras\\AutoIt3Wrapper.exe\" ");
 			else if (File2.exists())
 				buf.append("\"" + AUTOIT_PATH + "\\SciTE\\AutoIt3Wrapper\\AutoIt3Wrapper.exe\" ");
-			else
-			{
+			else {
 				Macros.error(view, "AutoIt3Wrapper.exe not found!");
 				return;
 			}
@@ -79,8 +79,7 @@ V1.1
 			buf.append('"');
 
 			boolean exists = (new File(icon)).exists();
-			if( exists )
-			{
+			if( exists ) {
 				buf.append(" /icon \"");
 				buf.append(icon);
 				buf.append('"');
@@ -92,11 +91,10 @@ V1.1
 			buf.append(" /AutoIt3Dir \"");
 			buf.append(AUTOIT_PATH);
 			buf.append('"');
-		}
-		else
-		{
+		} else {
 			Macros.error(view, "No AutoItScript-file in current buffer!");
-		}
+		};
+
 		buf.toString();
 		</COMMAND>
 	</COMMANDS>

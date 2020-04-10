@@ -1,6 +1,9 @@
 <?xml version="1.0" ?>
 <!DOCTYPE COMMANDO SYSTEM "commando.dtd">
-<!-- AutoItScript run-command V3.2 , by Thorsten Willert
+<!-- AutoItScript run-command V3.3, by Thorsten Willert
+
+V3.3 (10.04.2020)
+- Code cleaned up
 
 V3.2
 - added: "Clear console" option.
@@ -41,8 +44,7 @@ V2.0:
 		<COMMAND CONFIRM="FALSE" SHELL="System">
 		if (clr) clearConsole(view);
 
-		if ( buffer.isDirty() )
-		{
+		if ( buffer.isDirty() ) {
 			buffer.save(view,null);
 			VFSManager.waitForRequests();
 		}
@@ -58,14 +60,13 @@ V2.0:
 			else
 				buf.append("\"" + AUTOIT_PATH + "\\AutoIt3_x64.exe");
 
-			 buf.append("\" /ErrorStdOut \"");
-			 buf.append(buffer.getPath());
-			 buf.append('"');
-		}
-		else
-		{
+			buf.append("\" /ErrorStdOut \"");
+			buf.append(buffer.getPath());
+			buf.append('"');
+		} else {
 			Macros.error(view, "No AutoItScript-file in current buffer!");
 		};
+
 		buf.toString();
 		</COMMAND>
 	</COMMANDS>

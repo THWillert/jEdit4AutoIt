@@ -1,10 +1,15 @@
 <?xml version="1.0" ?>
 <!DOCTYPE COMMANDO SYSTEM "commando.dtd">
-<!-- AutoItScript Au3Stripper V0.2, 2019 by Thorsten Willert
+<!-- AutoItScript Au3Stripper V1.0, 2020 by Thorsten Willert
 
-V0.2 fixed error with "Clear console" (30.11.2019)
+V1.0 (10.04.2020)
+- Code cleaned up
 
-V0.1 First release
+V0.2 (30.11.2019)
+- fixed error with "Clear console"
+
+V0.1
+- First release
 
 -->
 
@@ -58,16 +63,14 @@ V0.1 First release
 		<COMMAND CONFIRM="FALSE" SHELL="System">
 		if (clr) clearConsole(view);
 
-		if ( buffer.isDirty() )
-		{
+		if ( buffer.isDirty() ) {
 			buffer.save(view,null);
 			VFSManager.waitForRequests();
 		}
 
 		buf = new StringBuffer();
 
-		if ( buffer.getMode().toString().equals("autoitscript") )
-		{
+		if ( buffer.getMode().toString().equals("autoitscript") ) {
 			File = new File(AUTOIT_PATH + "\\Extras\\Au3Stripper.exe");
 			File2 = new File(AUTOIT_PATH + "\\SciTE\\Au3Stripper\\Au3Stripper.exe");
 
@@ -75,8 +78,7 @@ V0.1 First release
 				buf.append("\"" + AUTOIT_PATH + "\\Extras\\Au3Stripper.exe\" ");
 			else if (File2.exists())
 				buf.append("\"" + AUTOIT_PATH + "\\SciTE\\Au3Stripper\\Au3Stripper.exe\" ");
-			else
-			{
+			else {
 				Macros.error(view, "Au3Stripper.exe not found!");
 				return;
 			}
@@ -87,16 +89,15 @@ V0.1 First release
 
 			if(expand) buf.append(" /PE");
 			if(strip) buf.append(" /SO");
-			if(func) {
+			if(func)
 				buf.append(" /SF=1");
-			} else {
+			else
 				buf.append(" /SF=0");
-			}
-			if(vars) {
+
+			if(vars)
 				buf.append(" /SV=1");
-			} else {
+			else
 				buf.append(" /SV=0");
-			}
 
 			if(merge) buf.append(" /MO");
 			if(rename) buf.append(" /RM");
@@ -111,9 +112,7 @@ V0.1 First release
 
 			buf.append(" /SCI=");
 			buf.append(con);
-		}
-		else
-		{
+		} else {
 			Macros.error(view, "No AutoItScript-file in current buffer!");
 		};
 

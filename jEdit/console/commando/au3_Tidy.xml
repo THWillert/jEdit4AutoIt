@@ -1,6 +1,9 @@
 <?xml version="1.0" ?>
 <!DOCTYPE COMMANDO SYSTEM "commando.dtd">
-<!-- AutoItScript tidy-command V1.6 , by Thorsten Willert
+<!-- AutoItScript tidy-command V1.7, by Thorsten Willert
+
+V1.7 (10.04.2020)
+- Code cleaned up
 
 V1.6
 - Added: Updatevars
@@ -123,16 +126,14 @@ V1.1:
 		<COMMAND CONFIRM="FALSE" SHELL="System">
 		if (clr) clearConsole(view);
 
-		if ( buffer.isDirty() )
-		{
+		if ( buffer.isDirty() ) {
 			buffer.save(view,null);
 			VFSManager.waitForRequests();
 		}
 
 		buf = new StringBuffer();
 
-		if ( buffer.getMode().toString().equals("autoitscript") )
-		{
+		if ( buffer.getMode().toString().equals("autoitscript") ) {
 			File = new File(AUTOIT_PATH + "\\Extras\\Tidy.exe");
 			File2 = new File(AUTOIT_PATH + "\\SciTE\\Tidy\\Tidy.exe");
 
@@ -140,8 +141,7 @@ V1.1:
 				buf.append("\"" + AUTOIT_PATH + "\\Extras\\Tidy.exe\" ");
 			else if (File2.exists())
 				buf.append("\"" + AUTOIT_PATH + "\\SciTE\\Tidy\\Tidy.exe\" ");
-			else
-			{
+			else {
 				Macros.error(view, "Tidy.exe not found!");
 				return;
 			}
@@ -150,11 +150,7 @@ V1.1:
 			buf.append(buffer.getPath());
 			buf.append('"');
 
-			if(pr)
-			{
-				buf.append(" /pr=1");
-			}
-			else buf.append(" /pr=0");
+			pr ? buf.append(" /pr=1") : buf.append(" /pr=0");
 
 			buf.append(" /uv=");
 			buf.append(updatevars);
@@ -185,40 +181,30 @@ V1.1:
 
 			buf.append(" /sci=1 ");
 
-			if ( DIFF.equals("0") )
-			{
+			if ( DIFF.equals("0") ) {
 				try {
-				if ( jEdit.getProperty("plugin-blacklist.JDiffPlugin.jar").equals("false") )
-					jdiff.DualDiff.toggleFor(view);
+					if ( jEdit.getProperty("plugin-blacklist.JDiffPlugin.jar").equals("false") )
+						jdiff.DualDiff.toggleFor(view);
 				} catch (Exception e) {};
-			}
-			else
-			{
+			} else {
 				boolean exists = ( new File(diffexe) ).exists();
-				if ( exists )
-				{
+				if ( exists ) {
 					buf.append(" /sdp ");
 					buf.append('"');
 					buf.append(diffexe);
 					buf.append('"');
 
-					if ( !diffpara.equals("") )
-					{
+					if ( !diffpara.equals("") ) {
 						buf.append(" ");
 						buf.append(diffpara);
-					}
-					else
-					{
+					} else {
 						buf.append(" \"%old%\" ");
 						buf.append("\"%new%\"");
 					};
-				}
-				else
+				} else
 					buf.append(" /nsdp");
 			};
-		}
-		else
-		{
+		} else {
 			Macros.error(view, "No AutoItScript-file in current buffer!");
 		};
 

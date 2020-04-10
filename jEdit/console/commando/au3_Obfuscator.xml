@@ -1,6 +1,10 @@
 <?xml version="1.0" ?>
 <!DOCTYPE COMMANDO SYSTEM "commando.dtd">
-<!-- AutoItScript Obfuscator-command V2.3 , by Thorsten Willert
+<!-- AutoItScript Obfuscator-command V2.4, by Thorsten Willert
+
+V2.4 (10.04.2020)
+- Code cleaned up
+
 V2.3:
 - added: Obfuscate Minimun (/om)
 
@@ -46,16 +50,14 @@ V1.1
 		<COMMAND CONFIRM="FALSE" SHELL="System">
 		if (clr) clearConsole(view);
 
-		if ( buffer.isDirty() )
-		{
+		if ( buffer.isDirty() ) {
 			buffer.save(view,null);
 			VFSManager.waitForRequests();
 		}
 
 		buf = new StringBuffer();
 
-		if ( buffer.getMode().toString().equals("autoitscript") )
-		{
+		if ( buffer.getMode().toString().equals("autoitscript") ) {
 			File = new File(AUTOIT_PATH + "\\Extras\\Obfuscator.exe");
 			File2 = new File(AUTOIT_PATH + "\\SciTE\\Obfuscator\\Obfuscator.exe");
 
@@ -63,8 +65,7 @@ V1.1
 				buf.append("\"" + AUTOIT_PATH + "\\Extras\\Obfuscator.exe\" ");
 			else if (File2.exists())
 				buf.append("\"" + AUTOIT_PATH + "\\SciTE\\Obfuscator\\Obfuscator.exe\" ");
-			else
-			{
+			else {
 				Macros.error(view, "Obfuscator.exe not found!");
 				return;
 			}
@@ -81,11 +82,9 @@ V1.1
 			SF ? buf.append(" /SF=1") : buf.append(" /SF=0");
 			SV ? buf.append(" /SV=1") : buf.append(" /SV=0");
 
-			 buf.append(" /SCI ");
-			 buf.append(SCI);
-		}
-		else
-		{
+			buf.append(" /SCI ");
+			buf.append(SCI);
+		} else {
 			Macros.error(view, "No AutoItScript-file in current buffer!");
 		};
 
