@@ -70,17 +70,17 @@ V1.1
 		<COMMAND CONFIRM="FALSE" SHELL="System">
 		if (clr) clearConsole(view);
 
-		if ( buffer.isDirty() ) {
-			buffer.save(view,null);
+		if (buffer.isDirty()) {
+			buffer.save(view, null);
 			VFSManager.waitForRequests();
 		}
 
 		buf = new StringBuffer();
 
-		if ( buffer.getMode().toString().equals("autoitscript") ) {
-			if(ANSI.equals("1"))
+		if (buffer.getMode().toString().equals("autoitscript")) {
+			if (ANSI.equals("1"))
 				buf.append("\"" + AUTOIT_PATH + "\\Aut2exe\\Aut2exe.exe");
-			else if(ANSI.equals("0"))
+			else if (ANSI.equals("0"))
 				buf.append("\"" + AUTOIT_PATH + "\\Aut2exe\\Aut2exeA.exe");
 			else
 				buf.append("\"" + AUTOIT_PATH + "\\Aut2exe\\Aut2exe_x64.exe");
@@ -95,7 +95,7 @@ V1.1
 			buf.append('"');
 
 			boolean exists = (new File(icon)).exists();
-			if( exists ) {
+			if (exists) {
 				buf.append(" /icon \"");
 				buf.append(icon);
 				buf.append('"');
@@ -104,16 +104,16 @@ V1.1
 			buf.append(" /comp ");
 			buf.append(compression);
 
-			if(ANSI.equals("1"))
+			if (ANSI.equals("1"))
 				buf.append(" /unicode ");
-			else if(ANSI.equals("0"))
+			else if (ANSI.equals("0"))
 				buf.append(" /ansi ");
 			else
 				buf.append(" /x64 ");
 
-			if(!UPX) buf.append(" /nopack ");
+			if (!UPX) buf.append(" /nopack ");
 
-			if(con) buf.append(" /console ");
+			if (con) buf.append(" /console ");
 		} else {
 			Macros.error(view, "No AutoItScript-file in current buffer!");
 		};

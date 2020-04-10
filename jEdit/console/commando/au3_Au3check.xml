@@ -56,37 +56,37 @@ V2.0:
 		<COMMAND CONFIRM="FALSE" SHELL="System">
 		if (clr) clearConsole(view);
 
-		if ( buffer.isDirty() )	{
-			buffer.save(view,null);
+		if (buffer.isDirty()) {
+			buffer.save(view, null);
 			VFSManager.waitForRequests();
 		}
 
 		buf = new StringBuffer();
 
-		if ( buffer.getMode().toString().equals("autoitscript") ) {
+		if (buffer.getMode().toString().equals("autoitscript")) {
 			buf.append("\"" + AUTOIT_PATH + "\\Au3check.exe" + "\"");
 
-			if(q) buf.append(" -q");
-			if(d) buf.append(" -d");
-			if(w1) buf.append(" -w 1");
-			if(w2) buf.append(" -w 2");
-			if(w3) buf.append(" -w 3");
-			if(w4) buf.append(" -w 4");
-			if(w5) buf.append(" -w 5");
-			if(w6) buf.append(" -w 6");
-			if(v1) buf.append(" -v 1");
-			if(v2) buf.append(" -v 2");
-			if(v3) buf.append(" -v 3");
+			if (q) buf.append(" -q");
+			if (d) buf.append(" -d");
+			if (w1) buf.append(" -w 1");
+			if (w2) buf.append(" -w 2");
+			if (w3) buf.append(" -w 3");
+			if (w4) buf.append(" -w 4");
+			if (w5) buf.append(" -w 5");
+			if (w6) buf.append(" -w 6");
+			if (v1) buf.append(" -v 1");
+			if (v2) buf.append(" -v 2");
+			if (v3) buf.append(" -v 3");
 
-			boolean exists = ( new File(dir1) ).exists();
-			if( exists ) {
+			boolean exists = (new File(dir1)).exists();
+			if (exists) {
 				buf.append(" -I \"");
 				buf.append(dir1);
 				buf.append('"');
 			}
 
 			buf.append(" \"");
-			buf.append( buffer.getPath() );
+			buf.append(buffer.getPath());
 			buf.append('"');
 
 		} else {

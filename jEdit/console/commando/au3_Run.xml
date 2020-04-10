@@ -44,18 +44,17 @@ V2.0:
 		<COMMAND CONFIRM="FALSE" SHELL="System">
 		if (clr) clearConsole(view);
 
-		if ( buffer.isDirty() ) {
-			buffer.save(view,null);
+		if (buffer.isDirty()) {
+			buffer.save(view, null);
 			VFSManager.waitForRequests();
 		}
 
 		buf = new StringBuffer();
 
-		if ( buffer.getMode().toString().equals("autoitscript") )
-		{
-			if(ANSI.equals("1"))
+		if (buffer.getMode().toString().equals("autoitscript")) {
+			if (ANSI.equals("1"))
 				buf.append("\"" + AUTOIT_PATH + "\\AutoIt3.exe");
-			else if(ANSI.equals("0"))
+			else if (ANSI.equals("0"))
 				buf.append("\"" + AUTOIT_PATH + "\\AutoIt3A.exe");
 			else
 				buf.append("\"" + AUTOIT_PATH + "\\AutoIt3_x64.exe");

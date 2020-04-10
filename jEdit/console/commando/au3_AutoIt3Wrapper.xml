@@ -50,14 +50,14 @@ V1.1
 		<COMMAND CONFIRM="FALSE" SHELL="System">
 		if (clr) clearConsole(view);
 
-		if ( buffer.isDirty() ) {
-			buffer.save(view,null);
+		if (buffer.isDirty()) {
+			buffer.save(view, null);
 			VFSManager.waitForRequests();
 		}
 
 		buf = new StringBuffer();
 
-		if ( buffer.getMode().toString().equals("autoitscript") ) {
+		if (buffer.getMode().toString().equals("autoitscript")) {
 			File = new File(AUTOIT_PATH + "\\Extras\\Obfuscator.exe");
 			File2 = new File(AUTOIT_PATH + "\\SciTE\\AutoIt3Wrapper\\AutoIt3Wrapper.exe");
 
@@ -79,7 +79,7 @@ V1.1
 			buf.append('"');
 
 			boolean exists = (new File(icon)).exists();
-			if( exists ) {
+			if (exists) {
 				buf.append(" /icon \"");
 				buf.append(icon);
 				buf.append('"');

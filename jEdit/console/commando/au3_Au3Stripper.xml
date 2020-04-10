@@ -63,14 +63,14 @@ V0.1
 		<COMMAND CONFIRM="FALSE" SHELL="System">
 		if (clr) clearConsole(view);
 
-		if ( buffer.isDirty() ) {
-			buffer.save(view,null);
+		if (buffer.isDirty()) {
+			buffer.save(view, null);
 			VFSManager.waitForRequests();
 		}
 
 		buf = new StringBuffer();
 
-		if ( buffer.getMode().toString().equals("autoitscript") ) {
+		if (buffer.getMode().toString().equals("autoitscript")) {
 			File = new File(AUTOIT_PATH + "\\Extras\\Au3Stripper.exe");
 			File2 = new File(AUTOIT_PATH + "\\SciTE\\Au3Stripper\\Au3Stripper.exe");
 
@@ -87,28 +87,28 @@ V0.1
 			buf.append(buffer.getPath());
 			buf.append('"');
 
-			if(expand) buf.append(" /PE");
-			if(strip) buf.append(" /SO");
-			if(func)
+			if (expand) buf.append(" /PE");
+			if (strip) buf.append(" /SO");
+			if (func)
 				buf.append(" /SF=1");
 			else
 				buf.append(" /SF=0");
 
-			if(vars)
+			if (vars)
 				buf.append(" /SV=1");
 			else
 				buf.append(" /SV=0");
 
-			if(merge) buf.append(" /MO");
-			if(rename) buf.append(" /RM");
-			if(rsln) buf.append(" /rsln");
-			if(beta) buf.append(" /Beta");
+			if (merge) buf.append(" /MO");
+			if (rename) buf.append(" /RM");
+			if (rsln) buf.append(" /rsln");
+			if (beta) buf.append(" /Beta");
 
 			buf.append(" /MI=");
 			buf.append(iter);
 
-			if(trace) buf.append(" /TL");
-			if(debug) buf.append(" /debug");
+			if (trace) buf.append(" /TL");
+			if (debug) buf.append(" /debug");
 
 			buf.append(" /SCI=");
 			buf.append(con);

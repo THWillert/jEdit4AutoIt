@@ -126,14 +126,14 @@ V1.1:
 		<COMMAND CONFIRM="FALSE" SHELL="System">
 		if (clr) clearConsole(view);
 
-		if ( buffer.isDirty() ) {
-			buffer.save(view,null);
+		if (buffer.isDirty()) {
+			buffer.save(view, null);
 			VFSManager.waitForRequests();
 		}
 
 		buf = new StringBuffer();
 
-		if ( buffer.getMode().toString().equals("autoitscript") ) {
+		if (buffer.getMode().toString().equals("autoitscript")) {
 			File = new File(AUTOIT_PATH + "\\Extras\\Tidy.exe");
 			File2 = new File(AUTOIT_PATH + "\\SciTE\\Tidy\\Tidy.exe");
 
@@ -155,23 +155,31 @@ V1.1:
 			buf.append(" /uv=");
 			buf.append(updatevars);
 
-			switch(Integer.parseInt(endfunc) ) {
-				case 1: break;
-				case 2: buf.append(" /sefc"); break;
-				case 3: buf.append(" /refc");
+			switch (Integer.parseInt(endfunc)) {
+			case 1:
+				break;
+			case 2:
+				buf.append(" /sefc");
+				break;
+			case 3:
+				buf.append(" /refc");
 			};
 
-			switch(Integer.parseInt(endregion)) {
-				case 1: break;
-				case 2: buf.append(" /serc"); break;
-				case 3: buf.append(" /rerc");
+			switch (Integer.parseInt(endregion)) {
+			case 1:
+				break;
+			case 2:
+				buf.append(" /serc");
+				break;
+			case 3:
+				buf.append(" /rerc");
 			};
 
-			if(skip_com) buf.append(" /scb");
-			if(rel) buf.append(" /rel");
-			if(sf) buf.append(" /sf");
-			if(sfc) buf.append(" /sfc");
-			if(gd) buf.append(" /gd");
+			if (skip_com) buf.append(" /scb");
+			if (rel) buf.append(" /rel");
+			if (sf) buf.append(" /sf");
+			if (sfc) buf.append(" /sfc");
+			if (gd) buf.append(" /gd");
 
 			buf.append(" /kv=");
 			buf.append(kv);
@@ -181,20 +189,20 @@ V1.1:
 
 			buf.append(" /sci=1 ");
 
-			if ( DIFF.equals("0") ) {
+			if (DIFF.equals("0")) {
 				try {
-					if ( jEdit.getProperty("plugin-blacklist.JDiffPlugin.jar").equals("false") )
+					if (jEdit.getProperty("plugin-blacklist.JDiffPlugin.jar").equals("false"))
 						jdiff.DualDiff.toggleFor(view);
 				} catch (Exception e) {};
 			} else {
-				boolean exists = ( new File(diffexe) ).exists();
-				if ( exists ) {
+				boolean exists = (new File(diffexe)).exists();
+				if (exists) {
 					buf.append(" /sdp ");
 					buf.append('"');
 					buf.append(diffexe);
 					buf.append('"');
 
-					if ( !diffpara.equals("") ) {
+					if (!diffpara.equals("")) {
 						buf.append(" ");
 						buf.append(diffpara);
 					} else {

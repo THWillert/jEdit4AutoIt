@@ -50,14 +50,14 @@ V1.1
 		<COMMAND CONFIRM="FALSE" SHELL="System">
 		if (clr) clearConsole(view);
 
-		if ( buffer.isDirty() ) {
-			buffer.save(view,null);
+		if (buffer.isDirty()) {
+			buffer.save(view, null);
 			VFSManager.waitForRequests();
 		}
 
 		buf = new StringBuffer();
 
-		if ( buffer.getMode().toString().equals("autoitscript") ) {
+		if (buffer.getMode().toString().equals("autoitscript")) {
 			File = new File(AUTOIT_PATH + "\\Extras\\Obfuscator.exe");
 			File2 = new File(AUTOIT_PATH + "\\SciTE\\Obfuscator\\Obfuscator.exe");
 
