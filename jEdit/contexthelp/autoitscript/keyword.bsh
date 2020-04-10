@@ -8,37 +8,39 @@
 // place this file in:
 // %userdir%\.jedit\contexthelp\AutoItScript\keyword.bsh
 
-void keyword()
-{
-	if ( AUTOIT_PATH != void && AUTOIT_PATH != null )
-	{
-		command = new StringBuffer();
-		keyWord = new StringBuffer();
+void keyword() {
+    if (AUTOIT_PATH != void && AUTOIT_PATH != null) {
+        command = new StringBuffer();
+        keyWord = new StringBuffer();
 
-		buffer.readLock();
-			pos = textArea.getCaretPosition();
-			textArea.selectWord();
-			keyWord = textArea.getSelectedText();
-			textArea.setCaretPosition(pos);
-		buffer.readUnlock();
+        buffer.readLock();
+        pos = textArea.getCaretPosition();
+        textArea.selectWord();
+        keyWord = textArea.getSelectedText();
+        textArea.setCaretPosition(pos);
+        buffer.readUnlock();
 
-		if (keyWord == null) keyWord = "";
+        if (keyWord == null) {
+            keyWord = "";
+        }
 
-		if (keyWord.indexOf("_FF") == -1)
-		{
-			command.append(AUTOIT_PATH + "\\AutoIt3Help.exe ");
-			command.append(keyWord);
-			Runtime.getRuntime().exec( command.toString() );
-		} else {
-			if (System.getProperty("user.language").equals("de"))
-				lng = "german";
-			else
-				lng = "english";
+        if (keyWord.indexOf("_FF") == - 1) {
+            command.append(AUTOIT_PATH + "\\AutoIt3Help.exe ");
+            command.append(keyWord);
+            Runtime.getRuntime().exec(command.toString());
+        } else {
+            if (System.getProperty("user.language").equals("de")) {
+                lng = "german";
+            } else {
+                lng = "english";
+            }
+
 			String url = "http://" + lng + ".documentation.ff-au3.thorsten-willert.de/ff_functions/" + keyWord + ".php";
-			Runtime.getRuntime().exec( "rundll32 url.dll,FileProtocolHandler " + url );
-		}
-	}
-	else
-		Macros.error(view, "Error: AUTOIT_PATH not defined!" );
+			Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + url);
+        }
+    } else {
+        Macros.error(view, "Error: AUTOIT_PATH not defined!");
+    }
+
 }
 keyword();
