@@ -23,7 +23,7 @@ Für weitere Informationen [hier im Wiki weiterlesen ...](https://github.com/THW
 ## Author
 Thorsten Willert
 
-[Homepage](http://www.thorsten-willert.de/)
+[Homepage](https://www.thorsten-willert.de/software/jedit4autoit)
 
 ## Lizenz
 Das Ganze steht unter der [GNU 3.0](https://github.com/THWillert/jEdit4AutoIt/blob/master/LICENSE) Lizenz.
